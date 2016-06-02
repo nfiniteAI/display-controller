@@ -1,0 +1,38 @@
+{
+  "name": "vimeo-player-api",
+  "description": "Interact with and control an embedded Vimeo Player.",
+  "main": "dist/player.min.js",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    ".github",
+    ".nyc_output",
+    "coverage",
+    "demo",
+    "docs",
+    "node_modules",
+    "temp",
+    "test"
+  ],
+  "keywords": [
+    "vimeo",
+    "player",
+    "api",
+    "iframe",
+    "embed",
+    "video",
+    "javascript",
+    "postMessage"
+  ],
+  "authors": [
+    "Brad Dougherty <me@brad.is> (https://brad.is)"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/vimeo/player.js.git"
+  }
+}

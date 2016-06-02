@@ -1,0 +1,3 @@
+{
+    "extends": "@vimeo/eslint-config-player/es6"
+}

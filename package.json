@@ -1,0 +1,107 @@
+{
+  "name": "@vimeo/player",
+  "version": "1.0.0",
+  "description": "Interact with and control an embedded Vimeo Player.",
+  "license": "MIT",
+  "author": "Brad Dougherty <brad@vimeo.com>",
+  "contributors": [
+    "Brad Dougherty <brad@vimeo.com> (https://brad.is)"
+  ],
+  "scripts": {
+    "clean": "rimraf dist/*",
+    "prebuild": "npm run clean -s",
+    "build": "cross-env BABEL_ENV=production rollup -c -o dist/player.min.js",
+    "lint": "eslint src/ test/",
+    "test": "nyc --cache --reporter=text --reporter=html ava",
+    "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
+    "watch:build": "chokidar 'src/**/*.js' -c 'npm run build'",
+    "watch:lint": "chokidar 'src/**/*.js' 'test/**/*.js' -c 'eslint {path}'",
+    "watch:test": "ava --watch",
+    "watch": "parallelshell 'npm run watch:build -s' 'npm run watch:lint -s' 'npm run watch:test -s'",
+    "preversion": "npm test",
+    "version": "npm run build && git add -A dist",
+    "postversion": "git branch -f latest master",
+    "push-release": "git push origin master latest && git push --tags"
+  },
+  "main": "dist/player.min.js",
+  "jsnext:main": "src/player.js",
+  "directories": {
+    "lib": "src/"
+  },
+  "files": [
+    "src",
+    "dist"
+  ],
+  "repository": "vimeo/player.js",
+  "bugs": "https://github.com/vimeo/player.js/issues",
+  "keywords": [
+    "vimeo",
+    "player",
+    "api",
+    "iframe",
+    "embed",
+    "video",
+    "javascript",
+    "postMessage"
+  ],
+  "dependencies": {
+    "es6-collections": "0.5.6",
+    "native-promise-only": "0.8.1"
+  },
+  "bundledDependencies": [
+    "es6-collections",
+    "native-promise-only"
+  ],
+  "devDependencies": {
+    "@vimeo/eslint-config-player": "4.0.1",
+    "ava": "0.15.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "6.8.0",
+    "babel-plugin-transform-runtime": "6.9.0",
+    "babel-preset-es2015-loose-rollup": "7.0.0",
+    "chokidar-cli": "1.2.0",
+    "codecov": "1.0.1",
+    "cross-env": "1.0.8",
+    "eslint": "2.11.1",
+    "eslint-plugin-ava": "2.4.0",
+    "jquery": "2.2.4",
+    "jsdom": "9.2.1",
+    "nyc": "6.4.4",
+    "parallelshell": "2.0.0",
+    "rimraf": "2.5.2",
+    "rollup": "0.26.3",
+    "rollup-plugin-babel": "2.4.0",
+    "rollup-plugin-commonjs": "2.2.1",
+    "rollup-plugin-node-resolve": "1.5.0",
+    "rollup-plugin-uglify": "0.3.1",
+    "sinon": "1.17.4"
+  },
+  "babel": {
+    "presets": [
+      "es2015-loose-rollup"
+    ],
+    "env": {
+      "development": {
+        "sourceMaps": "inline",
+        "plugins": [
+          "transform-es2015-modules-commonjs",
+          "transform-runtime"
+        ]
+      }
+    }
+  },
+  "ava": {
+    "require": [
+      "babel-register",
+      "./test/helpers/browser-env.js"
+    ],
+    "source": [
+      "!dist/**/*"
+    ]
+  },
+  "nyc": {
+    "exclude": [
+      "src/lib/compatibility-check.js",
+      "test"
+    ]
+  }
+}
