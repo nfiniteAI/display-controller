@@ -5,16 +5,10 @@ Player.
 
 ## Installation
 
-You can install the Vimeo Player API through either npm:
+You can install the Vimeo Player API through npm:
 
 ```bash
 npm install @vimeo/player
-```
-
-or Bower:
-
-```bash
-bower install vimeo-player-api
 ```
 
 Alternatively, you can reference an up‐to‐date version on our CDN:
