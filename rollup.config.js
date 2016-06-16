@@ -13,13 +13,15 @@ const banner = `/*! ${name} | ${copyright} | ${pkg.license} License | ${url} */`
 
 export default {
     entry: 'src/player.js',
+    dest: 'dist/player.min.js',
     format: 'umd',
     moduleName: 'Vimeo.Player',
-    sourceMap: true,
     plugins: [
-        nodeResolve(),
-        commonjs(),
         babel(),
+        commonjs(),
+        nodeResolve({
+            jsnext: true
+        }),
         uglify({
             output: {
                 preamble: banner
