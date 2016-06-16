@@ -321,11 +321,19 @@ player.loadVideo(76979871).then(function(id) {
             // the id was not a number
             break;
 
+        case 'PasswordError':
+            // the video is password-protected and the viewer needs to enter the
+            // password first
+            break;
+
+        case 'PrivacyError':
+            // the video is password-protected or private
+            break;
+
         default:
             // some other error occurred
             break;
     }
-    // the video failed to load, or is unavailable because of privacy settings
 });
 ```
 
@@ -391,7 +399,20 @@ Pause the video if it’s playing.
 player.pause().then(function() {
     // the video was paused
 }).catch(function(error) {
-    // an error occurred
+    switch (error.name) {
+        case 'PasswordError':
+            // the video is password-protected and the viewer needs to enter the
+            // password first
+            break;
+
+        case 'PrivacyError':
+            // the video is private
+            break;
+
+        default:
+            // some other error occurred
+            break;
+    }
 });
 ```
 
@@ -405,7 +426,20 @@ button in the player, however, you will be able to use this function.
 player.play().then(function() {
     // the video was played
 }).catch(function(error) {
-    // an error occurred
+    switch (error.name) {
+        case 'PasswordError':
+            // the video is password-protected and the viewer needs to enter the
+            // password first
+            break;
+
+        case 'PrivacyError':
+            // the video is private
+            break;
+
+        default:
+            // some other error occurred
+            break;
+    }
 });
 ```
 
