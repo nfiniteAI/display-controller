@@ -105,6 +105,11 @@ prefixed with `data-vimeo` (`data-vimeo-portrait="false"`, for example).
 The Player API library is supported in IE 9+, Chrome, Firefox, Safari, and
 Opera.
 
+## Migrate from Froogaloop
+
+Using our old Froogaloop library? See the [migration doc](docs/migrate-from-froogaloop.md)
+for details on how to update your code to use this library.
+
 ## Table of Contents
 
 * [Create a Player](#create-a-player)
