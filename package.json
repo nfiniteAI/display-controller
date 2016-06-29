@@ -14,7 +14,7 @@
     "lint": "eslint src/ test/",
     "test": "nyc --cache --reporter=text --reporter=html ava",
     "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
-    "watch:build": "chokidar 'src/**/*.js' -c 'npm run build'",
+    "watch:build": "npm run build -- --watch",
     "watch:lint": "chokidar 'src/**/*.js' 'test/**/*.js' -c 'eslint {path}'",
     "watch:test": "ava --watch",
     "watch": "parallelshell 'npm run watch:build -s' 'npm run watch:lint -s' 'npm run watch:test -s'",
@@ -75,6 +75,7 @@
     "rollup-plugin-commonjs": "3.0.1",
     "rollup-plugin-node-resolve": "1.7.0",
     "rollup-plugin-uglify": "1.0.0",
+    "rollup-watch": "2.4.0",
     "sinon": "1.17.4"
   },
   "babel": {
