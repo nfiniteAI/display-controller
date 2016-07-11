@@ -23,8 +23,8 @@ class Player {
      */
     constructor(element, options = {}) {
         /* global jQuery */
-        if ('jQuery' in window && element instanceof jQuery) {
-            if (element.length > 1 && 'console' in window && console.warn) {
+        if (window.jQuery && element instanceof jQuery) {
+            if (element.length > 1 && window.console && console.warn) {
                 console.warn('A jQuery object with multiple elements was passed, using the first element.');
             }
 
