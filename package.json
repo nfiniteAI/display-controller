@@ -49,10 +49,6 @@
     "es6-collections": "0.5.6",
     "native-promise-only": "0.8.1"
   },
-  "bundledDependencies": [
-    "es6-collections",
-    "native-promise-only"
-  ],
   "devDependencies": {
     "@vimeo/eslint-config-player": "4.0.1",
     "ava": "0.15.2",
