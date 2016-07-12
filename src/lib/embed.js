@@ -146,8 +146,8 @@ export function initializeEmbeds(parent = document) {
                 continue;
             }
 
-            const url = getVimeoUrl(element);
             const params = getOEmbedParameters(element);
+            const url = getVimeoUrl(params);
 
             getOEmbedData(url, params).then((data) => {
                 return createEmbed(data, element);

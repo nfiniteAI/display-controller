@@ -35,7 +35,9 @@ test('isInteger returns true for integers', (t) => {
 test('isVimeoUrl identifies *.vimeo.com only', (t) => {
     t.true(isVimeoUrl('http://vimeo.com') === true);
     t.true(isVimeoUrl('https://vimeo.com') === true);
+    t.true(isVimeoUrl('//vimeo.com') === true);
     t.true(isVimeoUrl('http://player.vimeo.com') === true);
+    t.true(isVimeoUrl('//player.vimeo.com') === true);
     t.true(isVimeoUrl('https://player.vimeo.com') === true);
     t.true(isVimeoUrl('https://notvimeo.com') === false);
     t.true(isVimeoUrl('https://vimeo.someone.com') === false);
