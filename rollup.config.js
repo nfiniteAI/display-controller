@@ -25,6 +25,9 @@ export default {
         uglify({
             output: {
                 preamble: banner
+            },
+            mangle: {
+                except: ['Player']
             }
         })
     ]
