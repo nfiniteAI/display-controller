@@ -16,7 +16,7 @@ You can create an issue [here](https://github.com/vimeo/player.js/issues/new), b
 
 ## Pull Requests
 
-Before you send a pull request, fill out our [Contributor License Agreement](https://developer.vimeo.com/cla).
+Before you send a pull request, make sure you follow these guidelines:
 
 * Please follow our coding conventions. ESLint will enforce most of them, so make sure that you run it before you commit (with `npm run lint`).
 * If you are fixing a bug, please describe the issue and provide a test case.
