@@ -5,13 +5,6 @@
 	(global.Vimeo = global.Vimeo || {}, global.Vimeo.Player = factory());
 }(this, (function () { 'use strict';
 
-var arrayIndexOfSupport = typeof Array.prototype.indexOf !== 'undefined';
-var postMessageSupport = typeof window.postMessage !== 'undefined';
-
-if (!arrayIndexOfSupport || !postMessageSupport) {
-    throw new Error('Sorry, the Vimeo Player API is not available in this browser.');
-}
-
 var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 
@@ -20,6 +13,14 @@ var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 
 
 function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
+}
+
+var isNode = typeof commonjsGlobal !== 'undefined' && {}.toString.call(commonjsGlobal) === '[object global]';
+var arrayIndexOfSupport = typeof Array.prototype.indexOf !== 'undefined';
+var postMessageSupport = typeof window.postMessage !== 'undefined';
+
+if (!isNode && (!arrayIndexOfSupport || !postMessageSupport)) {
+    throw new Error('Sorry, the Vimeo Player API is not available in this browser.');
 }
 
 var index = createCommonjsModule(function (module, exports) {
