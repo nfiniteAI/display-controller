@@ -41,6 +41,10 @@ test('isVimeoUrl identifies *.vimeo.com only', (t) => {
     t.true(isVimeoUrl('https://player.vimeo.com') === true);
     t.true(isVimeoUrl('https://notvimeo.com') === false);
     t.true(isVimeoUrl('https://vimeo.someone.com') === false);
+    t.true(isVimeoUrl('https://player.vimeo.com/video/123') === true);
+    t.true(isVimeoUrl('https://vimeo.com/2') === true);
+    t.true(isVimeoUrl('https://vimeo.com.evil.net') === false);
+    t.true(isVimeoUrl('http://player.vimeo.com.evil.com') === false);
 });
 
 test('getVimeoUrl correctly returns a url from the embed parameters', (t) => {
