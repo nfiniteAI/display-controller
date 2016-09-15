@@ -47,3 +47,12 @@ test('createEmbed makes an iframe from the oembed data', (t) => {
     t.true(container.getAttribute('data-vimeo-initialized') === 'true');
     t.deepEqual(embed.outerHTML, html`<iframe src="https://player.vimeo.com/2"></iframe>`.outerHTML);
 });
+
+test('createEmbed returns the iframe from a responsive embed', (t) => {
+    const container = html`<div></div>`;
+    const markup = '<div style="position:relative;padding-bottom:42.5%;height:0"><iframe src="https://player.vimeo.com/video/2" style="position:absolute;top:0;left:0;width:100%;height:100%" frameborder="0"></iframe></div>';
+
+    const embed = createEmbed({ html: markup }, container);
+    t.true(container.getAttribute('data-vimeo-initialized') === 'true');
+    t.deepEqual(embed.outerHTML, html`<iframe src="https://player.vimeo.com/video/2" style="position:absolute;top:0;left:0;width:100%;height:100%" frameborder="0"></iframe>`.outerHTML);
+});

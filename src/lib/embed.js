@@ -115,12 +115,10 @@ export function createEmbed({ html }, element) {
     const div = document.createElement('div');
     div.innerHTML = html;
 
-    const iframe = div.firstChild;
-
-    element.appendChild(iframe);
+    element.appendChild(div.firstChild);
     element.setAttribute('data-vimeo-initialized', 'true');
 
-    return iframe;
+    return element.querySelector('iframe');
 }
 
 /**
