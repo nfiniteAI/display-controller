@@ -115,5 +115,5 @@ player.play().catch(function(error) {
 ```
 
 Notice that all methods return a promise, so it’s a good idea to make sure that
-there is a `catch()` after every method calls so you can react to any errors
+there is a `catch()` after every method call so you can react to any errors
 that may happen.
