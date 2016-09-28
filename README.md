@@ -617,7 +617,8 @@ player.getLoop().then(function(loop) {
 ### setLoop(loop: boolean): Promise&lt;boolean, Error&gt;
 
 Set the loop state of the player. When set to `true`, the player will start over
-immediately once playback ends.
+immediately once playback ends. *Note:* when loop is turned on, the `ended`
+event will not fire.
 
 ```js
 player.setLoop(true).then(function(loop) {
@@ -847,7 +848,8 @@ Triggered when the video pauses.
 
 ### ended
 
-Triggered any time the video playback reaches the end.
+Triggered any time the video playback reaches the end. *Note:* when loop is
+turned on, the `ended` event will not fire.
 
 ```js
 {
