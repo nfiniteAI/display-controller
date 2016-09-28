@@ -655,11 +655,16 @@ Each track object looks like this:
 
 ```js
 {
-    "label":"English CC",
-    "language":"en",
-    "kind":"captions"
+    "label": "English CC",
+    "language": "en",
+    "kind": "captions",
+    "mode": "showing"
 }
 ```
+
+Kind can be either `captions` or `subtitles`. The mode can be either `showing`
+or `disabled`. Only one track can be `showing` at any given time; the rest will
+be `disabled`.
 
 ### getVideoEmbedCode(): Promise&lt;string, Error&gt;
 
