@@ -474,7 +474,15 @@ Get the autopause behavior for this player.
 player.getAutopause().then(function(autopause) {
     // autopause = whether autopause is turned on or off
 }).catch(function(error) {
-    // an error occurred
+    switch (error.name) {
+        case 'UnsupportedError':
+            // Autopause is not supported with the current player or browser
+            break;
+
+        default:
+            // some other error occurred
+            break;
+    }
 });
 ```
 
@@ -489,7 +497,15 @@ leave autopause set to the default (`true`).
 player.setAutopause(false).then(function(autopause) {
     // autopause was turned off
 }).catch(function(error) {
-    // an error occurred
+    switch (error.name) {
+        case 'UnsupportedError':
+            // Autopause is not supported with the current player or browser
+            break;
+
+        default:
+            // some other error occurred
+            break;
+    }
 });
 ```
 

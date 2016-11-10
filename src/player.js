@@ -429,6 +429,8 @@ class Player {
      *
      * @promise GetAutopausePromise
      * @fulfill {boolean} Whether autopause is turned on or off.
+     * @reject {UnsupportedError} Autopause is not supported with the current
+     *         player or browser.
      */
     /**
      * Get the autopause behavior for this player.
@@ -445,6 +447,8 @@ class Player {
      *
      * @promise SetAutopausePromise
      * @fulfill {boolean} Whether autopause is turned on or off.
+     * @reject {UnsupportedError} Autopause is not supported with the current
+     *         player or browser.
      */
     /**
      * Enable or disable the autopause behavior of this player.
