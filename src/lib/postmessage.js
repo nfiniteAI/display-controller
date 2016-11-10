@@ -2,7 +2,7 @@
  * @module lib/postmessage
  */
 
-import { getCallbacks, removeCallback } from './callbacks';
+import { getCallbacks, removeCallback, shiftCallbacks } from './callbacks';
 
 /**
  * Parse a message received from postMessage.
@@ -79,11 +79,12 @@ export function processData(player, data) {
         param = data.data;
     }
     else if (data.method) {
-        callbacks = getCallbacks(player, data.method);
-        param = data.value;
+        const callback = shiftCallbacks(player, data.method);
 
-        // Clear all the callbacks
-        removeCallback(player, data.method);
+        if (callback) {
+            callbacks.push(callback);
+            param = data.value;
+        }
     }
 
     for (const callback of callbacks) {

@@ -105,6 +105,41 @@ test('processData resolves a method promise with the proper data', (t) => {
     });
 });
 
+test('processData resolves multiple of the same method calls with the proper data', (t) => {
+    const player = { element: {} };
+
+    const callbackOne = {};
+    const methodPromiseOne = new Promise((resolve, reject) => {
+        callbackOne.resolve = resolve;
+        callbackOne.reject = reject;
+    });
+
+    const callbackTwo = {};
+    const methodPromiseTwo = new Promise((resolve, reject) => {
+        callbackTwo.resolve = resolve;
+        callbackTwo.reject = reject;
+    });
+
+    const callbackThree = {};
+    const methodPromiseThree = new Promise((resolve, reject) => {
+        callbackThree.resolve = resolve;
+        callbackThree.reject = reject;
+    });
+
+    storeCallback(player, 'addCuePoint', callbackOne);
+    storeCallback(player, 'addCuePoint', callbackTwo);
+    processData(player, { method: 'addCuePoint', value: 'bf6a88a0-87ac-4196-b249-a66fde4339f2' });
+    storeCallback(player, 'addCuePoint', callbackThree);
+    processData(player, { method: 'addCuePoint', value: 'a6f3de01-f4cb-4956-a639-221e640ed458' });
+    processData(player, { method: 'addCuePoint', value: 'b9a2834a-6461-4785-8301-7e6501c3cf4c' });
+
+    return Promise.all([methodPromiseOne, methodPromiseTwo, methodPromiseThree]).then(([idOne, idTwo, idThree]) => {
+        t.true(idOne === 'bf6a88a0-87ac-4196-b249-a66fde4339f2');
+        t.true(idTwo === 'a6f3de01-f4cb-4956-a639-221e640ed458');
+        t.true(idThree === 'b9a2834a-6461-4785-8301-7e6501c3cf4c');
+    });
+});
+
 test('processData rejects a method promise on an error event', (t) => {
     const player = { element: {} };
     const callback = {};
