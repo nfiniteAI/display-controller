@@ -1,5 +1,5 @@
 import test from 'ava';
-import { callbackMap, storeCallback, getCallbacks, removeCallback, swapCallbacks } from '../src/lib/callbacks';
+import { callbackMap, storeCallback, getCallbacks, removeCallback, shiftCallbacks, swapCallbacks } from '../src/lib/callbacks';
 
 test('storeCallback adds the callback when the name doesn’t exist', (t) => {
     const player = {
@@ -84,6 +84,32 @@ test('removeCallback does nothing if the callback passed isn’t in the map', (t
     callbackMap.set(player.element, { test: [cb] });
     t.true(removeCallback(player, 'test', cb2) === false);
     t.deepEqual(callbackMap.get(player.element), { test: [cb] });
+});
+
+test('shiftCallbacks shifts a single callback from the callback array', (t) => {
+    const player = {
+        element: {}
+    };
+
+    const cb = () => {};
+    const cb2 = () => {};
+
+    callbackMap.set(player.element, { test: [cb, cb2] });
+
+    t.true(shiftCallbacks(player, 'test') === cb);
+
+    const callbacks = getCallbacks(player, 'test');
+    t.true(callbacks.length === 1);
+    t.true(callbacks[0] == cb2);
+});
+
+test('shiftCallbacks returns false when there are no callbacks', (t) => {
+    const player = {
+        element: {}
+    };
+
+    callbackMap.set(player.element, { test: [] });
+    t.true(shiftCallbacks(player, 'test') === false);
 });
 
 test('swapCallbacks moves the callbacks from one key to another', (t) => {

@@ -73,6 +73,25 @@ export function removeCallback(player, name, callback) {
 }
 
 /**
+ * Return the first stored callback for a player and event or method.
+ *
+ * @param {Player} player The player object.
+ * @param {string} name The method or event name.
+ * @return {function} The callback, or false if there were none
+ */
+export function shiftCallbacks(player, name) {
+    const playerCallbacks = getCallbacks(player, name);
+
+    if (playerCallbacks.length < 1) {
+        return false;
+    }
+
+    const callback = playerCallbacks.shift();
+    removeCallback(player, name, callback);
+    return callback;
+}
+
+/**
  * Move callbacks associated with an element to another element.
  *
  * @author Brad Dougherty <brad@vimeo.com>
