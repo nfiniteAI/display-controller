@@ -133,6 +133,9 @@ for details on how to update your code to use this library.
     + [setAutopause](#setautopauseautopause-boolean-promiseboolean-unsupportederrorerror)
     + [getColor](#getcolor-promisestring-error)
     + [setColor](#setcolorcolor-string-promisestring-constrasterrortypeerrorerror)
+    + [addCuePoint](#addcuepointtime-number-data-object-promisestring-unsupportederrorrangeerrorerror)
+    + [removeCuePoint](#removecuepointid-string-promisestring-unsupportederrorinvalidcuepointerror)
+    + [getCuePoints](#getcuepoints-promisearray-unsupportederrorerror)
     + [getCurrentTime](#getcurrenttime-promisenumber-error)
     + [setCurrentTime](#setcurrenttimeseconds-number-promisenumber-rangeerrorerror)
     + [getDuration](#getduration-promisenumber-error)
@@ -158,6 +161,7 @@ for details on how to update your code to use this library.
     + [seeked](#seeked)
     + [texttrackchange](#texttrackchange)
     + [cuechange](#cuechange)
+    + [cuepoint](#cuepoint)
     + [volumechange](#volumechange)
     + [error](#error)
     + [loaded](#loaded)
@@ -550,6 +554,91 @@ player.setColor('#00adef').then(function(color) {
             break;
     }
 });
+```
+
+### addCuePoint(time: number, data: object): Promise&lt;string, (UnsupportedError|RangeError|Error)&gt;
+
+Add a cue point to the player. Cue points fire a `cuepoint` event when the
+`currentTime` of the video passes the specified time. *Note:* cue points should
+be accurate to within a tenth of a second, but the precision may vary based on
+browser or environment.
+
+```js
+player.addCuePoint(15, {
+    customKey: 'customValue'
+}).then(function(id) {
+    // cue point was added successfully
+}).catch(function(error) {
+    switch (error.name) {
+        case 'UnsupportedError':
+            // cue points are not supported with the current player or browser
+            break;
+
+        case 'RangeError':
+            // the time was less than 0 or greater than the video’s duration
+            break;
+
+        default:
+            // some other error occurred
+            break;
+    }
+});
+```
+
+### removeCuePoint(id: string): Promise&lt;string, (UnsupportedError|InvalidCuePoint|Error)&gt;
+
+Remove the specified cue point using the id returned from `addCuePoint()` or
+from `getCuePoints()`.
+
+```js
+player.removeCuePoint('09ecf4e4-b587-42cf-ad9f-e666b679c9ab').then(function(id) {
+    // cue point was removed successfully
+}).catch(function(error) {
+    switch (error.name) {
+        case 'UnsupportedError':
+            // cue points are not supported with the current player or browser
+            break;
+
+        case 'InvalidCuePoint':
+            // a cue point with the id passed wasn’t found
+            break;
+
+        default:
+            // some other error occurred
+            break;
+    }
+});
+```
+
+### getCuePoints(): Promise&lt;array, (UnsupportedError|Error)&gt;
+
+Get an array of the cue points that have been added to the video.
+
+```js
+player.getCuePoints().then(function(cuePoints) {
+    // cuePoints = an array of cue point objects
+}).catch(function(error) {
+    switch (error.name) {
+        case 'UnsupportedError':
+            // cue points are not supported with the current player or browser
+            break;
+
+        default:
+            // some other error occurred
+            break;
+    }
+});
+```
+Each cue point object looks like this:
+
+```js
+{
+    "time": 15,
+    "data": {
+        "customKey": "customValue"
+    },
+    "id": "09ecf4e4-b587-42cf-ad9f-e666b679c9ab"
+}
 ```
 
 ### getCurrentTime(): Promise&lt;number, Error&gt;
@@ -949,6 +1038,23 @@ when the active text track changes. There may be multiple cues active.
 The `text` property of each cue is the raw value parsed from the caption or
 subtitle file. The `html` property contains the HTML that the Player renders for
 that cue.
+
+### cuepoint
+
+Triggered when the current time hits a registered cue point.
+
+```js
+{
+    time: 15,
+    data: {
+        customKey: 'customValue'
+    },
+    id: "40f5722b-09aa-4060-a887-3c81aaa37cce"
+}
+```
+
+The `data` property will be the custom data provided in the `addCuePoint()`
+call, or an empty object if none was provided.
 
 ### volumechange
 

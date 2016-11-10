@@ -317,6 +317,49 @@ class Player {
     }
 
     /**
+     * A promise to add a cue point to the player.
+     *
+     * @promise AddCuePointPromise
+     * @fulfill {string} The id of the cue point to use for removeCuePoint.
+     * @reject {RangeError} the time was less than 0 or greater than the
+     *         video’s duration.
+     * @reject {UnsupportedError} Cue points are not supported with the current
+     *         player or browser.
+     */
+    /**
+     * Add a cue point to the player.
+     *
+     * @author Brad Dougherty <brad@vimeo.com>
+     * @param {number} time The time for the cue point.
+     * @param {object} [data] Arbitrary data to be returned with the cue point.
+     * @return {AddCuePointPromise}
+     */
+    addCuePoint(time, data = {}) {
+        return this.callMethod('addCuePoint', { time, data });
+    }
+
+    /**
+     * A promise to remove a cue point from the player.
+     *
+     * @promise AddCuePointPromise
+     * @fulfill {string} The id of the cue point that was removed.
+     * @reject {InvalidCuePoint} The cue point with the specified id was not
+     *         found.
+     * @reject {UnsupportedError} Cue points are not supported with the current
+     *         player or browser.
+     */
+    /**
+     * Remove a cue point from the video.
+     *
+     * @author Brad Dougherty <brad@vimeo.com>
+     * @param {string} id The id of the cue point to remove.
+     * @return {RemoveCuePointPromise}
+     */
+    removeCuePoint(id) {
+        return this.callMethod('removeCuePoint', id);
+    }
+
+    /**
      * A representation of a text track on a video.
      *
      * @typedef {Object} VimeoTextTrack
@@ -504,6 +547,32 @@ class Player {
      */
     setColor(color) {
         return this.set('color', color);
+    }
+
+    /**
+     * A representation of a cue point.
+     *
+     * @typedef {Object} VimeoCuePoint
+     * @property {number} time The time of the cue point.
+     * @property {object} data The data passed when adding the cue point.
+     * @property {string} id The unique id for use with removeCuePoint.
+     */
+    /**
+     * A promise to get the cue points of a video.
+     *
+     * @promise GetCuePointsPromise
+     * @fulfill {VimeoCuePoint[]} The cue points added to the video.
+     * @reject {UnsupportedError} Cue points are not supported with the current
+     *         player or browser.
+     */
+    /**
+     * Get an array of the cue points added to the video.
+     *
+     * @author Brad Dougherty <brad@vimeo.com>
+     * @return {GetCuePointsPromise}
+     */
+    getCuePoints() {
+        return this.get('cuePoints');
     }
 
     /**
