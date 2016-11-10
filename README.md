@@ -122,15 +122,15 @@ for details on how to update your code to use this library.
 * [Methods](#methods)
     + [on](#onevent-string-callback-function-void)
     + [off](#offevent-string-callback-function-void)
-    + [loadVideo](#loadvideoid-number-promisenumber-error)
+    + [loadVideo](#loadvideoid-number-promisenumber-typeerrorpassworderrorerror)
     + [ready](#ready-promisevoid-error)
     + [enableTextTrack](#enabletexttracklanguage-string-kind-string-promiseobject-invalidtracklanguageerrorinvalidtrackerrorerror)
     + [disableTextTrack](#disabletexttrack-promisevoid-error)
-    + [pause](#pause-promisevoid-error)
-    + [play](#play-promisevoid-error)
+    + [pause](#pause-promisevoid-passworderrorprivacyerrorerror)
+    + [play](#play-promisevoid-passworderrorprivacyerrorerror)
     + [unload](#unload-promisevoid-error)
-    + [getAutopause](#getautopause-promiseboolean-error)
-    + [setAutopause](#setautopauseautopause-boolean-promiseboolean-error)
+    + [getAutopause](#getautopause-promiseboolean-unsupportederrorerror)
+    + [setAutopause](#setautopauseautopause-boolean-promiseboolean-unsupportederrorerror)
     + [getColor](#getcolor-promisestring-error)
     + [setColor](#setcolorcolor-string-promisestring-constrasterrortypeerrorerror)
     + [getCurrentTime](#getcurrenttime-promisenumber-error)
@@ -146,7 +146,7 @@ for details on how to update your code to use this library.
     + [getVideoTitle](#getvideotitle-promisestring-error)
     + [getVideoWidth](#getvideowidth-promisenumber-error)
     + [getVideoHeight](#getvideoheight-promisenumber-error)
-    + [getVideoUrl](#getvideourl-promisestring-error)
+    + [getVideoUrl](#getvideourl-promisestring-privacyerrorerror)
     + [getVolume](#getvolume-promisenumber-error)
     + [setVolume](#setvolumevolume-number-promisenumber-rangeerrorerror)
 - [Events](#events)
@@ -318,7 +318,7 @@ player.off('play', onPlay);
 player.off('play');
 ```
 
-### loadVideo(id: number): Promise&lt;number, Error&gt;
+### loadVideo(id: number): Promise&lt;number, (TypeError|PasswordError|Error)&gt;
 
 Load a new video into this embed. The promise will be resolved if the video is
 successfully loaded, or it will be rejected if it could not be loaded.
@@ -402,7 +402,7 @@ player.disableTextTrack().then(function() {
 });
 ```
 
-### pause(): Promise&lt;void, Error&gt;
+### pause(): Promise&lt;void, (PasswordError|PrivacyError|Error)&gt;
 
 Pause the video if it’s playing.
 
@@ -427,7 +427,7 @@ player.pause().then(function() {
 });
 ```
 
-### play(): Promise&lt;void, Error&gt;
+### play(): Promise&lt;void, (PasswordError|PrivacyError|Error)&gt;
 
 Play the video if it’s paused. **Note:** on iOS and some other mobile devices,
 you cannot programmatically trigger play. Once the viewer has tapped on the play
@@ -466,7 +466,7 @@ player.unload().then(function() {
 });
 ```
 
-### getAutopause(): Promise&lt;boolean, Error&gt;
+### getAutopause(): Promise&lt;boolean, (UnsupportedError|Error)&gt;
 
 Get the autopause behavior for this player.
 
@@ -486,7 +486,7 @@ player.getAutopause().then(function(autopause) {
 });
 ```
 
-### setAutopause(autopause: boolean): Promise&lt;boolean, Error&gt;
+### setAutopause(autopause: boolean): Promise&lt;boolean, (UnsupportedError|Error)&gt;
 
 Enable or disable the autopause behavior of this player. By default, when
 another video is played in the same browser, this player will automatically
@@ -754,7 +754,7 @@ Promise.all([player.getVideoWidth(), player.getVideoHeight()]).then(function(dim
 });
 ```
 
-### getVideoUrl(): Promise&lt;string, Error&gt;
+### getVideoUrl(): Promise&lt;string, (PrivacyError|Error)&gt;
 
 Get the [vimeo.com](https://vimeo.com) url for the video.
 
