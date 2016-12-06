@@ -66,13 +66,13 @@ export function processData(player, data) {
         if (data.event === 'error') {
             const promises = getCallbacks(player, data.data.method);
 
-            for (const promise of promises) {
+            promises.forEach((promise) => {
                 const error = new Error(data.data.message);
                 error.name = data.data.name;
 
                 promise.reject(error);
                 removeCallback(player, data.data.method, promise);
-            }
+            });
         }
 
         callbacks = getCallbacks(player, `event:${data.event}`);
@@ -87,11 +87,11 @@ export function processData(player, data) {
         }
     }
 
-    for (const callback of callbacks) {
+    callbacks.forEach((callback) => {
         try {
             if (typeof callback === 'function') {
                 callback.call(player, param);
-                continue;
+                return;
             }
 
             callback.resolve(param);
@@ -99,5 +99,5 @@ export function processData(player, data) {
         catch (e) {
             // empty
         }
-    }
+    });
 }

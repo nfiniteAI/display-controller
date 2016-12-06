@@ -30,15 +30,15 @@ const oEmbedParameters = [
  * @return {Object<string, string>}
  */
 export function getOEmbedParameters(element, defaults = {}) {
-    for (const param of oEmbedParameters) {
+    return oEmbedParameters.reduce((params, param) => {
         const value = element.getAttribute(`data-vimeo-${param}`);
 
         if (value || value === '') {
-            defaults[param] = value === '' ? 1 : value;
+            params[param] = value === '' ? 1 : value;
         }
-    }
 
-    return defaults;
+        return params;
+    }, defaults);
 }
 
 /**
@@ -137,11 +137,11 @@ export function initializeEmbeds(parent = document) {
         }
     };
 
-    for (const element of elements) {
+    elements.forEach((element) => {
         try {
             // Skip any that have data-vimeo-defer
             if (element.getAttribute('data-vimeo-defer') !== null) {
-                continue;
+                return;
             }
 
             const params = getOEmbedParameters(element);
@@ -154,5 +154,5 @@ export function initializeEmbeds(parent = document) {
         catch (error) {
             handleError(error);
         }
-    }
+    });
 }
