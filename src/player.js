@@ -121,20 +121,6 @@ class Player {
     }
 
     /**
-    * Call a function when the player is initialized.
-    *
-    * @author Brad Dougherty <brad@vimeo.com>
-    * @param {function} onFulfilled Function to be called when the player
-    *        is initialized.
-    * @param {function} [onRejected] Function to be called if
-    *        there is an error initializing the player.
-    * @return {Promise}
-    */
-    then(onFulfilled, onRejected = () => {}) {
-        return this.ready().then(onFulfilled, onRejected);
-    }
-
-    /**
      * Get a promise for a method.
      *
      * @author Brad Dougherty <brad@vimeo.com>
