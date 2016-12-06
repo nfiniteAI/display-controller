@@ -1,4 +1,4 @@
-/*! @vimeo/player v1.0.6 | (c) 2016 Vimeo | MIT License | https://github.com/vimeo/player.js */
+/*! @vimeo/player v2.0.1 | (c) 2016 Vimeo | MIT License | https://github.com/vimeo/player.js */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
@@ -829,36 +829,16 @@ var oEmbedParameters = ['id', 'url', 'width', 'maxwidth', 'height', 'maxheight',
  */
 function getOEmbedParameters(element) {
     var defaults = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    var _iteratorNormalCompletion = true;
-    var _didIteratorError = false;
-    var _iteratorError = undefined;
 
-    try {
-        for (var _iterator = oEmbedParameters[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-            var param = _step.value;
+    return oEmbedParameters.reduce(function (params, param) {
+        var value = element.getAttribute('data-vimeo-' + param);
 
-            var value = element.getAttribute('data-vimeo-' + param);
-
-            if (value || value === '') {
-                defaults[param] = value === '' ? 1 : value;
-            }
+        if (value || value === '') {
+            params[param] = value === '' ? 1 : value;
         }
-    } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-    } finally {
-        try {
-            if (!_iteratorNormalCompletion && _iterator.return) {
-                _iterator.return();
-            }
-        } finally {
-            if (_didIteratorError) {
-                throw _iteratorError;
-            }
-        }
-    }
 
-    return defaults;
+        return params;
+    }, defaults);
 }
 
 /**
@@ -962,56 +942,35 @@ function initializeEmbeds() {
         }
     };
 
-    var _iteratorNormalCompletion2 = true;
-    var _didIteratorError2 = false;
-    var _iteratorError2 = undefined;
-
-    try {
-        var _loop = function _loop() {
-            var element = _step2.value;
-
-            try {
-                // Skip any that have data-vimeo-defer
-                if (element.getAttribute('data-vimeo-defer') !== null) {
-                    return 'continue';
-                }
-
-                var params = getOEmbedParameters(element);
-                var url = getVimeoUrl(params);
-
-                getOEmbedData(url, params).then(function (data) {
-                    return createEmbed(data, element);
-                }).catch(handleError);
-            } catch (error) {
-                handleError(error);
-            }
-        };
-
-        for (var _iterator2 = elements[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-            var _ret = _loop();
-
-            if (_ret === 'continue') continue;
-        }
-    } catch (err) {
-        _didIteratorError2 = true;
-        _iteratorError2 = err;
-    } finally {
+    elements.forEach(function (element) {
         try {
-            if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                _iterator2.return();
+            // Skip any that have data-vimeo-defer
+            if (element.getAttribute('data-vimeo-defer') !== null) {
+                return;
             }
-        } finally {
-            if (_didIteratorError2) {
-                throw _iteratorError2;
-            }
+
+            var params = getOEmbedParameters(element);
+            var url = getVimeoUrl(params);
+
+            getOEmbedData(url, params).then(function (data) {
+                return createEmbed(data, element);
+            }).catch(handleError);
+        } catch (error) {
+            handleError(error);
         }
-    }
+    });
 }
 
 /**
  * @module lib/postmessage
  */
 
+/**
+ * Parse a message received from postMessage.
+ *
+ * @param {*} data The data received from postMessage.
+ * @return {object}
+ */
 function parseMessageData(data) {
     if (typeof data === 'string') {
         data = JSON.parse(data);
@@ -1068,34 +1027,13 @@ function processData(player, data) {
         if (data.event === 'error') {
             var promises = getCallbacks(player, data.data.method);
 
-            var _iteratorNormalCompletion = true;
-            var _didIteratorError = false;
-            var _iteratorError = undefined;
+            promises.forEach(function (promise) {
+                var error = new Error(data.data.message);
+                error.name = data.data.name;
 
-            try {
-                for (var _iterator = promises[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                    var promise = _step.value;
-
-                    var error = new Error(data.data.message);
-                    error.name = data.data.name;
-
-                    promise.reject(error);
-                    removeCallback(player, data.data.method, promise);
-                }
-            } catch (err) {
-                _didIteratorError = true;
-                _iteratorError = err;
-            } finally {
-                try {
-                    if (!_iteratorNormalCompletion && _iterator.return) {
-                        _iterator.return();
-                    }
-                } finally {
-                    if (_didIteratorError) {
-                        throw _iteratorError;
-                    }
-                }
-            }
+                promise.reject(error);
+                removeCallback(player, data.data.method, promise);
+            });
         }
 
         callbacks = getCallbacks(player, 'event:' + data.event);
@@ -1109,39 +1047,18 @@ function processData(player, data) {
         }
     }
 
-    var _iteratorNormalCompletion2 = true;
-    var _didIteratorError2 = false;
-    var _iteratorError2 = undefined;
-
-    try {
-        for (var _iterator2 = callbacks[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-            var _callback = _step2.value;
-
-            try {
-                if (typeof _callback === 'function') {
-                    _callback.call(player, param);
-                    continue;
-                }
-
-                _callback.resolve(param);
-            } catch (e) {
-                // empty
-            }
-        }
-    } catch (err) {
-        _didIteratorError2 = true;
-        _iteratorError2 = err;
-    } finally {
+    callbacks.forEach(function (callback) {
         try {
-            if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                _iterator2.return();
+            if (typeof callback === 'function') {
+                callback.call(player, param);
+                return;
             }
-        } finally {
-            if (_didIteratorError2) {
-                throw _iteratorError2;
-            }
+
+            callback.resolve(param);
+        } catch (e) {
+            // empty
         }
-    }
+    });
 }
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -1268,35 +1185,16 @@ var Player = function () {
     }
 
     /**
-    * Call a function when the player is initialized.
-    *
-    * @author Brad Dougherty <brad@vimeo.com>
-    * @param {function} onFulfilled Function to be called when the player
-    *        is initialized.
-    * @param {function} [onRejected] Function to be called if
-    *        there is an error initializing the player.
-    * @return {Promise}
-    */
+     * Get a promise for a method.
+     *
+     * @author Brad Dougherty <brad@vimeo.com>
+     * @param {string} name The API method to call.
+     * @param {Object} [args={}] Arguments to send via postMessage.
+     * @return {Promise}
+     */
 
 
     _createClass(Player, [{
-        key: 'then',
-        value: function then(onFulfilled) {
-            var onRejected = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {};
-
-            return this.ready().then(onFulfilled, onRejected);
-        }
-
-        /**
-         * Get a promise for a method.
-         *
-         * @author Brad Dougherty <brad@vimeo.com>
-         * @param {string} name The API method to call.
-         * @param {Object} [args={}] Arguments to send via postMessage.
-         * @return {Promise}
-         */
-
-    }, {
         key: 'callMethod',
         value: function callMethod(name) {
             var _this2 = this;
