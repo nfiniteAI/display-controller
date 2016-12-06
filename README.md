@@ -116,6 +116,43 @@ Opera.
 Using our old Froogaloop library? See the [migration doc](docs/migrate-from-froogaloop.md)
 for details on how to update your code to use this library.
 
+## Using with a module bundler
+
+If you’re using a module bundler like [webpack](https://webpack.js.org) or
+[rollup](http://rollupjs.org/), the exported object will be the Player
+constructor (unlike the browser where it is attached to `window.Vimeo`):
+
+```js
+import Player from '@vimeo/player';
+
+const player = new Player('handstick', {
+    id: 19231868,
+    width: 640
+});
+
+player.on('play', function() {
+    console.log('played the video!');
+});
+```
+
+Similarly, if you’re using [RequireJS](http://www.requirejs.org) in the browser,
+it will also import the Player constructor directly:
+
+```html
+<iframe src="https://player.vimeo.com/video/76979871" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+
+<script>
+    require(['https://player.vimeo.com/api/player.js'], function (Player) {
+        var iframe = document.querySelector('iframe');
+        var player = new Player(iframe);
+
+        player.on('play', function() {
+            console.log('played the video!');
+        });
+    });
+</script>
+```
+
 ## Table of Contents
 
 * [Create a Player](#create-a-player)
