@@ -29,6 +29,7 @@ const generateBundle = () => {
     }
 
     building = true;
+    needsRebuild = false;
 
     if (watch) {
         console.log(new Date().toString());
