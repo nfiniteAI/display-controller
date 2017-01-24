@@ -100,7 +100,7 @@ test('shiftCallbacks shifts a single callback from the callback array', (t) => {
 
     const callbacks = getCallbacks(player, 'test');
     t.true(callbacks.length === 1);
-    t.true(callbacks[0] == cb2);
+    t.true(callbacks[0] === cb2);
 });
 
 test('shiftCallbacks returns false when there are no callbacks', (t) => {

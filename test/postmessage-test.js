@@ -86,7 +86,7 @@ test('processData calls the proper callbacks for an event', (t) => {
     });
 });
 
-test('processData resolves a method promise with the proper data', (t) => {
+test('processData resolves a method promise with the proper data', async (t) => {
     const player = { element: {} };
     const callback = {};
     const methodPromise = new Promise((resolve, reject) => {
@@ -99,13 +99,12 @@ test('processData resolves a method promise with the proper data', (t) => {
     processData(player, { method: 'getColor', value: '00adef' });
 
     t.true(getCallbacks(player, 'getColor').length === 0);
-    // eslint-disable-next-line promise/always-return
-    return methodPromise.then((value) => {
-        t.true(value === '00adef');
-    });
+
+    const value = await methodPromise;
+    t.true(value === '00adef');
 });
 
-test('processData resolves multiple of the same method calls with the proper data', (t) => {
+test('processData resolves multiple of the same method calls with the proper data', async (t) => {
     const player = { element: {} };
 
     const callbackOne = {};
@@ -133,11 +132,10 @@ test('processData resolves multiple of the same method calls with the proper dat
     processData(player, { method: 'addCuePoint', value: 'a6f3de01-f4cb-4956-a639-221e640ed458' });
     processData(player, { method: 'addCuePoint', value: 'b9a2834a-6461-4785-8301-7e6501c3cf4c' });
 
-    return Promise.all([methodPromiseOne, methodPromiseTwo, methodPromiseThree]).then(([idOne, idTwo, idThree]) => {
-        t.true(idOne === 'bf6a88a0-87ac-4196-b249-a66fde4339f2');
-        t.true(idTwo === 'a6f3de01-f4cb-4956-a639-221e640ed458');
-        t.true(idThree === 'b9a2834a-6461-4785-8301-7e6501c3cf4c');
-    });
+    const [idOne, idTwo, idThree] = await Promise.all([methodPromiseOne, methodPromiseTwo, methodPromiseThree]);
+    t.true(idOne === 'bf6a88a0-87ac-4196-b249-a66fde4339f2');
+    t.true(idTwo === 'a6f3de01-f4cb-4956-a639-221e640ed458');
+    t.true(idThree === 'b9a2834a-6461-4785-8301-7e6501c3cf4c');
 });
 
 test('processData rejects a method promise on an error event', (t) => {

@@ -22,16 +22,18 @@ test('constructor accepts only Vimeo embeds', (t) => {
 });
 
 test('contructor does not throw if jquery is not present', (t) => {
-  const frames = jQuery('iframe')[0];
-  const oldJQuery = jQuery;
+    /* eslint-env jquery */
+    /* globals jQuery:true */
+    const frames = jQuery('iframe')[0];
+    const oldJQuery = jQuery;
 
-  window.jQuery = jQuery = undefined;
+    window.jQuery = jQuery = undefined;
 
-  t.notThrows(() => {
-    const player = new Player(frames);
-  });
+    t.notThrows(() => {
+        void new Player(frames);
+    });
 
-  jQuery = window.jQuery = oldJQuery;
+    jQuery = window.jQuery = oldJQuery;
 });
 
 test('constructor uses the first element from a jQuery object', (t) => {
