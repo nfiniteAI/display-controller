@@ -100,7 +100,9 @@ class Player {
                 getOEmbedData(url, params).then((data) => {
                     const iframe = createEmbed(data, element);
                     this.element = iframe;
+
                     swapCallbacks(element, iframe);
+                    playerMap.set(this.element, this);
 
                     return data;
                 }).catch((error) => reject(error));
