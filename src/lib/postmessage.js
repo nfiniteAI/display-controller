@@ -28,7 +28,7 @@ export function parseMessageData(data) {
  * @return {void}
  */
 export function postMessage(player, method, params) {
-    if (!player.element.contentWindow.postMessage) {
+    if (!player.element.contentWindow || !player.element.contentWindow.postMessage) {
         return;
     }
 
