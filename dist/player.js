@@ -1,8 +1,8 @@
-/*! @vimeo/player v2.0.1 | (c) 2016 Vimeo | MIT License | https://github.com/vimeo/player.js */
+/*! @vimeo/player v2.0.2 | (c) 2017 Vimeo | MIT License | https://github.com/vimeo/player.js */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-  typeof define === 'function' && define.amd ? define(factory) :
-  (global.Vimeo = global.Vimeo || {}, global.Vimeo.Player = factory());
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global.Vimeo = global.Vimeo || {}, global.Vimeo.Player = factory());
 }(this, (function () { 'use strict';
 
 var arrayIndexOfSupport = typeof Array.prototype.indexOf !== 'undefined';
@@ -247,7 +247,7 @@ var index = createCommonjsModule(function (module, exports) {
       callback.call(context, r.value[1], r.value[0], this);
     }
   }
-})(typeof exports != 'undefined' && typeof commonjsGlobal != 'undefined' ? commonjsGlobal : window);
+})('object' != 'undefined' && typeof commonjsGlobal != 'undefined' ? commonjsGlobal : window);
 });
 
 var npo_src = createCommonjsModule(function (module) {
@@ -261,10 +261,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 (function UMD(name, context, definition) {
 	// special form of UMD for polyfilling across evironments
 	context[name] = context[name] || definition();
-	if (typeof module != "undefined" && module.exports) {
+	if ('object' != "undefined" && module.exports) {
 		module.exports = context[name];
-	} else if (typeof define == "function" && define.amd) {
-		define(function $AMD$() {
+	} else if (typeof undefined == "function" && undefined.amd) {
+		undefined(function $AMD$() {
 			return context[name];
 		});
 	}
@@ -775,7 +775,7 @@ function isInteger(value) {
  * @return {boolean}
  */
 function isVimeoUrl(url) {
-    return (/^(https?:)?\/\/(player.)?vimeo.com(?=$|\/)/.test(url)
+    return (/^(https?:)?\/\/((player|www).)?vimeo.com(?=$|\/)/.test(url)
     );
 }
 
@@ -989,7 +989,7 @@ function parseMessageData(data) {
  * @return {void}
  */
 function postMessage(player, method, params) {
-    if (!player.element.contentWindow.postMessage) {
+    if (!player.element.contentWindow || !player.element.contentWindow.postMessage) {
         return;
     }
 
@@ -1162,7 +1162,9 @@ var Player = function () {
                 getOEmbedData(url, params).then(function (data) {
                     var iframe = createEmbed(data, element);
                     _this.element = iframe;
+
                     swapCallbacks(element, iframe);
+                    playerMap.set(_this.element, _this);
 
                     return data;
                 }).catch(function (error) {
