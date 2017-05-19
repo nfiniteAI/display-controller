@@ -1,4 +1,4 @@
-/*! @vimeo/player v2.0.2 | (c) 2017 Vimeo | MIT License | https://github.com/vimeo/player.js */
+/*! @vimeo/player v2.1.0 | (c) 2017 Vimeo | MIT License | https://github.com/vimeo/player.js */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
@@ -959,6 +959,49 @@ function initializeEmbeds() {
             handleError(error);
         }
     });
+}
+
+/**
+ * Resize embeds when messaged by the player.
+ *
+ * @author Brad Dougherty <brad@vimeo.com>
+ * @param {HTMLElement} [parent=document] The parent element.
+ * @return {void}
+ */
+function resizeEmbeds() {
+    var parent = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document;
+
+    var onMessage = function onMessage(event) {
+        if (!isVimeoUrl(event.origin)) {
+            return;
+        }
+
+        if (!event.data || event.data.event !== 'spacechange') {
+            return;
+        }
+
+        var iframes = parent.querySelectorAll('iframe');
+
+        for (var i = 0; i < iframes.length; i++) {
+            if (iframes[i].contentWindow !== event.source) {
+                continue;
+            }
+
+            var space = iframes[i].parentElement;
+
+            if (space && space.className.indexOf('vimeo-space') !== -1) {
+                space.style.paddingBottom = event.data.data[0].bottom + 'px';
+            }
+
+            break;
+        }
+    };
+
+    if (window.addEventListener) {
+        window.addEventListener('message', onMessage, false);
+    } else if (window.attachEvent) {
+        window.attachEvent('onmessage', onMessage);
+    }
 }
 
 /**
@@ -2031,6 +2074,7 @@ var Player = function () {
 }();
 
 initializeEmbeds();
+resizeEmbeds();
 
 return Player;
 
