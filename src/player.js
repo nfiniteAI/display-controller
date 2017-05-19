@@ -5,7 +5,7 @@ import Promise from 'native-promise-only';
 
 import { storeCallback, getCallbacks, removeCallback, swapCallbacks } from './lib/callbacks';
 import { getMethodName, isDomElement, isVimeoUrl, getVimeoUrl } from './lib/functions';
-import { getOEmbedParameters, getOEmbedData, createEmbed, initializeEmbeds } from './lib/embed';
+import { getOEmbedParameters, getOEmbedData, createEmbed, initializeEmbeds, resizeEmbeds } from './lib/embed';
 import { parseMessageData, postMessage, processData } from './lib/postmessage';
 
 const playerMap = new WeakMap();
@@ -848,5 +848,6 @@ class Player {
 }
 
 initializeEmbeds();
+resizeEmbeds();
 
 export default Player;
