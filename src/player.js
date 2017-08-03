@@ -4,7 +4,7 @@ import 'es6-collections';
 import Promise from 'native-promise-only';
 
 import { storeCallback, getCallbacks, removeCallback, swapCallbacks } from './lib/callbacks';
-import { getMethodName, isDomElement, isVimeoUrl, getVimeoUrl } from './lib/functions';
+import { getMethodName, isDomElement, isVimeoUrl, getVimeoUrl, isNode } from './lib/functions';
 import { getOEmbedParameters, getOEmbedData, createEmbed, initializeEmbeds, resizeEmbeds } from './lib/embed';
 import { parseMessageData, postMessage, processData } from './lib/postmessage';
 
@@ -845,7 +845,9 @@ class Player {
     }
 }
 
-initializeEmbeds();
-resizeEmbeds();
+if (!isNode) {
+    initializeEmbeds();
+    resizeEmbeds();
+}
 
 export default Player;
