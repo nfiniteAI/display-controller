@@ -108,7 +108,7 @@ prefixed with `data-vimeo` (`data-vimeo-portrait="false"`, for example).
 
 ## Browser Support
 
-The Player API library is supported in IE 9+, Chrome, Firefox, Safari, and
+The Player API library is supported in IE 11+, Chrome, Firefox, Safari, and
 Opera.
 
 ## Migrate from Froogaloop
@@ -1185,5 +1185,6 @@ loop        | `false`  | Play the video again when it reaches the end.
 maxheight   |          | Same as height, but video will not exceed the native size of the video.
 maxwidth    |          | Same as width, but video will not exceed the native size of the video.
 portrait    | `true`   | Show the portrait on the video.
+speed       | `false`  | Show the speed controls in the preferences menu and enable playback rate API.
 title       | `true`   | Show the title on the video.
 width       |          | The exact width of the video. Defaults to the width of the largest available version of the video.
