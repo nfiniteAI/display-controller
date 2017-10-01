@@ -140,6 +140,8 @@ class Player {
                 });
 
                 postMessage(this, name, args);
+            }).catch((error) => {
+                reject(error);
             });
         });
     }
@@ -292,7 +294,9 @@ class Player {
      * @return {ReadyPromise}
      */
     ready() {
-        const readyPromise = readyMap.get(this);
+        const readyPromise = readyMap.get(this) || new Promise((resolve, reject) => {
+            reject('Unknown player. Probably unloaded.');
+        });
         return Promise.resolve(readyPromise);
     }
 
@@ -438,6 +442,25 @@ class Player {
      */
     unload() {
         return this.callMethod('unload');
+    }
+
+    /**
+     * Cleanup the player and remove it from the DOM
+     *
+     * It won't be usable and a new one should be constructed
+     *  in order to do any operations.
+     *
+     * @return {Promise}
+     */
+    destroy() {
+        return new Promise((resolve) => {
+            readyMap.delete(this);
+            playerMap.delete(this.element);
+            if (this.element && this.element.nodeName === 'IFRAME') {
+                this.element.remove();
+            }
+            resolve();
+        });
     }
 
     /**
