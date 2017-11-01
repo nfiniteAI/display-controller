@@ -1188,4 +1188,5 @@ maxwidth    |          | Same as width, but video will not exceed the native siz
 portrait    | `true`   | Show the portrait on the video.
 speed       | `false`  | Show the speed controls in the preferences menu and enable playback rate API.
 title       | `true`   | Show the title on the video.
+transparent | `true`   | The responsive player and transparent background are enabled by default, to disable set this parameter to `false`.
 width       |          | The exact width of the video. Defaults to the width of the largest available version of the video.

@@ -20,7 +20,8 @@ const oEmbedParameters = [
     'loop',
     'responsive',
     'speed',
-    'background'
+    'background',
+    'transparent'
 ];
 
 /**
