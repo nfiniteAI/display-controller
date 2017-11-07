@@ -815,7 +815,7 @@ function swapCallbacks(oldElement, newElement) {
  * @module lib/embed
  */
 
-var oEmbedParameters = ['id', 'url', 'width', 'maxwidth', 'height', 'maxheight', 'portrait', 'title', 'byline', 'color', 'autoplay', 'autopause', 'loop', 'responsive', 'speed'];
+var oEmbedParameters = ['id', 'url', 'width', 'maxwidth', 'height', 'maxheight', 'portrait', 'title', 'byline', 'color', 'autoplay', 'autopause', 'loop', 'responsive', 'speed', 'background', 'transparent'];
 
 /**
  * Get the 'data-vimeo'-prefixed attributes from an element as an object.
@@ -1001,12 +1001,6 @@ function resizeEmbeds() {
  * @module lib/postmessage
  */
 
-/**
- * Parse a message received from postMessage.
- *
- * @param {*} data The data received from postMessage.
- * @return {object}
- */
 function parseMessageData(data) {
     if (typeof data === 'string') {
         data = JSON.parse(data);
