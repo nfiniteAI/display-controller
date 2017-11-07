@@ -32,7 +32,10 @@ export function getMethodName(prop, type) {
  * @return {boolean}
  */
 export function isDomElement(element) {
-    return element instanceof window.HTMLElement;
+    return Boolean(
+        element && element.nodeType === 1 && 'nodeName' in element &&
+        element.ownerDocument && element.ownerDocument.defaultView
+    );
 }
 
 /**

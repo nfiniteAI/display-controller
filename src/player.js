@@ -40,6 +40,8 @@ class Player {
             throw new TypeError('You must pass either a valid element or a valid id.');
         }
 
+        const win = element.ownerDocument.defaultView;
+
         // Already initialized an embed in this div, so grab the iframe
         if (element.nodeName !== 'IFRAME') {
             const iframe = element.querySelector('iframe');
@@ -85,11 +87,11 @@ class Player {
                 processData(this, data);
             };
 
-            if (window.addEventListener) {
-                window.addEventListener('message', onMessage, false);
+            if (win.addEventListener) {
+                win.addEventListener('message', onMessage, false);
             }
-            else if (window.attachEvent) {
-                window.attachEvent('onmessage', onMessage);
+            else if (win.attachEvent) {
+                win.attachEvent('onmessage', onMessage);
             }
 
             if (this.element.nodeName !== 'IFRAME') {
