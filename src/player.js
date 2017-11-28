@@ -98,7 +98,10 @@ class Player {
 
                 getOEmbedData(url, params).then((data) => {
                     const iframe = createEmbed(data, element);
+                    // Overwrite element with the new iframe,
+                    // but store reference to the original element
                     this.element = iframe;
+                    this._originalElement = element;
 
                     swapCallbacks(element, iframe);
                     playerMap.set(this.element, this);
@@ -456,6 +459,10 @@ class Player {
         return new Promise((resolve) => {
             readyMap.delete(this);
             playerMap.delete(this.element);
+            if (this._originalElement) {
+                playerMap.delete(this._originalElement);
+                this._originalElement.removeAttribute('data-vimeo-initialized');
+            }
             if (this.element && this.element.nodeName === 'IFRAME') {
                 this.element.remove();
             }
