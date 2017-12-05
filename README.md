@@ -1178,6 +1178,7 @@ option      | default  | description
 id _or_ url |          | **Required.** Either the id or the url of the video.
 autopause   | `true`   | Pause this video automatically when another one plays.
 autoplay    | `false`  | Automatically start playback of the video. Note that this won’t work on some devices.
+background  | `false`  | Enable the player's background mode which hides the controls and autoplays the video.
 byline      | `true`   | Show the byline on the video.
 color       | `00adef` | Specify the color of the video controls. Colors may be overridden by the embed settings of the video.
 height      |          | The exact height of the video. Defaults to the height of the largest available version of the video.
@@ -1187,4 +1188,5 @@ maxwidth    |          | Same as width, but video will not exceed the native siz
 portrait    | `true`   | Show the portrait on the video.
 speed       | `false`  | Show the speed controls in the preferences menu and enable playback rate API.
 title       | `true`   | Show the title on the video.
+transparent | `true`   | The responsive player and transparent background are enabled by default, to disable set this parameter to `false`.
 width       |          | The exact width of the video. Defaults to the width of the largest available version of the video.
