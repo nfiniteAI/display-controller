@@ -191,7 +191,7 @@ it will also import the Player constructor directly:
     + [getVideoUrl](#getvideourl-promisestring-privacyerrorerror)
     + [getVolume](#getvolume-promisenumber-error)
     + [setVolume](#setvolumevolume-number-promisenumber-rangeerrorerror)
-- [Events](#events)
+* [Events](#events)
     + [play](#play)
     + [pause](#pause)
     + [ended](#ended)
