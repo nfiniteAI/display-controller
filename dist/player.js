@@ -1,14 +1,107 @@
-/*! @vimeo/player v2.2.0 | (c) 2017 Vimeo | MIT License | https://github.com/vimeo/player.js */
+/*! @vimeo/player v2.2.1 | (c) 2017 Vimeo | MIT License | https://github.com/vimeo/player.js */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
 	(global.Vimeo = global.Vimeo || {}, global.Vimeo.Player = factory());
 }(this, (function () { 'use strict';
 
-var arrayIndexOfSupport = typeof Array.prototype.indexOf !== 'undefined';
-var postMessageSupport = typeof window.postMessage !== 'undefined';
+/**
+ * @module lib/functions
+ */
 
-if (!arrayIndexOfSupport || !postMessageSupport) {
+/**
+ * Check to see this is a node environment.
+ * @type {Boolean}
+ */
+/* global global */
+var isNode = typeof global !== 'undefined' && {}.toString.call(global) === '[object global]';
+
+/**
+ * Get the name of the method for a given getter or setter.
+ *
+ * @param {string} prop The name of the property.
+ * @param {string} type Either “get” or “set”.
+ * @return {string}
+ */
+function getMethodName(prop, type) {
+    if (prop.indexOf(type.toLowerCase()) === 0) {
+        return prop;
+    }
+
+    return '' + type.toLowerCase() + prop.substr(0, 1).toUpperCase() + prop.substr(1);
+}
+
+/**
+ * Check to see if the object is a DOM Element.
+ *
+ * @param {*} element The object to check.
+ * @return {boolean}
+ */
+function isDomElement(element) {
+    return element instanceof window.HTMLElement;
+}
+
+/**
+ * Check to see whether the value is a number.
+ *
+ * @see http://dl.dropboxusercontent.com/u/35146/js/tests/isNumber.html
+ * @param {*} value The value to check.
+ * @param {boolean} integer Check if the value is an integer.
+ * @return {boolean}
+ */
+function isInteger(value) {
+    // eslint-disable-next-line eqeqeq
+    return !isNaN(parseFloat(value)) && isFinite(value) && Math.floor(value) == value;
+}
+
+/**
+ * Check to see if the URL is a Vimeo url.
+ *
+ * @param {string} url The url string.
+ * @return {boolean}
+ */
+function isVimeoUrl(url) {
+    return (/^(https?:)?\/\/((player|www).)?vimeo.com(?=$|\/)/.test(url)
+    );
+}
+
+/**
+ * Get the Vimeo URL from an element.
+ * The element must have either a data-vimeo-id or data-vimeo-url attribute.
+ *
+ * @param {object} oEmbedParameters The oEmbed parameters.
+ * @return {string}
+ */
+function getVimeoUrl() {
+    var oEmbedParameters = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    var id = oEmbedParameters.id;
+    var url = oEmbedParameters.url;
+    var idOrUrl = id || url;
+
+    if (!idOrUrl) {
+        throw new Error('An id or url must be passed, either in an options object or as a data-vimeo-id or data-vimeo-url attribute.');
+    }
+
+    if (isInteger(idOrUrl)) {
+        return 'https://vimeo.com/' + idOrUrl;
+    }
+
+    if (isVimeoUrl(idOrUrl)) {
+        return idOrUrl.replace('http:', 'https:');
+    }
+
+    if (id) {
+        throw new TypeError('\u201C' + id + '\u201D is not a valid video id.');
+    }
+
+    throw new TypeError('\u201C' + idOrUrl + '\u201D is not a vimeo.com url.');
+}
+
+var arrayIndexOfSupport = typeof Array.prototype.indexOf !== 'undefined';
+var postMessageSupport = typeof window !== 'undefined' && typeof window.postMessage !== 'undefined';
+
+if (!isNode && (!arrayIndexOfSupport || !postMessageSupport)) {
     throw new Error('Sorry, the Vimeo Player API is not available in this browser.');
 }
 
@@ -719,96 +812,10 @@ function swapCallbacks(oldElement, newElement) {
 }
 
 /**
- * @module lib/functions
- */
-
-/**
- * Get the name of the method for a given getter or setter.
- *
- * @param {string} prop The name of the property.
- * @param {string} type Either “get” or “set”.
- * @return {string}
- */
-function getMethodName(prop, type) {
-    if (prop.indexOf(type.toLowerCase()) === 0) {
-        return prop;
-    }
-
-    return '' + type.toLowerCase() + prop.substr(0, 1).toUpperCase() + prop.substr(1);
-}
-
-/**
- * Check to see if the object is a DOM Element.
- *
- * @param {*} element The object to check.
- * @return {boolean}
- */
-function isDomElement(element) {
-    return element instanceof window.HTMLElement;
-}
-
-/**
- * Check to see whether the value is a number.
- *
- * @see http://dl.dropboxusercontent.com/u/35146/js/tests/isNumber.html
- * @param {*} value The value to check.
- * @param {boolean} integer Check if the value is an integer.
- * @return {boolean}
- */
-function isInteger(value) {
-    // eslint-disable-next-line eqeqeq
-    return !isNaN(parseFloat(value)) && isFinite(value) && Math.floor(value) == value;
-}
-
-/**
- * Check to see if the URL is a Vimeo url.
- *
- * @param {string} url The url string.
- * @return {boolean}
- */
-function isVimeoUrl(url) {
-    return (/^(https?:)?\/\/((player|www).)?vimeo.com(?=$|\/)/.test(url)
-    );
-}
-
-/**
- * Get the Vimeo URL from an element.
- * The element must have either a data-vimeo-id or data-vimeo-url attribute.
- *
- * @param {object} oEmbedParameters The oEmbed parameters.
- * @return {string}
- */
-function getVimeoUrl() {
-    var oEmbedParameters = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-    var id = oEmbedParameters.id;
-    var url = oEmbedParameters.url;
-    var idOrUrl = id || url;
-
-    if (!idOrUrl) {
-        throw new Error('An id or url must be passed, either in an options object or as a data-vimeo-id or data-vimeo-url attribute.');
-    }
-
-    if (isInteger(idOrUrl)) {
-        return 'https://vimeo.com/' + idOrUrl;
-    }
-
-    if (isVimeoUrl(idOrUrl)) {
-        return idOrUrl.replace('http:', 'https:');
-    }
-
-    if (id) {
-        throw new TypeError('\u201C' + id + '\u201D is not a valid video id.');
-    }
-
-    throw new TypeError('\u201C' + idOrUrl + '\u201D is not a vimeo.com url.');
-}
-
-/**
  * @module lib/embed
  */
 
-var oEmbedParameters = ['id', 'url', 'width', 'maxwidth', 'height', 'maxheight', 'portrait', 'title', 'byline', 'color', 'autoplay', 'autopause', 'loop', 'responsive', 'speed'];
+var oEmbedParameters = ['id', 'url', 'width', 'maxwidth', 'height', 'maxheight', 'portrait', 'title', 'byline', 'color', 'autoplay', 'autopause', 'loop', 'responsive', 'speed', 'background', 'transparent'];
 
 /**
  * Get the 'data-vimeo'-prefixed attributes from an element as an object.
@@ -2061,8 +2068,10 @@ var Player = function () {
     return Player;
 }();
 
-initializeEmbeds();
-resizeEmbeds();
+if (!isNode) {
+    initializeEmbeds();
+    resizeEmbeds();
+}
 
 return Player;
 

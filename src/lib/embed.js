@@ -19,7 +19,9 @@ const oEmbedParameters = [
     'autopause',
     'loop',
     'responsive',
-    'speed'
+    'speed',
+    'background',
+    'transparent'
 ];
 
 /**
