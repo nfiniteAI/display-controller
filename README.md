@@ -203,6 +203,8 @@ it will also import the Player constructor directly:
     + [cuepoint](#cuepoint)
     + [volumechange](#volumechange)
     + [playbackratechange](#playbackratechange)
+    + [bufferstart](#bufferstart)
+    + [bufferend](#bufferend)
     + [error](#error)
     + [loaded](#loaded)
 * [Embed Options](#embed-options)
@@ -1152,6 +1154,15 @@ and the event will not fire for those videos. The new playback rate is returned 
     playbackRate: 1.5
 }
 ```
+
+### bufferstart
+
+Triggered when buffering starts in the player. This is also triggered during preload and while seeking. There is no associated data with this event.
+
+
+### bufferend
+
+Triggered when buffering ends in the player. This is also triggered at the end of preload and seeking. There is no associated data with this event.
 
 
 ### error
