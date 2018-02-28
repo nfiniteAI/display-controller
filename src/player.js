@@ -31,7 +31,7 @@ class Player {
         }
 
         // Find an element by ID
-        if (typeof element === 'string') {
+        if (typeof document !== 'undefined' && typeof element === 'string') {
             element = document.getElementById(element);
         }
 
