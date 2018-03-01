@@ -191,7 +191,7 @@ it will also import the Player constructor directly:
     + [getVideoUrl](#getvideourl-promisestring-privacyerrorerror)
     + [getVolume](#getvolume-promisenumber-error)
     + [setVolume](#setvolumevolume-number-promisenumber-rangeerrorerror)
-- [Events](#events)
+* [Events](#events)
     + [play](#play)
     + [pause](#pause)
     + [ended](#ended)
@@ -202,6 +202,9 @@ it will also import the Player constructor directly:
     + [cuechange](#cuechange)
     + [cuepoint](#cuepoint)
     + [volumechange](#volumechange)
+    + [playbackratechange](#playbackratechange)
+    + [bufferstart](#bufferstart)
+    + [bufferend](#bufferend)
     + [error](#error)
     + [loaded](#loaded)
 * [Embed Options](#embed-options)
@@ -1140,6 +1143,27 @@ event will never fire on those devices.
     volume: 0.5
 }
 ```
+
+### playbackratechange
+
+Triggered when the playback rate of the video in the player changes. The ability to change rate can be disabled by the creator
+and the event will not fire for those videos. The new playback rate is returned with the event.
+
+```js
+{
+    playbackRate: 1.5
+}
+```
+
+### bufferstart
+
+Triggered when buffering starts in the player. This is also triggered during preload and while seeking. There is no associated data with this event.
+
+
+### bufferend
+
+Triggered when buffering ends in the player. This is also triggered at the end of preload and seeking. There is no associated data with this event.
+
 
 ### error
 
