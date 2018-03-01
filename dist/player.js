@@ -1,4 +1,4 @@
-/*! @vimeo/player v2.2.1 | (c) 2018 Vimeo | MIT License | https://github.com/vimeo/player.js */
+/*! @vimeo/player v2.3.0 | (c) 2018 Vimeo | MIT License | https://github.com/vimeo/player.js */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
@@ -815,7 +815,7 @@ function swapCallbacks(oldElement, newElement) {
  * @module lib/embed
  */
 
-var oEmbedParameters = ['id', 'url', 'width', 'maxwidth', 'height', 'maxheight', 'portrait', 'title', 'byline', 'color', 'autoplay', 'autopause', 'loop', 'responsive', 'speed', 'background', 'transparent'];
+var oEmbedParameters = ['id', 'url', 'width', 'maxwidth', 'height', 'maxheight', 'portrait', 'title', 'byline', 'color', 'playsinline', 'autoplay', 'autopause', 'loop', 'responsive', 'speed', 'background', 'transparent'];
 
 /**
  * Get the 'data-vimeo'-prefixed attributes from an element as an object.
