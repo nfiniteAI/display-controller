@@ -25,7 +25,8 @@
     "postpublish": "greenkeeper-postpublish"
   },
   "main": "dist/player.js",
-  "jsnext:main": "src/player.js",
+  "module": "dist/player.es.js",
+  "jsnext:main": "dist/player.es.js",
   "directories": {
     "lib": "src/"
   },
