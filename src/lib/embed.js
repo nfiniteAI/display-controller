@@ -15,6 +15,7 @@ const oEmbedParameters = [
     'title',
     'byline',
     'color',
+    'playsinline',
     'autoplay',
     'autopause',
     'loop',
