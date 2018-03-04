@@ -81,6 +81,15 @@ const generateBundle = () => {
         const minifiedSize = maxmin(code, minified.code, true);
         console.log(`Created bundle ${chalk.cyan('player.min.js')}: ${minifiedSize}`);
 
+        const es = bundle.generate({
+            format: 'es',
+            banner
+        });
+
+        fs.writeFileSync('dist/player.es.js', es.code);
+        const esSize = maxmin(es.code, es.code, true).replace(/^(.*? → )/, '');
+        console.log(`Created bundle ${chalk.cyan('player.es.js')}: ${esSize}`);
+
         return minified;
     })
     .then(() => {

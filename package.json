@@ -1,6 +1,6 @@
 {
   "name": "@vimeo/player",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "description": "Interact with and control an embedded Vimeo Player.",
   "license": "MIT",
   "author": "Brad Dougherty <brad@vimeo.com>",
@@ -25,7 +25,8 @@
     "postpublish": "greenkeeper-postpublish"
   },
   "main": "dist/player.js",
-  "jsnext:main": "src/player.js",
+  "module": "dist/player.es.js",
+  "jsnext:main": "dist/player.es.js",
   "directories": {
     "lib": "src/"
   },

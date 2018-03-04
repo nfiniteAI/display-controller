@@ -1,10 +1,4 @@
 /*! @vimeo/player v2.3.0 | (c) 2018 Vimeo | MIT License | https://github.com/vimeo/player.js */
-(function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-	typeof define === 'function' && define.amd ? define(factory) :
-	(global.Vimeo = global.Vimeo || {}, global.Vimeo.Player = factory());
-}(this, (function () { 'use strict';
-
 /**
  * @module lib/functions
  */
@@ -2073,8 +2067,4 @@ if (!isNode) {
     resizeEmbeds();
 }
 
-return Player;
-
-})));
-
-//# sourceMappingURL=player.js.map
+export default Player;
