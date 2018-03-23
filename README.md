@@ -1209,6 +1209,7 @@ height      |          | The exact height of the video. Defaults to the height o
 loop        | `false`  | Play the video again when it reaches the end.
 maxheight   |          | Same as height, but video will not exceed the native size of the video.
 maxwidth    |          | Same as width, but video will not exceed the native size of the video.
+muted       | `false`  | Mute this video on load. Required to autoplay in certain browsers.
 playsinline | `true`   | Play video inline on mobile devices, to automatically go fullscreen on playback set this parameter to `false`.
 portrait    | `true`   | Show the portrait on the video.
 speed       | `false`  | Show the speed controls in the preferences menu and enable playback rate API.
