@@ -5,24 +5,25 @@
 import { isVimeoUrl, getVimeoUrl } from './functions';
 
 const oEmbedParameters = [
-    'id',
-    'url',
-    'width',
-    'maxwidth',
-    'height',
-    'maxheight',
-    'portrait',
-    'title',
+    'autopause',
+    'autoplay',
+    'background',
     'byline',
     'color',
-    'playsinline',
-    'autoplay',
-    'autopause',
+    'height',
+    'id',
     'loop',
+    'maxheight',
+    'maxwidth',
+    'muted',
+    'playsinline',
+    'portrait',
     'responsive',
     'speed',
-    'background',
-    'transparent'
+    'title',
+    'transparent',
+    'url',
+    'width'
 ];
 
 /**
