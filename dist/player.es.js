@@ -1,4 +1,4 @@
-/*! @vimeo/player v2.4.0 | (c) 2018 Vimeo | MIT License | https://github.com/vimeo/player.js */
+/*! @vimeo/player v2.5.0 | (c) 2018 Vimeo | MIT License | https://github.com/vimeo/player.js */
 /**
  * @module lib/functions
  */
