@@ -98,7 +98,10 @@ class Player {
 
                 getOEmbedData(url, params).then((data) => {
                     const iframe = createEmbed(data, element);
+                    // Overwrite element with the new iframe,
+                    // but store reference to the original element
                     this.element = iframe;
+                    this._originalElement = element;
 
                     swapCallbacks(element, iframe);
                     playerMap.set(this.element, this);
@@ -140,6 +143,8 @@ class Player {
                 });
 
                 postMessage(this, name, args);
+            }).catch((error) => {
+                reject(error);
             });
         });
     }
@@ -292,7 +297,9 @@ class Player {
      * @return {ReadyPromise}
      */
     ready() {
-        const readyPromise = readyMap.get(this);
+        const readyPromise = readyMap.get(this) || new Promise((resolve, reject) => {
+            reject('Unknown player. Probably unloaded.');
+        });
         return Promise.resolve(readyPromise);
     }
 
@@ -438,6 +445,29 @@ class Player {
      */
     unload() {
         return this.callMethod('unload');
+    }
+
+    /**
+     * Cleanup the player and remove it from the DOM
+     *
+     * It won't be usable and a new one should be constructed
+     *  in order to do any operations.
+     *
+     * @return {Promise}
+     */
+    destroy() {
+        return new Promise((resolve) => {
+            readyMap.delete(this);
+            playerMap.delete(this.element);
+            if (this._originalElement) {
+                playerMap.delete(this._originalElement);
+                this._originalElement.removeAttribute('data-vimeo-initialized');
+            }
+            if (this.element && this.element.nodeName === 'IFRAME') {
+                this.element.remove();
+            }
+            resolve();
+        });
     }
 
     /**

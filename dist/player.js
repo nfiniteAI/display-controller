@@ -1194,7 +1194,10 @@ var Player = function () {
 
                 getOEmbedData(url, params).then(function (data) {
                     var iframe = createEmbed(data, element);
+                    // Overwrite element with the new iframe,
+                    // but store reference to the original element
                     _this.element = iframe;
+                    _this._originalElement = element;
 
                     swapCallbacks(element, iframe);
                     playerMap.set(_this.element, _this);
@@ -1246,6 +1249,8 @@ var Player = function () {
                     });
 
                     postMessage(_this2, name, args);
+                }).catch(function (error) {
+                    reject(error);
                 });
             });
         }
@@ -1420,7 +1425,9 @@ var Player = function () {
     }, {
         key: 'ready',
         value: function ready() {
-            var readyPromise = readyMap.get(this);
+            var readyPromise = readyMap.get(this) || new npo_src(function (resolve, reject) {
+                reject('Unknown player. Probably unloaded.');
+            });
             return npo_src.resolve(readyPromise);
         }
 
@@ -1589,6 +1596,34 @@ var Player = function () {
         key: 'unload',
         value: function unload() {
             return this.callMethod('unload');
+        }
+
+        /**
+         * Cleanup the player and remove it from the DOM
+         *
+         * It won't be usable and a new one should be constructed
+         *  in order to do any operations.
+         *
+         * @return {Promise}
+         */
+
+    }, {
+        key: 'destroy',
+        value: function destroy() {
+            var _this5 = this;
+
+            return new npo_src(function (resolve) {
+                readyMap.delete(_this5);
+                playerMap.delete(_this5.element);
+                if (_this5._originalElement) {
+                    playerMap.delete(_this5._originalElement);
+                    _this5._originalElement.removeAttribute('data-vimeo-initialized');
+                }
+                if (_this5.element && _this5.element.nodeName === 'IFRAME') {
+                    _this5.element.remove();
+                }
+                resolve();
+            });
         }
 
         /**
