@@ -166,6 +166,7 @@ it will also import the Player constructor directly:
     + [pause](#pause-promisevoid-passworderrorprivacyerrorerror)
     + [play](#play-promisevoid-passworderrorprivacyerrorerror)
     + [unload](#unload-promisevoid-error)
+    + [destroy](#destroy-promisevoid-error)
     + [getAutopause](#getautopause-promiseboolean-unsupportederrorerror)
     + [setAutopause](#setautopauseautopause-boolean-promiseboolean-unsupportederrorerror)
     + [getColor](#getcolor-promisestring-error)
@@ -502,11 +503,25 @@ player.play().then(function() {
 
 ### unload(): Promise&lt;void, Error&gt;
 
-Return the player to its initial state.
+Return the internal player (iframe) to its initial state.
 
 ```js
 player.unload().then(function() {
     // the video was unloaded
+}).catch(function(error) {
+    // an error occurred
+});
+```
+### destroy(): Promise&lt;void, Error&gt;
+
+Cleanup the player and remove it from the DOM.
+
+It won't be usable and a new one should be constructed
+ in order to do any operations.
+
+```js
+player.destroy().then(function() {
+    // the player was destroyed
 }).catch(function(error) {
     // an error occurred
 });
