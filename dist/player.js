@@ -1,4 +1,4 @@
-/*! @vimeo/player v2.5.0 | (c) 2018 Vimeo | MIT License | https://github.com/vimeo/player.js */
+/*! @vimeo/player v2.6.0 | (c) 2018 Vimeo | MIT License | https://github.com/vimeo/player.js */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
@@ -969,6 +969,7 @@ function resizeEmbeds() {
             return;
         }
 
+        // 'spacechange' is fired only on embeds with cards
         if (!event.data || event.data.event !== 'spacechange') {
             return;
         }
@@ -980,11 +981,10 @@ function resizeEmbeds() {
                 continue;
             }
 
+            // Change padding-bottom of the enclosing div to accommodate
+            // card carousel without distorting aspect ratio
             var space = iframes[i].parentElement;
-
-            if (space && space.className.indexOf('vimeo-space') !== -1) {
-                space.style.paddingBottom = event.data.data[0].bottom + 'px';
-            }
+            space.style.paddingBottom = event.data.data[0].bottom + 'px';
 
             break;
         }
@@ -2103,7 +2103,7 @@ var Player = function () {
     return Player;
 }();
 
-if (!isNode) {
+if (!isNode && !window.Vimeo.Player) {
     initializeEmbeds();
     resizeEmbeds();
 }
