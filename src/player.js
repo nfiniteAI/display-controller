@@ -875,7 +875,9 @@ class Player {
     }
 }
 
-if (!isNode && !window.Vimeo.Player) {
+// Setup embed only if this is not a node environment
+// and if there is no existing Vimeo Player object
+if (!isNode && (window.Vimeo && !window.Vimeo.Player)) {
     initializeEmbeds();
     resizeEmbeds();
 }
