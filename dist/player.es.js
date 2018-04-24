@@ -1,4 +1,4 @@
-/*! @vimeo/player v2.6.0 | (c) 2018 Vimeo | MIT License | https://github.com/vimeo/player.js */
+/*! @vimeo/player v2.6.1 | (c) 2018 Vimeo | MIT License | https://github.com/vimeo/player.js */
 /**
  * @module lib/functions
  */
@@ -2097,7 +2097,11 @@ var Player = function () {
     return Player;
 }();
 
-if (!isNode && !window.Vimeo.Player) {
+// Setup embed only if this is not a node environment
+// and if there is no existing Vimeo Player object
+
+
+if (!isNode && window.Vimeo && !window.Vimeo.Player) {
     initializeEmbeds();
     resizeEmbeds();
 }
