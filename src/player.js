@@ -875,7 +875,7 @@ class Player {
     }
 }
 
-if (!isNode) {
+if (!isNode && !window.Vimeo.Player) {
     initializeEmbeds();
     resizeEmbeds();
 }
