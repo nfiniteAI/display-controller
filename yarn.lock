@@ -44,24 +44,6 @@
   dependencies:
     arrify "^1.0.1"
 
-"@greenkeeper/flags@^3.0.0":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@greenkeeper/flags/-/flags-3.0.1.tgz#37ba1ff2c762a21142bd7ea8c66ce34db3f4cc09"
-  dependencies:
-    "@greenkeeper/rc" "^2.0.0"
-    lodash "^4.11.1"
-    nerf-dart "^1.0.0"
-    nopt "^3.0.6"
-
-"@greenkeeper/rc@^2.0.0":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@greenkeeper/rc/-/rc-2.0.1.tgz#46e87b694fe14841005ab6521a5a39b0830af881"
-  dependencies:
-    env-paths "^1.0.0"
-    lodash "^4.11.1"
-    mkdirp "^0.5.1"
-    os-homedir "^1.0.1"
-
 "@vimeo/eslint-config-player@^4.0.1":
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/@vimeo/eslint-config-player/-/eslint-config-player-4.0.1.tgz#137037ee36fcf70b31eefebb71eb150e6e0e90fa"
@@ -1446,10 +1428,6 @@ enhance-visitors@^1.0.0:
   dependencies:
     lodash "^4.13.1"
 
-env-paths@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/env-paths/-/env-paths-1.0.0.tgz#4168133b42bb05c38a35b1ae4397c8298ab369e0"
-
 equal-length@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/equal-length/-/equal-length-1.0.1.tgz#21ca112d48ab24b4e1e7ffc0e5339d31fdfc274c"
@@ -2039,19 +2017,6 @@ graceful-fs@~1:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-1.2.3.tgz#15a4806a57547cb2d2dbf27f42e89a8c3451b364"
 
-greenkeeper-postpublish@^1.0.1:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/greenkeeper-postpublish/-/greenkeeper-postpublish-1.3.0.tgz#e0818ebe4c802a171078ac5a84dc52b317b81b75"
-  dependencies:
-    "@greenkeeper/flags" "^3.0.0"
-    hide-secrets "^1.1.0"
-    lodash "^4.14.1"
-    node-emoji "^1.3.1"
-    nopt "^4.0.1"
-    npmlog "^4.0.0"
-    os-homedir "^1.0.1"
-    request "^2.74.0"
-
 gzip-size@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/gzip-size/-/gzip-size-3.0.0.tgz#546188e9bdc337f673772f81660464b389dce520"
@@ -2119,12 +2084,6 @@ hawk@~3.1.3:
     cryptiles "2.x.x"
     hoek "2.x.x"
     sntp "1.x.x"
-
-hide-secrets@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/hide-secrets/-/hide-secrets-1.1.0.tgz#240668094d5cbbe66402be3face311c0cecfacc2"
-  dependencies:
-    traverse "^0.6.6"
 
 hoek@2.x.x:
   version "2.16.3"
@@ -2725,15 +2684,11 @@ lodash.merge@^4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.0.tgz#69884ba144ac33fe699737a6086deffadd0f89c5"
 
-lodash.toarray@^4.4.0:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/lodash.toarray/-/lodash.toarray-4.4.0.tgz#24c4bfcd6b2fba38bfd0594db1179d8e9b656561"
-
 lodash@^3.7.0:
   version "3.10.1"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
 
-lodash@^4.0.0, lodash@^4.11.1, lodash@^4.13.1, lodash@^4.14.1, lodash@^4.17.4, lodash@^4.3.0:
+lodash@^4.0.0, lodash@^4.13.1, lodash@^4.17.4, lodash@^4.3.0:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
@@ -2932,16 +2887,6 @@ natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
 
-nerf-dart@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/nerf-dart/-/nerf-dart-1.0.0.tgz#e6dab7febf5ad816ea81cf5c629c5a0ebde72c1a"
-
-node-emoji@^1.3.1:
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/node-emoji/-/node-emoji-1.8.1.tgz#6eec6bfb07421e2148c75c6bba72421f8530a826"
-  dependencies:
-    lodash.toarray "^4.4.0"
-
 node-pre-gyp@^0.6.36:
   version "0.6.36"
   resolved "https://registry.yarnpkg.com/node-pre-gyp/-/node-pre-gyp-0.6.36.tgz#db604112cb74e0d477554e9b505b17abddfab786"
@@ -2955,12 +2900,6 @@ node-pre-gyp@^0.6.36:
     semver "^5.3.0"
     tar "^2.2.1"
     tar-pack "^3.4.0"
-
-nopt@^3.0.6:
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/nopt/-/nopt-3.0.6.tgz#c6465dbf08abcd4db359317f79ac68a646b28ff9"
-  dependencies:
-    abbrev "1"
 
 nopt@^4.0.1:
   version "4.0.1"
@@ -3004,7 +2943,7 @@ npm-run-path@^2.0.0:
   dependencies:
     path-key "^2.0.0"
 
-npmlog@^4.0.0, npmlog@^4.0.2:
+npmlog@^4.0.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/npmlog/-/npmlog-4.1.2.tgz#08a7f2a8bf734604779a9efa4ad5cc717abb954b"
   dependencies:
@@ -3552,7 +3491,7 @@ repeating@^2.0.0:
   dependencies:
     is-finite "^1.0.0"
 
-request@>=2.42.0, request@^2.74.0, request@^2.79.0, request@^2.81.0:
+request@>=2.42.0, request@^2.79.0, request@^2.81.0:
   version "2.81.0"
   resolved "https://registry.yarnpkg.com/request/-/request-2.81.0.tgz#c6928946a0e06c5f8d6f8a9333469ffda46298a0"
   dependencies:
@@ -4124,10 +4063,6 @@ tough-cookie@^2.3.2, tough-cookie@~2.3.0:
 tr46@~0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/tr46/-/tr46-0.0.3.tgz#8184fd347dac9cdc185992f3a6622e14b9d9ab6a"
-
-traverse@^0.6.6:
-  version "0.6.6"
-  resolved "https://registry.yarnpkg.com/traverse/-/traverse-0.6.6.tgz#cbdf560fd7b9af632502fed40f918c157ea97137"
 
 trim-newlines@^1.0.0:
   version "1.0.0"
