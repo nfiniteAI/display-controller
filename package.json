@@ -21,8 +21,7 @@
     "preversion": "npm test",
     "version": "npm run build && git add -A dist",
     "postversion": "git branch -f latest master",
-    "push-release": "git push origin master latest && git push --tags",
-    "postpublish": "greenkeeper-postpublish"
+    "push-release": "git push origin master latest && git push --tags"
   },
   "main": "dist/player.js",
   "module": "dist/player.es.js",
@@ -64,7 +63,6 @@
     "eslint": "^3.9.1",
     "eslint-plugin-ava": "^4.0.0",
     "eslint-plugin-compat": "^1.0.2",
-    "greenkeeper-postpublish": "^1.0.1",
     "jquery": "^3.1.1",
     "jsdom": "^9.8.3",
     "maxmin": "^2.1.0",
