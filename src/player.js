@@ -12,7 +12,7 @@ const playerMap = new WeakMap();
 const readyMap = new WeakMap();
 
 class Player {
-     /**
+    /**
      * Create a Player.
      *
      * @param {(HTMLIFrameElement|HTMLElement|string|jQuery)} element A reference to the Vimeo
@@ -298,7 +298,7 @@ class Player {
      */
     ready() {
         const readyPromise = readyMap.get(this) || new Promise((resolve, reject) => {
-            reject('Unknown player. Probably unloaded.');
+            reject(new Error('Unknown player. Probably unloaded.'));
         });
         return Promise.resolve(readyPromise);
     }
