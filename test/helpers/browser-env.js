@@ -1,5 +1,5 @@
 /* eslint-env node */
-import jsdom from 'jsdom';
+import { JSDOM } from 'jsdom';
 
 const html = `<body>
 	<div id="test_player" data-vimeo-id="2"></div>
@@ -9,7 +9,7 @@ const html = `<body>
 	</div>
 </body>`;
 
-global.document = jsdom.jsdom(html);
-global.window = document.defaultView;
+global.window = new JSDOM(html).window;
+global.document = window.document;
 global.navigator = window.navigator;
 global.window.jQuery = global.jQuery = require('jquery');
