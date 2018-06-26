@@ -46,8 +46,8 @@
     "postMessage"
   ],
   "dependencies": {
-    "es6-collections": "0.5.6",
-    "native-promise-only": "0.8.1"
+    "native-promise-only": "0.8.1",
+    "weakmap-polyfill": "2.0.0"
   },
   "devDependencies": {
     "@vimeo/eslint-config-player": "^4.0.1",
