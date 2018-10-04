@@ -813,7 +813,7 @@ player.getPlaybackRate().then(function(playbackRate) {
 
 ### setPlaybackRate(playbackRate: number): Promise&lt;number, (RangeError|Error)&gt;
 
-Set the playback rate of the player on a scale from `0.5` to `2`. When set
+Set the playback rate of the player on a scale from `0.5` to `2` (available to PRO and Business accounts). When set
 via the API, the playback rate will not be synchronized to other
 players or stored as the viewer's preference.
 
@@ -1214,7 +1214,7 @@ option      | default  | description
 id _or_ url |          | **Required.** Either the id or the url of the video.
 autopause   | `true`   | Pause this video automatically when another one plays.
 autoplay    | `false`  | Automatically start playback of the video. Note that this won’t work on some devices.
-background  | `false`  | Enable the player's background mode which hides the controls, autoplays and loops the video.
+background  | `false`  | Enable the player's background mode which hides the controls, autoplays and loops the video (available to  Plus, PRO, or Business members).
 byline      | `true`   | Show the byline on the video.
 color       | `00adef` | Specify the color of the video controls. Colors may be overridden by the embed settings of the video.
 height      |          | The exact height of the video. Defaults to the height of the largest available version of the video.
@@ -1224,7 +1224,9 @@ maxwidth    |          | Same as width, but video will not exceed the native siz
 muted       | `false`  | Mute this video on load. Required to autoplay in certain browsers.
 playsinline | `true`   | Play video inline on mobile devices, to automatically go fullscreen on playback set this parameter to `false`.
 portrait    | `true`   | Show the portrait on the video.
-speed       | `false`  | Show the speed controls in the preferences menu and enable playback rate API.
+speed       | `false`  | Show the speed controls in the preferences menu and enable playback rate API (available to PRO and Business accounts).
 title       | `true`   | Show the title on the video.
 transparent | `true`   | The responsive player and transparent background are enabled by default, to disable set this parameter to `false`.
 width       |          | The exact width of the video. Defaults to the width of the largest available version of the video.
+quality     |          | Vimeo Plus, PRO, and Business members can default an embedded video to a specific quality on desktop. Possible values: 4K, 2K, 1080p, 720p, 540p, and 360p https://help.vimeo.com/hc/en-us/articles/224983008-Setting-default-quality-for-embedded-videos
+
