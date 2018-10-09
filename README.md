@@ -1,4 +1,4 @@
-# Vimeo Player API [![Build Status](https://travis-ci.org/vimeo/player.js.svg?branch=master)](https://travis-ci.org/vimeo/player.js) [![Coverage](https://img.shields.io/codecov/c/github/vimeo/player.js.svg?maxAge=2592000)](https://codecov.io/gh/vimeo/player.js) [![npm](https://img.shields.io/npm/v/@vimeo/player.svg?maxAge=2592000)](https://www.npmjs.com/package/@vimeo/player) [![Gitter](https://badges.gitter.im/vimeo/player.js.svg)](https://gitter.im/vimeo/player.js)
+# Vimeo Player API [![Build Status](https://travis-ci.org/vimeo/player.js.svg?branch=master)](https://travis-ci.org/vimeo/player.js) [![Coverage](https://img.shields.io/codecov/c/github/vimeo/player.js.svg?maxAge=2592000)](https://codecov.io/gh/vimeo/player.js) [![npm](https://img.shields.io/npm/v/@vimeo/player.svg?maxAge=2592000)](https://www.npmjs.com/package/@vimeo/player)
 
 The Vimeo Player API allows you to interact with and control an embedded Vimeo
 Player.
@@ -1228,3 +1228,5 @@ speed       | `false`  | Show the speed controls in the preferences menu and ena
 title       | `true`   | Show the title on the video.
 transparent | `true`   | The responsive player and transparent background are enabled by default, to disable set this parameter to `false`.
 width       |          | The exact width of the video. Defaults to the width of the largest available version of the video.
+quality     |          | Vimeo Plus, PRO, and Business members can default an embedded video to a specific quality on desktop. Possible values: 4K, 2K, 1080p, 720p, 540p, and 360p https://help.vimeo.com/hc/en-us/articles/224983008-Setting-default-quality-for-embedded-videos
+
