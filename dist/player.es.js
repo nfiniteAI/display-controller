@@ -1,4 +1,4 @@
-/*! @vimeo/player v2.6.3 | (c) 2018 Vimeo | MIT License | https://github.com/vimeo/player.js */
+/*! @vimeo/player v2.6.4 | (c) 2018 Vimeo | MIT License | https://github.com/vimeo/player.js */
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -78,7 +78,7 @@ function isInteger(value) {
  */
 
 function isVimeoUrl(url) {
-  return /^(https?:)?\/\/((player|www).)?vimeo.com(?=$|\/)/.test(url);
+  return /^(https?:)?\/\/((player|www)\.)?vimeo\.com(?=$|\/)/.test(url);
 }
 /**
  * Get the Vimeo URL from an element.
@@ -269,10 +269,6 @@ var npo_src = createCommonjsModule(function (module) {
 
   if (module.exports) {
     module.exports = context[name];
-  } else if (typeof undefined == "function" && undefined.amd) {
-    undefined(function $AMD$() {
-      return context[name];
-    });
   }
 })("Promise", typeof commonjsGlobal != "undefined" ? commonjsGlobal : commonjsGlobal, function DEF() {
 
