@@ -1,12 +1,9 @@
 {
   "name": "@vimeo/player",
-  "version": "2.6.3",
+  "version": "2.6.4",
   "description": "Interact with and control an embedded Vimeo Player.",
   "license": "MIT",
-  "author": "Brad Dougherty <brad@vimeo.com>",
-  "contributors": [
-    "Brad Dougherty <brad@vimeo.com> (https://brad.is)"
-  ],
+  "author": "Vimeo <https://vimeo.com>",
   "scripts": {
     "clean": "rimraf dist/*",
     "prebuild": "npm run clean -s",
