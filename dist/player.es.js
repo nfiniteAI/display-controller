@@ -1,4 +1,4 @@
-/*! @vimeo/player v2.6.4 | (c) 2018 Vimeo | MIT License | https://github.com/vimeo/player.js */
+/*! @vimeo/player v2.6.5 | (c) 2018 Vimeo | MIT License | https://github.com/vimeo/player.js */
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -870,6 +870,13 @@ function initializeEmbeds() {
 function resizeEmbeds() {
   var parent = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document;
 
+  // Prevent execution if users include the player.js script multiple times.
+  if (window.VimeoPlayerResizeEmbeds_) {
+    return;
+  }
+
+  window.VimeoPlayerResizeEmbeds_ = true;
+
   var onMessage = function onMessage(event) {
     if (!isVimeoUrl(event.origin)) {
       return;
@@ -1508,8 +1515,8 @@ function () {
           _this5._originalElement.removeAttribute('data-vimeo-initialized');
         }
 
-        if (_this5.element && _this5.element.nodeName === 'IFRAME') {
-          _this5.element.remove();
+        if (_this5.element && _this5.element.nodeName === 'IFRAME' && _this5.element.parentNode) {
+          _this5.element.parentNode.removeChild(_this5.element);
         }
 
         resolve();
@@ -1993,10 +2000,9 @@ function () {
 
   return Player;
 }(); // Setup embed only if this is not a node environment
-// and if there is no existing Vimeo Player object
 
 
-if (!isNode && window.Vimeo && !window.Vimeo.Player) {
+if (!isNode) {
   initializeEmbeds();
   resizeEmbeds();
 }
