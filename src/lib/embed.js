@@ -174,6 +174,12 @@ export function initializeEmbeds(parent = document) {
  * @return {void}
  */
 export function resizeEmbeds(parent = document) {
+    // Prevent execution if users include the player.js script multiple times.
+    if (window.VimeoPlayerResizeEmbeds_) {
+        return;
+    }
+    window.VimeoPlayerResizeEmbeds_ = true;
+
     const onMessage = (event) => {
         if (!isVimeoUrl(event.origin)) {
             return;
