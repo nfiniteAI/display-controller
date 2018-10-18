@@ -463,8 +463,8 @@ class Player {
                 playerMap.delete(this._originalElement);
                 this._originalElement.removeAttribute('data-vimeo-initialized');
             }
-            if (this.element && this.element.nodeName === 'IFRAME') {
-                this.element.remove();
+            if (this.element && this.element.nodeName === 'IFRAME' && this.element.parentNode) {
+                this.element.parentNode.removeChild(this.element);
             }
             resolve();
         });
