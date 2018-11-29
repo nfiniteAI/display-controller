@@ -1246,9 +1246,9 @@ maxwidth    |          | Same as width, but video will not exceed the native siz
 muted       | `false`  | Mute this video on load. Required to autoplay in certain browsers.
 playsinline | `true`   | Play video inline on mobile devices, to automatically go fullscreen on playback set this parameter to `false`.
 portrait    | `true`   | Show the portrait on the video.
+quality     |          | Vimeo Plus, PRO, and Business members can default an embedded video to a specific quality on desktop. Possible values: 4K, 2K, 1080p, 720p, 540p, and 360p https://help.vimeo.com/hc/en-us/articles/224983008-Setting-default-quality-for-embedded-videos
 speed       | `false`  | Show the speed controls in the preferences menu and enable playback rate API (available to PRO and Business accounts).
 title       | `true`   | Show the title on the video.
 transparent | `true`   | The responsive player and transparent background are enabled by default, to disable set this parameter to `false`.
 width       |          | The exact width of the video. Defaults to the width of the largest available version of the video.
-quality     |          | Vimeo Plus, PRO, and Business members can default an embedded video to a specific quality on desktop. Possible values: 4K, 2K, 1080p, 720p, 540p, and 360p https://help.vimeo.com/hc/en-us/articles/224983008-Setting-default-quality-for-embedded-videos
 
