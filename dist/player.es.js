@@ -1,4 +1,4 @@
-/*! @vimeo/player v2.6.6 | (c) 2019 Vimeo | MIT License | https://github.com/vimeo/player.js */
+/*! @vimeo/player v2.6.7 | (c) 2019 Vimeo | MIT License | https://github.com/vimeo/player.js */
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -55,7 +55,7 @@ function getMethodName(prop, type) {
  */
 
 function isDomElement(element) {
-  return element instanceof window.HTMLElement;
+  return Boolean(element && element.nodeType === 1 && 'nodeName' in element && element.ownerDocument && element.ownerDocument.defaultView);
 }
 /**
  * Check to see whether the value is a number.
@@ -1043,8 +1043,9 @@ function () {
 
     if (!isDomElement(element)) {
       throw new TypeError('You must pass either a valid element or a valid id.');
-    } // Already initialized an embed in this div, so grab the iframe
+    }
 
+    var win = element.ownerDocument.defaultView; // Already initialized an embed in this div, so grab the iframe
 
     if (element.nodeName !== 'IFRAME') {
       var iframe = element.querySelector('iframe');
@@ -1100,10 +1101,10 @@ function () {
         processData(_this, data);
       };
 
-      if (window.addEventListener) {
-        window.addEventListener('message', onMessage, false);
-      } else if (window.attachEvent) {
-        window.attachEvent('onmessage', onMessage);
+      if (win.addEventListener) {
+        win.addEventListener('message', onMessage, false);
+      } else if (win.attachEvent) {
+        win.attachEvent('onmessage', onMessage);
       }
 
       if (_this.element.nodeName !== 'IFRAME') {
