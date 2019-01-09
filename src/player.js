@@ -1,6 +1,6 @@
 import './lib/compatibility-check';
 
-import 'es6-collections';
+import 'weakmap-polyfill';
 import Promise from 'native-promise-only';
 
 import { storeCallback, getCallbacks, removeCallback, swapCallbacks } from './lib/callbacks';
@@ -12,7 +12,7 @@ const playerMap = new WeakMap();
 const readyMap = new WeakMap();
 
 class Player {
-     /**
+    /**
      * Create a Player.
      *
      * @param {(HTMLIFrameElement|HTMLElement|string|jQuery)} element A reference to the Vimeo
@@ -31,7 +31,7 @@ class Player {
         }
 
         // Find an element by ID
-        if (typeof element === 'string') {
+        if (typeof document !== 'undefined' && typeof element === 'string') {
             element = document.getElementById(element);
         }
 
@@ -75,8 +75,18 @@ class Player {
                 }
 
                 const data = parseMessageData(event.data);
-                const isReadyEvent = 'event' in data && data.event === 'ready';
-                const isPingResponse = 'method' in data && data.method === 'ping';
+                const isError = data && data.event === 'error';
+                const isReadyError = isError && data.data && data.data.method === 'ready';
+
+                if (isReadyError) {
+                    const error = new Error(data.data.message);
+                    error.name = data.data.name;
+                    reject(error);
+                    return;
+                }
+
+                const isReadyEvent = data && data.event === 'ready';
+                const isPingResponse = data && data.method === 'ping';
 
                 if (isReadyEvent || isPingResponse) {
                     this.element.setAttribute('data-ready', 'true');
@@ -98,15 +108,18 @@ class Player {
                 const params = getOEmbedParameters(element, options);
                 const url = getVimeoUrl(params);
 
-                getOEmbedData(url, params).then((data) => {
+                getOEmbedData(url, params, element).then((data) => {
                     const iframe = createEmbed(data, element);
+                    // Overwrite element with the new iframe,
+                    // but store reference to the original element
                     this.element = iframe;
+                    this._originalElement = element;
 
                     swapCallbacks(element, iframe);
                     playerMap.set(this.element, this);
 
                     return data;
-                }).catch((error) => reject(error));
+                }).catch(reject);
             }
         });
 
@@ -142,7 +155,7 @@ class Player {
                 });
 
                 postMessage(this, name, args);
-            });
+            }).catch(reject);
         });
     }
 
@@ -166,7 +179,7 @@ class Player {
                 });
 
                 postMessage(this, name);
-            });
+            }).catch(reject);
         });
     }
 
@@ -178,23 +191,24 @@ class Player {
      * @return {Promise}
      */
     set(name, value) {
-        return Promise.resolve(value).then((val) => {
+        return new Promise((resolve, reject) => {
             name = getMethodName(name, 'set');
 
-            if (val === undefined || val === null) {
+            if (value === undefined || value === null) {
                 throw new TypeError('There must be a value to set.');
             }
 
+            // We are storing the resolve/reject handlers to call later, so we
+            // can’t return here.
+            // eslint-disable-next-line promise/always-return
             return this.ready().then(() => {
-                return new Promise((resolve, reject) => {
-                    storeCallback(this, name, {
-                        resolve,
-                        reject
-                    });
-
-                    postMessage(this, name, val);
+                storeCallback(this, name, {
+                    resolve,
+                    reject
                 });
-            });
+
+                postMessage(this, name, value);
+            }).catch(reject);
         });
     }
 
@@ -294,7 +308,9 @@ class Player {
      * @return {ReadyPromise}
      */
     ready() {
-        const readyPromise = readyMap.get(this);
+        const readyPromise = readyMap.get(this) || new Promise((resolve, reject) => {
+            reject(new Error('Unknown player. Probably unloaded.'));
+        });
         return Promise.resolve(readyPromise);
     }
 
@@ -440,6 +456,29 @@ class Player {
      */
     unload() {
         return this.callMethod('unload');
+    }
+
+    /**
+     * Cleanup the player and remove it from the DOM
+     *
+     * It won't be usable and a new one should be constructed
+     *  in order to do any operations.
+     *
+     * @return {Promise}
+     */
+    destroy() {
+        return new Promise((resolve) => {
+            readyMap.delete(this);
+            playerMap.delete(this.element);
+            if (this._originalElement) {
+                playerMap.delete(this._originalElement);
+                this._originalElement.removeAttribute('data-vimeo-initialized');
+            }
+            if (this.element && this.element.nodeName === 'IFRAME' && this.element.parentNode) {
+                this.element.parentNode.removeChild(this.element);
+            }
+            resolve();
+        });
     }
 
     /**
@@ -847,6 +886,7 @@ class Player {
     }
 }
 
+// Setup embed only if this is not a node environment
 if (!isNode) {
     initializeEmbeds();
     resizeEmbeds();

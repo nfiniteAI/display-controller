@@ -1,4 +1,4 @@
-# Vimeo Player API [![Build Status](https://travis-ci.org/vimeo/player.js.svg?branch=master)](https://travis-ci.org/vimeo/player.js) [![Coverage](https://img.shields.io/codecov/c/github/vimeo/player.js.svg?maxAge=2592000)](https://codecov.io/gh/vimeo/player.js) [![npm](https://img.shields.io/npm/v/@vimeo/player.svg?maxAge=2592000)](https://www.npmjs.com/package/@vimeo/player) [![Gitter](https://badges.gitter.im/vimeo/player.js.svg)](https://gitter.im/vimeo/player.js)
+# Vimeo Player API [![Build Status](https://travis-ci.org/vimeo/player.js.svg?branch=master)](https://travis-ci.org/vimeo/player.js) [![Coverage](https://img.shields.io/codecov/c/github/vimeo/player.js.svg?maxAge=2592000)](https://codecov.io/gh/vimeo/player.js) [![npm](https://img.shields.io/npm/v/@vimeo/player.svg?maxAge=2592000)](https://www.npmjs.com/package/@vimeo/player)
 
 The Vimeo Player API allows you to interact with and control an embedded Vimeo
 Player.
@@ -11,17 +11,14 @@ You can install the Vimeo Player API through either npm:
 npm install @vimeo/player
 ```
 
-or Bower:
-
-```bash
-bower install vimeo-player-js
-```
-
 Alternatively, you can reference an up‐to‐date version on our CDN:
 
 ```html
 <script src="https://player.vimeo.com/api/player.js"></script>
 ```
+
+**Warning:** when used with RequireJS it's required to load the script dynamically via the RequireJS load system.  
+http://www.requirejs.org/docs/api.html#jsfiles
 
 ## Getting Started
 
@@ -34,7 +31,7 @@ Already have a player on the page? Pass the element to the `Vimeo.Player`
 constructor and you’re ready to go.
 
 ```html
-<iframe src="https://player.vimeo.com/video/76979871" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+<iframe src="https://player.vimeo.com/video/76979871" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen allow="autoplay; encrypted-media"></iframe>
 
 <script src="https://player.vimeo.com/api/player.js"></script>
 <script>
@@ -66,6 +63,28 @@ element and the video id or vimeo.com url (and optional
         id: 59777392,
         width: 640,
         loop: true
+    };
+
+    var player = new Vimeo.Player('made-in-ny', options);
+
+    player.setVolume(0);
+
+    player.on('play', function() {
+        console.log('played the video!');
+    });
+</script>
+```
+
+Similarly, if you’re trying to instantiate a private or unlisted video,
+you MUST pass the full vimeo url which includes the private video hash:
+
+```html
+<div id="made-in-ny"></div>
+
+<script src="https://player.vimeo.com/api/player.js"></script>
+<script>
+    var options = {
+        url: 'https://vimeo.com/293438045/463ebf7bcf'
     };
 
     var player = new Vimeo.Player('made-in-ny', options);
@@ -166,6 +185,7 @@ it will also import the Player constructor directly:
     + [pause](#pause-promisevoid-passworderrorprivacyerrorerror)
     + [play](#play-promisevoid-passworderrorprivacyerrorerror)
     + [unload](#unload-promisevoid-error)
+    + [destroy](#destroy-promisevoid-error)
     + [getAutopause](#getautopause-promiseboolean-unsupportederrorerror)
     + [setAutopause](#setautopauseautopause-boolean-promiseboolean-unsupportederrorerror)
     + [getColor](#getcolor-promisestring-error)
@@ -191,7 +211,7 @@ it will also import the Player constructor directly:
     + [getVideoUrl](#getvideourl-promisestring-privacyerrorerror)
     + [getVolume](#getvolume-promisenumber-error)
     + [setVolume](#setvolumevolume-number-promisenumber-rangeerrorerror)
-- [Events](#events)
+* [Events](#events)
     + [play](#play)
     + [pause](#pause)
     + [ended](#ended)
@@ -202,6 +222,9 @@ it will also import the Player constructor directly:
     + [cuechange](#cuechange)
     + [cuepoint](#cuepoint)
     + [volumechange](#volumechange)
+    + [playbackratechange](#playbackratechange)
+    + [bufferstart](#bufferstart)
+    + [bufferend](#bufferend)
     + [error](#error)
     + [loaded](#loaded)
 * [Embed Options](#embed-options)
@@ -499,11 +522,25 @@ player.play().then(function() {
 
 ### unload(): Promise&lt;void, Error&gt;
 
-Return the player to its initial state.
+Return the internal player (iframe) to its initial state.
 
 ```js
 player.unload().then(function() {
     // the video was unloaded
+}).catch(function(error) {
+    // an error occurred
+});
+```
+### destroy(): Promise&lt;void, Error&gt;
+
+Cleanup the player and remove it from the DOM.
+
+It won't be usable and a new one should be constructed
+ in order to do any operations.
+
+```js
+player.destroy().then(function() {
+    // the player was destroyed
 }).catch(function(error) {
     // an error occurred
 });
@@ -798,7 +835,7 @@ player.getPlaybackRate().then(function(playbackRate) {
 
 ### setPlaybackRate(playbackRate: number): Promise&lt;number, (RangeError|Error)&gt;
 
-Set the playback rate of the player on a scale from `0.5` to `2`. When set
+Set the playback rate of the player on a scale from `0.5` to `2` (available to PRO and Business accounts). When set
 via the API, the playback rate will not be synchronized to other
 players or stored as the viewer's preference.
 
@@ -1141,6 +1178,27 @@ event will never fire on those devices.
 }
 ```
 
+### playbackratechange
+
+Triggered when the playback rate of the video in the player changes. The ability to change rate can be disabled by the creator
+and the event will not fire for those videos. The new playback rate is returned with the event.
+
+```js
+{
+    playbackRate: 1.5
+}
+```
+
+### bufferstart
+
+Triggered when buffering starts in the player. This is also triggered during preload and while seeking. There is no associated data with this event.
+
+
+### bufferend
+
+Triggered when buffering ends in the player. This is also triggered at the end of preload and seeking. There is no associated data with this event.
+
+
 ### error
 
 Triggered when some kind of error is generated in the player. In general if you
@@ -1178,15 +1236,19 @@ option      | default  | description
 id _or_ url |          | **Required.** Either the id or the url of the video.
 autopause   | `true`   | Pause this video automatically when another one plays.
 autoplay    | `false`  | Automatically start playback of the video. Note that this won’t work on some devices.
-background  | `false`  | Enable the player's background mode which hides the controls and autoplays the video.
+background  | `false`  | Enable the player's background mode which hides the controls, autoplays and loops the video (available to  Plus, PRO, or Business members).
 byline      | `true`   | Show the byline on the video.
 color       | `00adef` | Specify the color of the video controls. Colors may be overridden by the embed settings of the video.
 height      |          | The exact height of the video. Defaults to the height of the largest available version of the video.
 loop        | `false`  | Play the video again when it reaches the end.
 maxheight   |          | Same as height, but video will not exceed the native size of the video.
 maxwidth    |          | Same as width, but video will not exceed the native size of the video.
+muted       | `false`  | Mute this video on load. Required to autoplay in certain browsers.
+playsinline | `true`   | Play video inline on mobile devices, to automatically go fullscreen on playback set this parameter to `false`.
 portrait    | `true`   | Show the portrait on the video.
-speed       | `false`  | Show the speed controls in the preferences menu and enable playback rate API.
+quality     |          | Vimeo Plus, PRO, and Business members can default an embedded video to a specific quality on desktop. Possible values: 4K, 2K, 1080p, 720p, 540p, and 360p https://help.vimeo.com/hc/en-us/articles/224983008-Setting-default-quality-for-embedded-videos
+speed       | `false`  | Show the speed controls in the preferences menu and enable playback rate API (available to PRO and Business accounts).
 title       | `true`   | Show the title on the video.
 transparent | `true`   | The responsive player and transparent background are enabled by default, to disable set this parameter to `false`.
 width       |          | The exact width of the video. Defaults to the width of the largest available version of the video.
+

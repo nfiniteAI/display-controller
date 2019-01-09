@@ -5,23 +5,25 @@
 import { isVimeoUrl, getVimeoUrl } from './functions';
 
 const oEmbedParameters = [
-    'id',
-    'url',
-    'width',
-    'maxwidth',
-    'height',
-    'maxheight',
-    'portrait',
-    'title',
+    'autopause',
+    'autoplay',
+    'background',
     'byline',
     'color',
-    'autoplay',
-    'autopause',
+    'height',
+    'id',
     'loop',
+    'maxheight',
+    'maxwidth',
+    'muted',
+    'playsinline',
+    'portrait',
     'responsive',
     'speed',
-    'background',
-    'transparent'
+    'title',
+    'transparent',
+    'url',
+    'width'
 ];
 
 /**
@@ -41,59 +43,6 @@ export function getOEmbedParameters(element, defaults = {}) {
 
         return params;
     }, defaults);
-}
-
-/**
- * Make an oEmbed call for the specified URL.
- *
- * @param {string} videoUrl The vimeo.com url for the video.
- * @param {Object} [params] Parameters to pass to oEmbed.
- * @return {Promise}
- */
-export function getOEmbedData(videoUrl, params = {}) {
-    return new Promise((resolve, reject) => {
-        if (!isVimeoUrl(videoUrl)) {
-            throw new TypeError(`“${videoUrl}” is not a vimeo.com url.`);
-        }
-
-        let url = `https://vimeo.com/api/oembed.json?url=${encodeURIComponent(videoUrl)}`;
-
-        for (const param in params) {
-            if (params.hasOwnProperty(param)) {
-                url += `&${param}=${encodeURIComponent(params[param])}`;
-            }
-        }
-
-        const xhr = 'XDomainRequest' in window ? new XDomainRequest() : new XMLHttpRequest();
-        xhr.open('GET', url, true);
-
-        xhr.onload = function() {
-            if (xhr.status === 404) {
-                reject(new Error(`“${videoUrl}” was not found.`));
-                return;
-            }
-
-            if (xhr.status === 403) {
-                reject(new Error(`“${videoUrl}” is not embeddable.`));
-                return;
-            }
-
-            try {
-                const json = JSON.parse(xhr.responseText);
-                resolve(json);
-            }
-            catch (error) {
-                reject(error);
-            }
-        };
-
-        xhr.onerror = function() {
-            const status = xhr.status ? ` (${xhr.status})` : '';
-            reject(new Error(`There was an error fetching the embed code from Vimeo${status}.`));
-        };
-
-        xhr.send();
-    });
 }
 
 /**
@@ -122,6 +71,68 @@ export function createEmbed({ html }, element) {
 }
 
 /**
+ * Make an oEmbed call for the specified URL.
+ *
+ * @param {string} videoUrl The vimeo.com url for the video.
+ * @param {Object} [params] Parameters to pass to oEmbed.
+ * @param {HTMLElement} element The element.
+ * @return {Promise}
+ */
+export function getOEmbedData(videoUrl, params = {}, element) {
+    return new Promise((resolve, reject) => {
+        if (!isVimeoUrl(videoUrl)) {
+            throw new TypeError(`“${videoUrl}” is not a vimeo.com url.`);
+        }
+
+        let url = `https://vimeo.com/api/oembed.json?url=${encodeURIComponent(videoUrl)}&domain=${window.location.hostname}`;
+
+        for (const param in params) {
+            if (params.hasOwnProperty(param)) {
+                url += `&${param}=${encodeURIComponent(params[param])}`;
+            }
+        }
+
+        const xhr = 'XDomainRequest' in window ? new XDomainRequest() : new XMLHttpRequest();
+        xhr.open('GET', url, true);
+
+        xhr.onload = function() {
+            if (xhr.status === 404) {
+                reject(new Error(`“${videoUrl}” was not found.`));
+                return;
+            }
+
+            if (xhr.status === 403) {
+                reject(new Error(`“${videoUrl}” is not embeddable.`));
+                return;
+            }
+
+            try {
+                const json = JSON.parse(xhr.responseText);
+                // Check api response for 403 on oembed
+                if (json.domain_status_code === 403) {
+                    // We still want to create the embed to give users visual feedback
+                    createEmbed(json, element);
+                    reject(new Error(`“${videoUrl}” is not embeddable.`));
+                    return;
+                }
+
+                resolve(json);
+            }
+            catch (error) {
+                reject(error);
+            }
+        };
+
+        xhr.onerror = function() {
+            const status = xhr.status ? ` (${xhr.status})` : '';
+            reject(new Error(`There was an error fetching the embed code from Vimeo${status}.`));
+        };
+
+        xhr.send();
+    });
+}
+
+/**
  * Initialize all embeds within a specific element
  *
  * @param {HTMLElement} [parent=document] The parent element.
@@ -146,7 +157,7 @@ export function initializeEmbeds(parent = document) {
             const params = getOEmbedParameters(element);
             const url = getVimeoUrl(params);
 
-            getOEmbedData(url, params).then((data) => {
+            getOEmbedData(url, params, element).then((data) => {
                 return createEmbed(data, element);
             }).catch(handleError);
         }
@@ -163,11 +174,18 @@ export function initializeEmbeds(parent = document) {
  * @return {void}
  */
 export function resizeEmbeds(parent = document) {
+    // Prevent execution if users include the player.js script multiple times.
+    if (window.VimeoPlayerResizeEmbeds_) {
+        return;
+    }
+    window.VimeoPlayerResizeEmbeds_ = true;
+
     const onMessage = (event) => {
         if (!isVimeoUrl(event.origin)) {
             return;
         }
 
+        // 'spacechange' is fired only on embeds with cards
         if (!event.data || event.data.event !== 'spacechange') {
             return;
         }
@@ -179,11 +197,10 @@ export function resizeEmbeds(parent = document) {
                 continue;
             }
 
+            // Change padding-bottom of the enclosing div to accommodate
+            // card carousel without distorting aspect ratio
             const space = iframes[i].parentElement;
-
-            if (space && space.className.indexOf('vimeo-space') !== -1) {
-                space.style.paddingBottom = `${event.data.data[0].bottom}px`;
-            }
+            space.style.paddingBottom = `${event.data.data[0].bottom}px`;
 
             break;
         }
