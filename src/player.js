@@ -284,11 +284,11 @@ class Player {
      * the video is successfully loaded, or it will be rejected if it could
      * not be loaded.
      *
-     * @param {number} id The id of the video.
+     * @param {number|object} options The id of the video or an object with embed options.
      * @return {LoadVideoPromise}
      */
-    loadVideo(id) {
-        return this.callMethod('loadVideo', id);
+    loadVideo(options) {
+        return this.callMethod('loadVideo', options);
     }
 
     /**
