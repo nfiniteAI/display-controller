@@ -17,7 +17,7 @@ Alternatively, you can reference an up‐to‐date version on our CDN:
 <script src="https://player.vimeo.com/api/player.js"></script>
 ```
 
-**Warning:** when used with RequireJS it's required to load the script dynamically via the RequireJS load system.  
+**Warning:** when used with RequireJS it's required to load the script dynamically via the RequireJS load system.
 http://www.requirejs.org/docs/api.html#jsfiles
 
 ## Getting Started
@@ -178,7 +178,7 @@ it will also import the Player constructor directly:
 * [Methods](#methods)
     + [on](#onevent-string-callback-function-void)
     + [off](#offevent-string-callback-function-void)
-    + [loadVideo](#loadvideoid-number-promisenumber-typeerrorpassworderrorerror)
+    + [loadVideo](#loadvideooptions-numberobject-promisenumberobject-typeerrorpassworderrorerror)
     + [ready](#ready-promisevoid-error)
     + [enableTextTrack](#enabletexttracklanguage-string-kind-string-promiseobject-invalidtracklanguageerrorinvalidtrackerrorerror)
     + [disableTextTrack](#disabletexttrack-promisevoid-error)
@@ -384,7 +384,7 @@ player.off('play', onPlay);
 player.off('play');
 ```
 
-### loadVideo(id: number): Promise&lt;number, (TypeError|PasswordError|Error)&gt;
+### loadVideo(options: number|object): Promise&lt;number|object, (TypeError|PasswordError|Error)&gt;
 
 Load a new video into this embed. The promise will be resolved if the video is
 successfully loaded, or it will be rejected if it could not be loaded.
