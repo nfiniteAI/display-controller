@@ -521,6 +521,10 @@ class Player {
         return this.set('autopause', autopause);
     }
 
+    getBuffered() {
+        return this.get('buffered');
+    }
+
     /**
      * A promise to get the color of the player.
      *
@@ -735,6 +739,14 @@ class Player {
      */
     setPlaybackRate(playbackRate) {
         return this.set('playbackRate', playbackRate);
+    }
+
+    getPlayed() {
+        return this.get('played');
+    }
+
+    getSeekable() {
+        return this.get('seekable');
     }
 
     /**
