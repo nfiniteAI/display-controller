@@ -178,7 +178,7 @@ it will also import the Player constructor directly:
 * [Methods](#methods)
     + [on](#onevent-string-callback-function-void)
     + [off](#offevent-string-callback-function-void)
-    + [loadVideo](#loadvideoid-number-promisenumber-typeerrorpassworderrorerror)
+    + [loadVideo](#loadvideooptions-numberobject-promisenumberobject-typeerrorpassworderrorerror)
     + [ready](#ready-promisevoid-error)
     + [enableTextTrack](#enabletexttracklanguage-string-kind-string-promiseobject-invalidtracklanguageerrorinvalidtrackerrorerror)
     + [disableTextTrack](#disabletexttrack-promisevoid-error)
@@ -388,7 +388,7 @@ player.off('play', onPlay);
 player.off('play');
 ```
 
-### loadVideo(id: number): Promise&lt;number, (TypeError|PasswordError|Error)&gt;
+### loadVideo(options: number|object): Promise&lt;number|object, (TypeError|PasswordError|Error)&gt;
 
 Load a new video into this embed. The promise will be resolved if the video is
 successfully loaded, or it will be rejected if it could not be loaded.
@@ -595,11 +595,11 @@ player.setAutopause(false).then(function(autopause) {
 
 ### getBuffered(): Promise&lt;array, Error&gt;
 
-Get buffered property of the video.
+Get the buffered time ranges of the video.
 
 ```js
 player.getBuffered().then(function(buffered) {
-    // buffered = an array of buffered ranges
+    // buffered = an array of the buffered video time ranges.
 }).catch(function(error) {
     // an error occurred
 });
@@ -873,11 +873,11 @@ player.setPlaybackRate(0.5).then(function(playbackRate) {
 
 ### getPlayed(): Promise&lt;array, Error&gt;
 
-Get the played ranges of the video.
+Get the played time ranges of the video.
 
 ```js
 player.getPlayed().then(function(played) {
-    // played = array values of the played ranges.
+    // played = array values of the played video time ranges.
 }).catch(function(error) {
     // an error occurred
 });
@@ -885,11 +885,11 @@ player.getPlayed().then(function(played) {
 
 ### getSeekable(): Promise&lt;array, Error&gt;
 
-Get the video ranges that are seekable.
+Get the video time ranges that are seekable.
 
 ```js
 player.getSeekable().then(function(seekable) {
-    // seekable = array values of the seekable ranges.
+    // seekable = array values of the seekable video time ranges.
 }).catch(function(error) {
     // an error occurred
 });
@@ -1294,6 +1294,7 @@ byline      | `true`   | Show the byline on the video.
 color       | `00adef` | Specify the color of the video controls. Colors may be overridden by the embed settings of the video.
 height      |          | The exact height of the video. Defaults to the height of the largest available version of the video.
 loop        | `false`  | Play the video again when it reaches the end.
+responsive  | `false`  | Resize according their parent element (experimental)
 maxheight   |          | Same as height, but video will not exceed the native size of the video.
 maxwidth    |          | Same as width, but video will not exceed the native size of the video.
 muted       | `false`  | Mute this video on load. Required to autoplay in certain browsers.
