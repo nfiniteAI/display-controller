@@ -521,6 +521,17 @@ class Player {
         return this.set('autopause', autopause);
     }
 
+    /**
+     * A promise to get the buffered property of the video.
+     *
+     * @promise GetBufferedPromise
+     * @fulfill {Array} Buffered Timeranges converted to an Array.
+     */
+    /**
+     * Get the buffered property of the video.
+     *
+     * @return {GetBufferedPromise}
+     */
     getBuffered() {
         return this.get('buffered');
     }
@@ -741,10 +752,32 @@ class Player {
         return this.set('playbackRate', playbackRate);
     }
 
+    /**
+     * A promise to get the played property of the video.
+     *
+     * @promise GetPlayedPromise
+     * @fulfill {Array} Played Timeranges converted to an Array.
+     */
+    /**
+     * Get the played property of the video.
+     *
+     * @return {GetPlayedPromise}
+     */
     getPlayed() {
         return this.get('played');
     }
 
+    /**
+     * A promise to get the seekable property of the video.
+     *
+     * @promise GetSeekablePromise
+     * @fulfill {Array} Seekable Timeranges converted to an Array.
+     */
+    /**
+     * Get the seekable property of the video.
+     *
+     * @return {GetSeekablePromise}
+     */
     getSeekable() {
         return this.get('seekable');
     }
