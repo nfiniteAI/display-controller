@@ -1241,6 +1241,7 @@ byline      | `true`   | Show the byline on the video.
 color       | `00adef` | Specify the color of the video controls. Colors may be overridden by the embed settings of the video.
 height      |          | The exact height of the video. Defaults to the height of the largest available version of the video.
 loop        | `false`  | Play the video again when it reaches the end.
+responsive  | `false`  | Resize according their parent element (experimental)
 maxheight   |          | Same as height, but video will not exceed the native size of the video.
 maxwidth    |          | Same as width, but video will not exceed the native size of the video.
 muted       | `false`  | Mute this video on load. Required to autoplay in certain browsers.
