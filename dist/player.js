@@ -1,4 +1,4 @@
-/*! @vimeo/player v2.6.7 | (c) 2019 Vimeo | MIT License | https://github.com/vimeo/player.js */
+/*! @vimeo/player v2.7.0 | (c) 2019 Vimeo | MIT License | https://github.com/vimeo/player.js */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
@@ -1302,14 +1302,14 @@
        * the video is successfully loaded, or it will be rejected if it could
        * not be loaded.
        *
-       * @param {number} id The id of the video.
+       * @param {number|object} options The id of the video or an object with embed options.
        * @return {LoadVideoPromise}
        */
 
     }, {
       key: "loadVideo",
-      value: function loadVideo(id) {
-        return this.callMethod('loadVideo', id);
+      value: function loadVideo(options) {
+        return this.callMethod('loadVideo', options);
       }
       /**
        * A promise to perform an action when the Player is ready.
@@ -1583,6 +1583,24 @@
         return this.set('autopause', autopause);
       }
       /**
+       * A promise to get the buffered property of the video.
+       *
+       * @promise GetBufferedPromise
+       * @fulfill {Array} Buffered Timeranges converted to an Array.
+       */
+
+      /**
+       * Get the buffered property of the video.
+       *
+       * @return {GetBufferedPromise}
+       */
+
+    }, {
+      key: "getBuffered",
+      value: function getBuffered() {
+        return this.get('buffered');
+      }
+      /**
        * A promise to get the color of the player.
        *
        * @promise GetColorPromise
@@ -1834,6 +1852,42 @@
       key: "setPlaybackRate",
       value: function setPlaybackRate(playbackRate) {
         return this.set('playbackRate', playbackRate);
+      }
+      /**
+       * A promise to get the played property of the video.
+       *
+       * @promise GetPlayedPromise
+       * @fulfill {Array} Played Timeranges converted to an Array.
+       */
+
+      /**
+       * Get the played property of the video.
+       *
+       * @return {GetPlayedPromise}
+       */
+
+    }, {
+      key: "getPlayed",
+      value: function getPlayed() {
+        return this.get('played');
+      }
+      /**
+       * A promise to get the seekable property of the video.
+       *
+       * @promise GetSeekablePromise
+       * @fulfill {Array} Seekable Timeranges converted to an Array.
+       */
+
+      /**
+       * Get the seekable property of the video.
+       *
+       * @return {GetSeekablePromise}
+       */
+
+    }, {
+      key: "getSeekable",
+      value: function getSeekable() {
+        return this.get('seekable');
       }
       /**
        * A promise to get the text tracks of a video.
