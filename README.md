@@ -188,6 +188,7 @@ it will also import the Player constructor directly:
     + [destroy](#destroy-promisevoid-error)
     + [getAutopause](#getautopause-promiseboolean-unsupportederrorerror)
     + [setAutopause](#setautopauseautopause-boolean-promiseboolean-unsupportederrorerror)
+    + [getBuffered](#getbuffered-promisearray-error)
     + [getColor](#getcolor-promisestring-error)
     + [setColor](#setcolorcolor-string-promisestring-contrasterrortypeerrorerror)
     + [addCuePoint](#addcuepointtime-number-data-object-promisestring-unsupportederrorrangeerrorerror)
@@ -202,6 +203,8 @@ it will also import the Player constructor directly:
     + [getPaused](#getpaused-promiseboolean-error)
     + [getPlaybackRate](#getplaybackrate-promisenumber-error)
     + [setPlaybackRate](#setplaybackrateplaybackrate-number-promisenumber-rangeerrorerror)
+    + [getPlayed](#getplayed-promisearray-error)
+    + [getSeekable](#getseekable-promisearray-error)
     + [getTextTracks](#gettexttracks-promiseobject-error)
     + [getVideoEmbedCode](#getvideoembedcode-promisestring-error)
     + [getVideoId](#getvideoid-promisenumber-error)
@@ -217,6 +220,7 @@ it will also import the Player constructor directly:
     + [ended](#ended)
     + [timeupdate](#timeupdate)
     + [progress](#progress)
+    + [seeking](#seeking)
     + [seeked](#seeked)
     + [texttrackchange](#texttrackchange)
     + [cuechange](#cuechange)
@@ -589,6 +593,18 @@ player.setAutopause(false).then(function(autopause) {
 });
 ```
 
+### getBuffered(): Promise&lt;array, Error&gt;
+
+Get the buffered time ranges of the video.
+
+```js
+player.getBuffered().then(function(buffered) {
+    // buffered = an array of the buffered video time ranges.
+}).catch(function(error) {
+    // an error occurred
+});
+```
+
 ### getColor(): Promise&lt;string, Error&gt;
 
 Get the color for this player.
@@ -855,6 +871,30 @@ player.setPlaybackRate(0.5).then(function(playbackRate) {
 });
 ```
 
+### getPlayed(): Promise&lt;array, Error&gt;
+
+Get the played time ranges of the video.
+
+```js
+player.getPlayed().then(function(played) {
+    // played = array values of the played video time ranges.
+}).catch(function(error) {
+    // an error occurred
+});
+```
+
+### getSeekable(): Promise&lt;array, Error&gt;
+
+Get the video time ranges that are seekable.
+
+```js
+player.getSeekable().then(function(seekable) {
+    // seekable = array values of the seekable video time ranges.
+}).catch(function(error) {
+    // an error occurred
+});
+```
+
 ### getTextTracks(): Promise&lt;object[], Error&gt;
 
 Get an array of the text tracks that exist for the video. For example:
@@ -1097,6 +1137,19 @@ been buffered.
     duration: 61.857
     percent: 0.502
     seconds: 31.052
+}
+```
+
+### seeking
+
+Triggered when the player starts seeking to a specific time. A `timeupdate` event will
+also be fired at the same time.
+
+```js
+{
+    duration: 61.857
+    percent: 0.485
+    seconds: 30
 }
 ```
 

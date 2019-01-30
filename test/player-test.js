@@ -149,6 +149,9 @@ test('player object includes all api methods', (t) => {
     t.true(typeof player.getVideoUrl === 'function');
     t.true(typeof player.getVolume === 'function');
     t.true(typeof player.setVolume === 'function');
+    t.true(typeof player.getBuffered === 'function');
+    t.true(typeof player.getPlayed === 'function');
+    t.true(typeof player.getSeekable === 'function');
 });
 
 test('set requires a value', async (t) => {
