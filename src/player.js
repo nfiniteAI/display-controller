@@ -794,7 +794,7 @@ class Player {
      * @return {GetSeekingPromise}
      */
     getSeeking() {
-      return this.get('seeking');
+        return this.get('seeking');
     }
 
     /**
