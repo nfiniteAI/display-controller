@@ -152,6 +152,7 @@ test('player object includes all api methods', (t) => {
     t.true(typeof player.getBuffered === 'function');
     t.true(typeof player.getPlayed === 'function');
     t.true(typeof player.getSeekable === 'function');
+    t.true(typeof player.getSeeking === 'function');
 });
 
 test('set requires a value', async (t) => {

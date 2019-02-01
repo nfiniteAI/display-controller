@@ -205,6 +205,7 @@ it will also import the Player constructor directly:
     + [setPlaybackRate](#setplaybackrateplaybackrate-number-promisenumber-rangeerrorerror)
     + [getPlayed](#getplayed-promisearray-error)
     + [getSeekable](#getseekable-promisearray-error)
+    + [getSeeking](#getseeking-promiseboolean-error)
     + [getTextTracks](#gettexttracks-promiseobject-error)
     + [getVideoEmbedCode](#getvideoembedcode-promisestring-error)
     + [getVideoId](#getvideoid-promisenumber-error)
@@ -890,6 +891,18 @@ Get the video time ranges that are seekable.
 ```js
 player.getSeekable().then(function(seekable) {
     // seekable = array values of the seekable video time ranges.
+}).catch(function(error) {
+    // an error occurred
+});
+```
+
+### getSeeking(): Promise&lt;boolean, Error&gt;
+
+Get if the player is currently seeking.
+
+```js
+player.getSeeking().then(function(seeking) {
+    // seeking = whether the player is seeking or not
 }).catch(function(error) {
     // an error occurred
 });
