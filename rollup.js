@@ -50,13 +50,15 @@ async function generateBundle() {
 
         cache = bundle;
 
-        const { code, map } = await bundle.generate({
+        let { output } = await bundle.generate({
             format: 'umd',
             name: 'Vimeo.Player',
             sourcemap: true,
             sourcemapFile: 'dist/player.js.map',
             banner
         });
+
+        let { code, map } = output[0];
 
         fs.writeFileSync('dist/player.js', `${code}\n//# sourceMappingURL=player.js.map`);
         fs.writeFileSync('dist/player.js.map', map.toString());
@@ -83,13 +85,15 @@ async function generateBundle() {
         const minifiedSize = maxmin(code, minified.code, true);
         console.log(`Created bundle ${chalk.cyan('player.min.js')}: ${minifiedSize}`);
 
-        const es = await bundle.generate({
+        ({ output } = await bundle.generate({
             format: 'es',
             banner
-        });
+        }));
 
-        fs.writeFileSync('dist/player.es.js', es.code);
-        const esSize = maxmin(es.code, es.code, true).replace(/^(.*? → )/, '');
+        ({ code, map } = output[0]);
+
+        fs.writeFileSync('dist/player.es.js', code);
+        const esSize = maxmin(code, code, true).replace(/^(.*? → )/, '');
         console.log(`Created bundle ${chalk.cyan('player.es.js')}: ${esSize}`);
 
         building = false;
