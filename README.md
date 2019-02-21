@@ -75,28 +75,6 @@ element and the video id or vimeo.com url (and optional
 </script>
 ```
 
-Similarly, if you’re trying to instantiate a private or unlisted video,
-you MUST pass the full vimeo url which includes the private video hash:
-
-```html
-<div id="made-in-ny"></div>
-
-<script src="https://player.vimeo.com/api/player.js"></script>
-<script>
-    var options = {
-        url: 'https://vimeo.com/293438045/463ebf7bcf'
-    };
-
-    var player = new Vimeo.Player('made-in-ny', options);
-
-    player.setVolume(0);
-
-    player.on('play', function() {
-        console.log('played the video!');
-    });
-</script>
-```
-
 ### Automatically with HTML attributes
 
 When the library loads, it will scan your page for elements with Vimeo
