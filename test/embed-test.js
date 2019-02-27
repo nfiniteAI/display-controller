@@ -23,7 +23,7 @@ test('getOEmbedParameters builds off of a defaults object', (t) => {
 
 test('getOEmbedData doesn’t operate on non-Vimeo urls', async (t) => {
     t.plan(1);
-    await t.throws(getOEmbedData('https://notvimeo.com'), TypeError);
+    await t.throwsAsync(() => getOEmbedData('https://notvimeo.com'), TypeError);
 });
 
 test('getOEmbedData returns a json oembed response', async (t) => {
