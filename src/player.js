@@ -783,6 +783,21 @@ class Player {
     }
 
     /**
+     * A promise to get the seeking property of the player.
+     *
+     * @promise GetSeekingPromise
+     * @fulfill {boolean} Whether or not the player is currently seeking.
+     */
+    /**
+     * Get if the player is currently seeking.
+     *
+     * @return {GetSeekingPromise}
+     */
+    getSeeking() {
+        return this.get('seeking');
+    }
+
+    /**
      * A promise to get the text tracks of a video.
      *
      * @promise GetTextTracksPromise
