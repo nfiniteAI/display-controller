@@ -1,4 +1,4 @@
-/*! @vimeo/player v2.7.0 | (c) 2019 Vimeo | MIT License | https://github.com/vimeo/player.js */
+/*! @vimeo/player v2.8.0 | (c) 2019 Vimeo | MIT License | https://github.com/vimeo/player.js */
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -1882,6 +1882,24 @@ function () {
     key: "getSeekable",
     value: function getSeekable() {
       return this.get('seekable');
+    }
+    /**
+     * A promise to get the seeking property of the player.
+     *
+     * @promise GetSeekingPromise
+     * @fulfill {boolean} Whether or not the player is currently seeking.
+     */
+
+    /**
+     * Get if the player is currently seeking.
+     *
+     * @return {GetSeekingPromise}
+     */
+
+  }, {
+    key: "getSeeking",
+    value: function getSeeking() {
+      return this.get('seeking');
     }
     /**
      * A promise to get the text tracks of a video.

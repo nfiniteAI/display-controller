@@ -1,9 +1,9 @@
-/*! @vimeo/player v2.7.0 | (c) 2019 Vimeo | MIT License | https://github.com/vimeo/player.js */
+/*! @vimeo/player v2.8.0 | (c) 2019 Vimeo | MIT License | https://github.com/vimeo/player.js */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
-  (global.Vimeo = global.Vimeo || {}, global.Vimeo.Player = factory());
-}(this, (function () { 'use strict';
+  (global = global || self, (global.Vimeo = global.Vimeo || {}, global.Vimeo.Player = factory()));
+}(this, function () { 'use strict';
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -1890,6 +1890,24 @@
         return this.get('seekable');
       }
       /**
+       * A promise to get the seeking property of the player.
+       *
+       * @promise GetSeekingPromise
+       * @fulfill {boolean} Whether or not the player is currently seeking.
+       */
+
+      /**
+       * Get if the player is currently seeking.
+       *
+       * @return {GetSeekingPromise}
+       */
+
+    }, {
+      key: "getSeeking",
+      value: function getSeeking() {
+        return this.get('seeking');
+      }
+      /**
        * A promise to get the text tracks of a video.
        *
        * @promise GetTextTracksPromise
@@ -2077,6 +2095,6 @@
 
   return Player;
 
-})));
+}));
 
 //# sourceMappingURL=player.js.map
