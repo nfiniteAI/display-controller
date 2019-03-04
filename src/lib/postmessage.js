@@ -12,7 +12,14 @@ import { getCallbacks, removeCallback, shiftCallbacks } from './callbacks';
  */
 export function parseMessageData(data) {
     if (typeof data === 'string') {
-        data = JSON.parse(data);
+        try {
+            data = JSON.parse(data);
+        }
+        // If the message cannot be parsed, throw the error as warning
+        catch(error) {
+            console.warn(error);
+            return {};
+        }
     }
 
     return data;
