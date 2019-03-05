@@ -15,8 +15,8 @@ export function parseMessageData(data) {
         try {
             data = JSON.parse(data);
         }
-        // If the message cannot be parsed, throw the error as warning
-        catch(error) {
+        catch (error) {
+            // If the message cannot be parsed, throw the error as a warning
             console.warn(error);
             return {};
         }
