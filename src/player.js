@@ -40,6 +40,8 @@ class Player {
             throw new TypeError('You must pass either a valid element or a valid id.');
         }
 
+        const win = element.ownerDocument.defaultView;
+
         // Already initialized an embed in this div, so grab the iframe
         if (element.nodeName !== 'IFRAME') {
             const iframe = element.querySelector('iframe');
@@ -73,8 +75,18 @@ class Player {
                 }
 
                 const data = parseMessageData(event.data);
-                const isReadyEvent = 'event' in data && data.event === 'ready';
-                const isPingResponse = 'method' in data && data.method === 'ping';
+                const isError = data && data.event === 'error';
+                const isReadyError = isError && data.data && data.data.method === 'ready';
+
+                if (isReadyError) {
+                    const error = new Error(data.data.message);
+                    error.name = data.data.name;
+                    reject(error);
+                    return;
+                }
+
+                const isReadyEvent = data && data.event === 'ready';
+                const isPingResponse = data && data.method === 'ping';
 
                 if (isReadyEvent || isPingResponse) {
                     this.element.setAttribute('data-ready', 'true');
@@ -85,11 +97,11 @@ class Player {
                 processData(this, data);
             };
 
-            if (window.addEventListener) {
-                window.addEventListener('message', onMessage, false);
+            if (win.addEventListener) {
+                win.addEventListener('message', onMessage, false);
             }
-            else if (window.attachEvent) {
-                window.attachEvent('onmessage', onMessage);
+            else if (win.attachEvent) {
+                win.attachEvent('onmessage', onMessage);
             }
 
             if (this.element.nodeName !== 'IFRAME') {
@@ -107,7 +119,7 @@ class Player {
                     playerMap.set(this.element, this);
 
                     return data;
-                }).catch((error) => reject(error));
+                }).catch(reject);
             }
         });
 
@@ -143,9 +155,7 @@ class Player {
                 });
 
                 postMessage(this, name, args);
-            }).catch((error) => {
-                reject(error);
-            });
+            }).catch(reject);
         });
     }
 
@@ -169,7 +179,7 @@ class Player {
                 });
 
                 postMessage(this, name);
-            });
+            }).catch(reject);
         });
     }
 
@@ -181,23 +191,24 @@ class Player {
      * @return {Promise}
      */
     set(name, value) {
-        return Promise.resolve(value).then((val) => {
+        return new Promise((resolve, reject) => {
             name = getMethodName(name, 'set');
 
-            if (val === undefined || val === null) {
+            if (value === undefined || value === null) {
                 throw new TypeError('There must be a value to set.');
             }
 
+            // We are storing the resolve/reject handlers to call later, so we
+            // can’t return here.
+            // eslint-disable-next-line promise/always-return
             return this.ready().then(() => {
-                return new Promise((resolve, reject) => {
-                    storeCallback(this, name, {
-                        resolve,
-                        reject
-                    });
-
-                    postMessage(this, name, val);
+                storeCallback(this, name, {
+                    resolve,
+                    reject
                 });
-            });
+
+                postMessage(this, name, value);
+            }).catch(reject);
         });
     }
 
@@ -275,11 +286,11 @@ class Player {
      * the video is successfully loaded, or it will be rejected if it could
      * not be loaded.
      *
-     * @param {number} id The id of the video.
+     * @param {number|object} options The id of the video or an object with embed options.
      * @return {LoadVideoPromise}
      */
-    loadVideo(id) {
-        return this.callMethod('loadVideo', id);
+    loadVideo(options) {
+        return this.callMethod('loadVideo', options);
     }
 
     /**
@@ -511,6 +522,21 @@ class Player {
     }
 
     /**
+     * A promise to get the buffered property of the video.
+     *
+     * @promise GetBufferedPromise
+     * @fulfill {Array} Buffered Timeranges converted to an Array.
+     */
+    /**
+     * Get the buffered property of the video.
+     *
+     * @return {GetBufferedPromise}
+     */
+    getBuffered() {
+        return this.get('buffered');
+    }
+
+    /**
      * A promise to get the color of the player.
      *
      * @promise GetColorPromise
@@ -724,6 +750,51 @@ class Player {
      */
     setPlaybackRate(playbackRate) {
         return this.set('playbackRate', playbackRate);
+    }
+
+    /**
+     * A promise to get the played property of the video.
+     *
+     * @promise GetPlayedPromise
+     * @fulfill {Array} Played Timeranges converted to an Array.
+     */
+    /**
+     * Get the played property of the video.
+     *
+     * @return {GetPlayedPromise}
+     */
+    getPlayed() {
+        return this.get('played');
+    }
+
+    /**
+     * A promise to get the seekable property of the video.
+     *
+     * @promise GetSeekablePromise
+     * @fulfill {Array} Seekable Timeranges converted to an Array.
+     */
+    /**
+     * Get the seekable property of the video.
+     *
+     * @return {GetSeekablePromise}
+     */
+    getSeekable() {
+        return this.get('seekable');
+    }
+
+    /**
+     * A promise to get the seeking property of the player.
+     *
+     * @promise GetSeekingPromise
+     * @fulfill {boolean} Whether or not the player is currently seeking.
+     */
+    /**
+     * Get if the player is currently seeking.
+     *
+     * @return {GetSeekingPromise}
+     */
+    getSeeking() {
+        return this.get('seeking');
     }
 
     /**

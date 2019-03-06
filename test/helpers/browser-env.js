@@ -13,3 +13,4 @@ global.window = new JSDOM(html).window;
 global.document = window.document;
 global.navigator = window.navigator;
 global.window.jQuery = global.jQuery = require('jquery');
+global.XMLHttpRequest = require('xhr2');

@@ -17,7 +17,7 @@ Alternatively, you can reference an up‐to‐date version on our CDN:
 <script src="https://player.vimeo.com/api/player.js"></script>
 ```
 
-**Warning:** when used with RequireJS it's required to load the script dynamically via the RequireJS load system.  
+**Warning:** when used with RequireJS it's required to load the script dynamically via the RequireJS load system.
 http://www.requirejs.org/docs/api.html#jsfiles
 
 ## Getting Started
@@ -63,28 +63,6 @@ element and the video id or vimeo.com url (and optional
         id: 59777392,
         width: 640,
         loop: true
-    };
-
-    var player = new Vimeo.Player('made-in-ny', options);
-
-    player.setVolume(0);
-
-    player.on('play', function() {
-        console.log('played the video!');
-    });
-</script>
-```
-
-Similarly, if you’re trying to instantiate a private or unlisted video,
-you MUST pass the full vimeo url which includes the private video hash:
-
-```html
-<div id="made-in-ny"></div>
-
-<script src="https://player.vimeo.com/api/player.js"></script>
-<script>
-    var options = {
-        url: 'https://vimeo.com/293438045/463ebf7bcf'
     };
 
     var player = new Vimeo.Player('made-in-ny', options);
@@ -178,7 +156,7 @@ it will also import the Player constructor directly:
 * [Methods](#methods)
     + [on](#onevent-string-callback-function-void)
     + [off](#offevent-string-callback-function-void)
-    + [loadVideo](#loadvideoid-number-promisenumber-typeerrorpassworderrorerror)
+    + [loadVideo](#loadvideooptions-numberobject-promisenumberobject-typeerrorpassworderrorerror)
     + [ready](#ready-promisevoid-error)
     + [enableTextTrack](#enabletexttracklanguage-string-kind-string-promiseobject-invalidtracklanguageerrorinvalidtrackerrorerror)
     + [disableTextTrack](#disabletexttrack-promisevoid-error)
@@ -188,6 +166,7 @@ it will also import the Player constructor directly:
     + [destroy](#destroy-promisevoid-error)
     + [getAutopause](#getautopause-promiseboolean-unsupportederrorerror)
     + [setAutopause](#setautopauseautopause-boolean-promiseboolean-unsupportederrorerror)
+    + [getBuffered](#getbuffered-promisearray-error)
     + [getColor](#getcolor-promisestring-error)
     + [setColor](#setcolorcolor-string-promisestring-contrasterrortypeerrorerror)
     + [addCuePoint](#addcuepointtime-number-data-object-promisestring-unsupportederrorrangeerrorerror)
@@ -202,6 +181,9 @@ it will also import the Player constructor directly:
     + [getPaused](#getpaused-promiseboolean-error)
     + [getPlaybackRate](#getplaybackrate-promisenumber-error)
     + [setPlaybackRate](#setplaybackrateplaybackrate-number-promisenumber-rangeerrorerror)
+    + [getPlayed](#getplayed-promisearray-error)
+    + [getSeekable](#getseekable-promisearray-error)
+    + [getSeeking](#getseeking-promiseboolean-error)
     + [getTextTracks](#gettexttracks-promiseobject-error)
     + [getVideoEmbedCode](#getvideoembedcode-promisestring-error)
     + [getVideoId](#getvideoid-promisenumber-error)
@@ -217,6 +199,7 @@ it will also import the Player constructor directly:
     + [ended](#ended)
     + [timeupdate](#timeupdate)
     + [progress](#progress)
+    + [seeking](#seeking)
     + [seeked](#seeked)
     + [texttrackchange](#texttrackchange)
     + [cuechange](#cuechange)
@@ -384,7 +367,7 @@ player.off('play', onPlay);
 player.off('play');
 ```
 
-### loadVideo(id: number): Promise&lt;number, (TypeError|PasswordError|Error)&gt;
+### loadVideo(options: number|object): Promise&lt;number|object, (TypeError|PasswordError|Error)&gt;
 
 Load a new video into this embed. The promise will be resolved if the video is
 successfully loaded, or it will be rejected if it could not be loaded.
@@ -586,6 +569,18 @@ player.setAutopause(false).then(function(autopause) {
             // some other error occurred
             break;
     }
+});
+```
+
+### getBuffered(): Promise&lt;array, Error&gt;
+
+Get the buffered time ranges of the video.
+
+```js
+player.getBuffered().then(function(buffered) {
+    // buffered = an array of the buffered video time ranges.
+}).catch(function(error) {
+    // an error occurred
 });
 ```
 
@@ -855,6 +850,42 @@ player.setPlaybackRate(0.5).then(function(playbackRate) {
 });
 ```
 
+### getPlayed(): Promise&lt;array, Error&gt;
+
+Get the played time ranges of the video.
+
+```js
+player.getPlayed().then(function(played) {
+    // played = array values of the played video time ranges.
+}).catch(function(error) {
+    // an error occurred
+});
+```
+
+### getSeekable(): Promise&lt;array, Error&gt;
+
+Get the video time ranges that are seekable.
+
+```js
+player.getSeekable().then(function(seekable) {
+    // seekable = array values of the seekable video time ranges.
+}).catch(function(error) {
+    // an error occurred
+});
+```
+
+### getSeeking(): Promise&lt;boolean, Error&gt;
+
+Get if the player is currently seeking.
+
+```js
+player.getSeeking().then(function(seeking) {
+    // seeking = whether the player is seeking or not
+}).catch(function(error) {
+    // an error occurred
+});
+```
+
 ### getTextTracks(): Promise&lt;object[], Error&gt;
 
 Get an array of the text tracks that exist for the video. For example:
@@ -1100,6 +1131,19 @@ been buffered.
 }
 ```
 
+### seeking
+
+Triggered when the player starts seeking to a specific time. A `timeupdate` event will
+also be fired at the same time.
+
+```js
+{
+    duration: 61.857
+    percent: 0.485
+    seconds: 30
+}
+```
+
 ### seeked
 
 Triggered when the player seeks to a specific time. A `timeupdate` event will
@@ -1241,14 +1285,15 @@ byline      | `true`   | Show the byline on the video.
 color       | `00adef` | Specify the color of the video controls. Colors may be overridden by the embed settings of the video.
 height      |          | The exact height of the video. Defaults to the height of the largest available version of the video.
 loop        | `false`  | Play the video again when it reaches the end.
+responsive  | `false`  | Resize according their parent element (experimental)
 maxheight   |          | Same as height, but video will not exceed the native size of the video.
 maxwidth    |          | Same as width, but video will not exceed the native size of the video.
 muted       | `false`  | Mute this video on load. Required to autoplay in certain browsers.
 playsinline | `true`   | Play video inline on mobile devices, to automatically go fullscreen on playback set this parameter to `false`.
 portrait    | `true`   | Show the portrait on the video.
+quality     |          | Vimeo Plus, PRO, and Business members can default an embedded video to a specific quality on desktop. Possible values: 4K, 2K, 1080p, 720p, 540p, and 360p https://help.vimeo.com/hc/en-us/articles/224983008-Setting-default-quality-for-embedded-videos
 speed       | `false`  | Show the speed controls in the preferences menu and enable playback rate API (available to PRO and Business accounts).
 title       | `true`   | Show the title on the video.
 transparent | `true`   | The responsive player and transparent background are enabled by default, to disable set this parameter to `false`.
 width       |          | The exact width of the video. Defaults to the width of the largest available version of the video.
-quality     |          | Vimeo Plus, PRO, and Business members can default an embedded video to a specific quality on desktop. Possible values: 4K, 2K, 1080p, 720p, 540p, and 360p https://help.vimeo.com/hc/en-us/articles/224983008-Setting-default-quality-for-embedded-videos
 

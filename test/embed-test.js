@@ -1,6 +1,6 @@
 import test from 'ava';
 import html from './helpers/html';
-import { getOEmbedParameters, getOEmbedData, createEmbed } from '../src/lib/embed';
+import { getOEmbedParameters, getOEmbedData, createEmbed, initializeEmbeds, resizeEmbeds } from '../src/lib/embed';
 
 test('getOEmbedParameters retrieves the params from data attributes', (t) => {
     const el = html`<div data-vimeo-id="2" data-vimeo-width="640" data-vimeo-autoplay></div>`;
@@ -23,7 +23,14 @@ test('getOEmbedParameters builds off of a defaults object', (t) => {
 
 test('getOEmbedData doesn’t operate on non-Vimeo urls', async (t) => {
     t.plan(1);
-    await t.throws(getOEmbedData('https://notvimeo.com'), TypeError);
+    await t.throwsAsync(() => getOEmbedData('https://notvimeo.com'), TypeError);
+});
+
+test('getOEmbedData returns a json oembed response', async (t) => {
+    t.plan(2);
+    const result = await getOEmbedData('https://player.vimeo.com/video/18');
+    t.is(typeof result, 'object');
+    t.is(result.type, 'video');
 });
 
 test('createEmbed should throw if there’s no element', (t) => {
@@ -55,4 +62,25 @@ test('createEmbed returns the iframe from a responsive embed', (t) => {
     const embed = createEmbed({ html: markup }, container);
     t.true(container.getAttribute('data-vimeo-initialized') === 'true');
     t.deepEqual(embed.outerHTML, html`<iframe src="https://player.vimeo.com/video/2" style="position:absolute;top:0;left:0;width:100%;height:100%" frameborder="0"></iframe>`.outerHTML);
+});
+
+test('initializeEmbeds should create embeds', async (t) => {
+    const div = html`<div data-vimeo-id="18" data-vimeo-width="640" id="handstick"></div>`;
+    document.body.appendChild(div);
+
+    await new Promise((resolve, reject) => {
+        initializeEmbeds();
+        // wait 300ms for the embeds to initialize.
+        setTimeout(resolve, 300);
+    });
+
+    t.is(document.body.querySelector('#handstick').firstChild.nodeName, 'IFRAME');
+});
+
+test('resizeEmbeds is a function and sets a window property', (t) => {
+    t.plan(2);
+    t.true(typeof resizeEmbeds === 'function');
+
+    resizeEmbeds();
+    t.true(window.VimeoPlayerResizeEmbeds_);
 });

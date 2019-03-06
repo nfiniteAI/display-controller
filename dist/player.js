@@ -1,9 +1,9 @@
-/*! @vimeo/player v2.6.5 | (c) 2018 Vimeo | MIT License | https://github.com/vimeo/player.js */
+/*! @vimeo/player v2.8.0 | (c) 2019 Vimeo | MIT License | https://github.com/vimeo/player.js */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
-  (global.Vimeo = global.Vimeo || {}, global.Vimeo.Player = factory());
-}(this, (function () { 'use strict';
+  (global = global || self, (global.Vimeo = global.Vimeo || {}, global.Vimeo.Player = factory()));
+}(this, function () { 'use strict';
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -61,7 +61,7 @@
    */
 
   function isDomElement(element) {
-    return element instanceof window.HTMLElement;
+    return Boolean(element && element.nodeType === 1 && 'nodeName' in element && element.ownerDocument && element.ownerDocument.defaultView);
   }
   /**
    * Check to see whether the value is a number.
@@ -1049,8 +1049,9 @@
 
       if (!isDomElement(element)) {
         throw new TypeError('You must pass either a valid element or a valid id.');
-      } // Already initialized an embed in this div, so grab the iframe
+      }
 
+      var win = element.ownerDocument.defaultView; // Already initialized an embed in this div, so grab the iframe
 
       if (element.nodeName !== 'IFRAME') {
         var iframe = element.querySelector('iframe');
@@ -1083,8 +1084,18 @@
           }
 
           var data = parseMessageData(event.data);
-          var isReadyEvent = 'event' in data && data.event === 'ready';
-          var isPingResponse = 'method' in data && data.method === 'ping';
+          var isError = data && data.event === 'error';
+          var isReadyError = isError && data.data && data.data.method === 'ready';
+
+          if (isReadyError) {
+            var error = new Error(data.data.message);
+            error.name = data.data.name;
+            reject(error);
+            return;
+          }
+
+          var isReadyEvent = data && data.event === 'ready';
+          var isPingResponse = data && data.method === 'ping';
 
           if (isReadyEvent || isPingResponse) {
             _this.element.setAttribute('data-ready', 'true');
@@ -1096,10 +1107,10 @@
           processData(_this, data);
         };
 
-        if (window.addEventListener) {
-          window.addEventListener('message', onMessage, false);
-        } else if (window.attachEvent) {
-          window.attachEvent('onmessage', onMessage);
+        if (win.addEventListener) {
+          win.addEventListener('message', onMessage, false);
+        } else if (win.attachEvent) {
+          win.attachEvent('onmessage', onMessage);
         }
 
         if (_this.element.nodeName !== 'IFRAME') {
@@ -1114,9 +1125,7 @@
             swapCallbacks(element, iframe);
             playerMap.set(_this.element, _this);
             return data;
-          }).catch(function (error) {
-            return reject(error);
-          });
+          }).catch(reject);
         }
       }); // Store a copy of this Player in the map
 
@@ -1155,9 +1164,7 @@
               reject: reject
             });
             postMessage(_this2, name, args);
-          }).catch(function (error) {
-            reject(error);
-          });
+          }).catch(reject);
         });
       }
       /**
@@ -1183,7 +1190,7 @@
               reject: reject
             });
             postMessage(_this3, name);
-          });
+          }).catch(reject);
         });
       }
       /**
@@ -1199,22 +1206,23 @@
       value: function set(name, value) {
         var _this4 = this;
 
-        return npo_src.resolve(value).then(function (val) {
+        return new npo_src(function (resolve, reject) {
           name = getMethodName(name, 'set');
 
-          if (val === undefined || val === null) {
+          if (value === undefined || value === null) {
             throw new TypeError('There must be a value to set.');
-          }
+          } // We are storing the resolve/reject handlers to call later, so we
+          // can’t return here.
+          // eslint-disable-next-line promise/always-return
+
 
           return _this4.ready().then(function () {
-            return new npo_src(function (resolve, reject) {
-              storeCallback(_this4, name, {
-                resolve: resolve,
-                reject: reject
-              });
-              postMessage(_this4, name, val);
+            storeCallback(_this4, name, {
+              resolve: resolve,
+              reject: reject
             });
-          });
+            postMessage(_this4, name, value);
+          }).catch(reject);
         });
       }
       /**
@@ -1294,14 +1302,14 @@
        * the video is successfully loaded, or it will be rejected if it could
        * not be loaded.
        *
-       * @param {number} id The id of the video.
+       * @param {number|object} options The id of the video or an object with embed options.
        * @return {LoadVideoPromise}
        */
 
     }, {
       key: "loadVideo",
-      value: function loadVideo(id) {
-        return this.callMethod('loadVideo', id);
+      value: function loadVideo(options) {
+        return this.callMethod('loadVideo', options);
       }
       /**
        * A promise to perform an action when the Player is ready.
@@ -1575,6 +1583,24 @@
         return this.set('autopause', autopause);
       }
       /**
+       * A promise to get the buffered property of the video.
+       *
+       * @promise GetBufferedPromise
+       * @fulfill {Array} Buffered Timeranges converted to an Array.
+       */
+
+      /**
+       * Get the buffered property of the video.
+       *
+       * @return {GetBufferedPromise}
+       */
+
+    }, {
+      key: "getBuffered",
+      value: function getBuffered() {
+        return this.get('buffered');
+      }
+      /**
        * A promise to get the color of the player.
        *
        * @promise GetColorPromise
@@ -1828,6 +1854,60 @@
         return this.set('playbackRate', playbackRate);
       }
       /**
+       * A promise to get the played property of the video.
+       *
+       * @promise GetPlayedPromise
+       * @fulfill {Array} Played Timeranges converted to an Array.
+       */
+
+      /**
+       * Get the played property of the video.
+       *
+       * @return {GetPlayedPromise}
+       */
+
+    }, {
+      key: "getPlayed",
+      value: function getPlayed() {
+        return this.get('played');
+      }
+      /**
+       * A promise to get the seekable property of the video.
+       *
+       * @promise GetSeekablePromise
+       * @fulfill {Array} Seekable Timeranges converted to an Array.
+       */
+
+      /**
+       * Get the seekable property of the video.
+       *
+       * @return {GetSeekablePromise}
+       */
+
+    }, {
+      key: "getSeekable",
+      value: function getSeekable() {
+        return this.get('seekable');
+      }
+      /**
+       * A promise to get the seeking property of the player.
+       *
+       * @promise GetSeekingPromise
+       * @fulfill {boolean} Whether or not the player is currently seeking.
+       */
+
+      /**
+       * Get if the player is currently seeking.
+       *
+       * @return {GetSeekingPromise}
+       */
+
+    }, {
+      key: "getSeeking",
+      value: function getSeeking() {
+        return this.get('seeking');
+      }
+      /**
        * A promise to get the text tracks of a video.
        *
        * @promise GetTextTracksPromise
@@ -2015,6 +2095,6 @@
 
   return Player;
 
-})));
+}));
 
 //# sourceMappingURL=player.js.map

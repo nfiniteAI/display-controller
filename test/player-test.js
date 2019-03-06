@@ -97,7 +97,7 @@ test('constructing a player with a bad URI should fail', async (t) => {
     const player1 = new Player(
         html`<div data-vimeo-id="1"></div>`
     );
-    await t.throws(player1.ready());
+    await t.throwsAsync(() => player1.ready());
 });
 
 test('future calls to destroyed player should not not work', async (t) => {
@@ -105,11 +105,11 @@ test('future calls to destroyed player should not not work', async (t) => {
         html`<iframe id="to-destroy" src="https://player.vimeo.com/video/76979871"></iframe>`
     );
 
-    await t.notThrows(player1.destroy());
+    await t.notThrows(() => player1.destroy());
     t.falsy(document.querySelector('#to-destroy'));
 
-    await t.throws(player1.ready());
-    await t.throws(player1.loadVideo(1));
+    await t.throwsAsync(() => player1.ready());
+    await t.throwsAsync(() => player1.loadVideo(1));
 });
 
 test('player object includes all api methods', (t) => {
@@ -149,13 +149,17 @@ test('player object includes all api methods', (t) => {
     t.true(typeof player.getVideoUrl === 'function');
     t.true(typeof player.getVolume === 'function');
     t.true(typeof player.setVolume === 'function');
+    t.true(typeof player.getBuffered === 'function');
+    t.true(typeof player.getPlayed === 'function');
+    t.true(typeof player.getSeekable === 'function');
+    t.true(typeof player.getSeeking === 'function');
 });
 
 test('set requires a value', async (t) => {
     const iframe = document.querySelector('.one');
     const player = new Player(iframe);
 
-    await t.throws(player.set('color'), TypeError);
+    await t.throwsAsync(() => player.set('color'), TypeError);
 });
 
 test('on requires an event and a callback', (t) => {
