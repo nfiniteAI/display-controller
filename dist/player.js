@@ -1,4 +1,4 @@
-/*! @vimeo/player v2.8.0 | (c) 2019 Vimeo | MIT License | https://github.com/vimeo/player.js */
+/*! @vimeo/player v2.8.1 | (c) 2019 Vimeo | MIT License | https://github.com/vimeo/player.js */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
@@ -927,7 +927,13 @@
 
   function parseMessageData(data) {
     if (typeof data === 'string') {
-      data = JSON.parse(data);
+      try {
+        data = JSON.parse(data);
+      } catch (error) {
+        // If the message cannot be parsed, throw the error as a warning
+        console.warn(error);
+        return {};
+      }
     }
 
     return data;

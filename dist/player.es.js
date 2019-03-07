@@ -1,4 +1,4 @@
-/*! @vimeo/player v2.8.0 | (c) 2019 Vimeo | MIT License | https://github.com/vimeo/player.js */
+/*! @vimeo/player v2.8.1 | (c) 2019 Vimeo | MIT License | https://github.com/vimeo/player.js */
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -921,7 +921,13 @@ function resizeEmbeds() {
 
 function parseMessageData(data) {
   if (typeof data === 'string') {
-    data = JSON.parse(data);
+    try {
+      data = JSON.parse(data);
+    } catch (error) {
+      // If the message cannot be parsed, throw the error as a warning
+      console.warn(error);
+      return {};
+    }
   }
 
   return data;
