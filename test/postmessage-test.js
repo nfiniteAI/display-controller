@@ -11,6 +11,10 @@ test('parseMessageData parses strings', (t) => {
     t.deepEqual(parseMessageData('{ "method": "getColor" }'), { method: 'getColor' });
 });
 
+test('parseMessageData returns empty object with strings that can\'t be parsed', (t) => {
+    t.deepEqual(parseMessageData('post://{"name":"error","type":"postMessage"}'), {});
+});
+
 test('postMessage called correctly with just a method', (t) => {
     const postMessageSpy = sinon.spy();
     const player = {
