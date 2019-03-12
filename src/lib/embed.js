@@ -10,6 +10,7 @@ const oEmbedParameters = [
     'background',
     'byline',
     'color',
+    'dnt',
     'height',
     'id',
     'loop',
