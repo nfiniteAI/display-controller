@@ -31,7 +31,7 @@ Already have a player on the page? Pass the element to the `Vimeo.Player`
 constructor and you’re ready to go.
 
 ```html
-<iframe src="https://player.vimeo.com/video/76979871" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen allow="autoplay; encrypted-media"></iframe>
+<iframe src="https://player.vimeo.com/video/76979871" width="640" height="360" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
 
 <script src="https://player.vimeo.com/api/player.js"></script>
 <script>
@@ -136,7 +136,7 @@ Similarly, if you’re using [RequireJS](http://www.requirejs.org) in the browse
 it will also import the Player constructor directly:
 
 ```html
-<iframe src="https://player.vimeo.com/video/76979871" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+<iframe src="https://player.vimeo.com/video/76979871" width="640" height="360" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
 
 <script>
     require(['https://player.vimeo.com/api/player.js'], function (Player) {
@@ -255,7 +255,7 @@ an embed inside that element. The options object should consist of either an
     };
 
     // Will create inside the made-in-ny div:
-    // <iframe src="https://player.vimeo.com/video/59777392?loop=1" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+    // <iframe src="https://player.vimeo.com/video/59777392?loop=1" width="640" height="360" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
     var madeInNy = new Vimeo.Player('made-in-ny', options);
 </script>
 ```
@@ -283,12 +283,12 @@ lightbox opened from clicking on a thumbnail, for example).
         loop: true
     };
 
-    // Will create inside the made-in-ny-div:
-    // <iframe src="https://player.vimeo.com/video/59777392?loop=1" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+    // Will create inside the made-in-ny div:
+    // <iframe src="https://player.vimeo.com/video/59777392?loop=1" width="640" height="360" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
     var madeInNy = new Vimeo.Player('made-in-ny', options);
 
     // Will create inside the handstick div:
-    // <iframe src="https://player.vimeo.com/video/19231868?loop=1" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+    // <iframe src="https://player.vimeo.com/video/19231868?loop=1" width="500" height="281" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
     var handstick = new Vimeo.Player(document.getElementById('handstick'), options);
 </script>
 ```
