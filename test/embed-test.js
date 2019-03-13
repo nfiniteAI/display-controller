@@ -70,8 +70,8 @@ test('initializeEmbeds should create embeds', async (t) => {
 
     await new Promise((resolve, reject) => {
         initializeEmbeds();
-        // wait 300ms for the embeds to initialize.
-        setTimeout(resolve, 300);
+        // wait 500ms for the embeds to initialize.
+        setTimeout(resolve, 500);
     });
 
     t.is(document.body.querySelector('#handstick').firstChild.nodeName, 'IFRAME');
