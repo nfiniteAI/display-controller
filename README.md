@@ -1273,7 +1273,7 @@ Triggered when a new video is loaded in the player.
 ## Embed Options
 
 These options are available to use as `data-vimeo-` attributes on elements or as
-an object passed to the `Vimeo.Player` constructor.
+an object passed to the `Vimeo.Player` constructor. More information on embed options can be found in the [Vimeo Help Center](https://help.vimeo.com/hc/en-us/articles/360001494447-Using-Player-Parameters).
 
 option      | default  | description
 ----------- | -------- | -----------
@@ -1283,6 +1283,7 @@ autoplay    | `false`  | Automatically start playback of the video. Note that th
 background  | `false`  | Enable the player's background mode which hides the controls, autoplays and loops the video (available to  Plus, PRO, or Business members).
 byline      | `true`   | Show the byline on the video.
 color       | `00adef` | Specify the color of the video controls. Colors may be overridden by the embed settings of the video.
+controls    | `true`   | This parameter will hide all elements in the player (play bar, sharing buttons, etc) for a chromeless experience. ⚠️Warning: When using this parameter, the play bar and UI will be hidden. To start playback for your viewers, you'll need to either enable autoplay or use our player SDK to start and control playback. (available to Plus, PRO, or Business members)
 dnt         | `false`  | Block the player from tracking any session data, including cookies.
 height      |          | The exact height of the video. Defaults to the height of the largest available version of the video.
 loop        | `false`  | Play the video again when it reaches the end.
@@ -1292,8 +1293,9 @@ maxwidth    |          | Same as width, but video will not exceed the native siz
 muted       | `false`  | Mute this video on load. Required to autoplay in certain browsers.
 playsinline | `true`   | Play video inline on mobile devices, to automatically go fullscreen on playback set this parameter to `false`.
 portrait    | `true`   | Show the portrait on the video.
-quality     |          | Vimeo Plus, PRO, and Business members can default an embedded video to a specific quality on desktop. Possible values: 4K, 2K, 1080p, 720p, 540p, and 360p https://help.vimeo.com/hc/en-us/articles/224983008-Setting-default-quality-for-embedded-videos
+quality     |          | Vimeo Plus, PRO, and Business members can default an embedded video to a specific quality on desktop. Possible values: `4K`, `2K`, `1080p`, `720p`, `540p`, `360p` and `240p` https://help.vimeo.com/hc/en-us/articles/224983008-Setting-default-quality-for-embedded-videos
 speed       | `false`  | Show the speed controls in the preferences menu and enable playback rate API (available to PRO and Business accounts).
+texttrack   |          | Turn captions/subtitles on for a specific language by default. If you enter a language preference that hasn't yet been uploaded for your particular video, the text track parameter will be ignored, and your embedded video may load with CC or subtitles disabled by default. Supports lowercase language code (such as: `fr`, `es`, `de`, `en`). You can find a full list of popular language codes [here](https://www.andiamo.co.uk/resources/iso-language-codes/).
 title       | `true`   | Show the title on the video.
 transparent | `true`   | The responsive player and transparent background are enabled by default, to disable set this parameter to `false`.
 width       |          | The exact width of the video. Defaults to the width of the largest available version of the video.
