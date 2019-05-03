@@ -1,4 +1,4 @@
-/*! @vimeo/player v2.9.0 | (c) 2019 Vimeo | MIT License | https://github.com/vimeo/player.js */
+/*! @vimeo/player v2.9.1 | (c) 2019 Vimeo | MIT License | https://github.com/vimeo/player.js */
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -780,7 +780,7 @@ function getOEmbedData(videoUrl) {
       throw new TypeError("\u201C".concat(videoUrl, "\u201D is not a vimeo.com url."));
     }
 
-    var url = "https://vimeo.com/api/oembed.json?url=".concat(encodeURIComponent(videoUrl), "&domain=").concat(window.location.hostname);
+    var url = "https://vimeo.com/api/oembed.json?url=".concat(encodeURIComponent(videoUrl));
 
     for (var param in params) {
       if (params.hasOwnProperty(param)) {
