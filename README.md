@@ -178,6 +178,8 @@ it will also import the Player constructor directly:
     + [getEnded](#getended-promiseboolean-error)
     + [getLoop](#getloop-promiseboolean-error)
     + [setLoop](#setlooploop-boolean-promiseboolean-error)
+    + [getMuted](#getmuted-promiseboolean-error)
+    + [setMuted](#setmuted-boolean-promiseboolean-error)
     + [getPaused](#getpaused-promiseboolean-error)
     + [getPlaybackRate](#getplaybackrate-promisenumber-error)
     + [setPlaybackRate](#setplaybackrateplaybackrate-number-promisenumber-rangeerrorerror)
@@ -799,6 +801,30 @@ event will not fire.
 ```js
 player.setLoop(true).then(function(loop) {
     // loop was turned on
+}).catch(function(error) {
+    // an error occurred
+});
+```
+
+### getMuted(): Promise&lt;boolean, Error&gt;
+
+Get the muted state of the player.
+
+```js
+player.getMuted().then(function(muted) {
+    // muted = whether muted is turned on or not
+}).catch(function(error) {
+    // an error occurred
+});
+```
+
+### setMuted(muted: boolean): Promise&lt;boolean, Error&gt;
+
+Set the muted state of the player. When set to `true`, the player volume will be muted.
+
+```js
+player.setMuted(true).then(function(muted) {
+    // muted was turned on
 }).catch(function(error) {
     // an error occurred
 });
