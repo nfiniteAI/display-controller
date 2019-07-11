@@ -1,4 +1,4 @@
-/*! @vimeo/player v2.9.1 | (c) 2019 Vimeo | MIT License | https://github.com/vimeo/player.js */
+/*! @vimeo/player v2.10.0 | (c) 2019 Vimeo | MIT License | https://github.com/vimeo/player.js */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
   typeof define === 'function' && define.amd ? define(factory) :
@@ -1800,6 +1800,44 @@
       key: "setLoop",
       value: function setLoop(loop) {
         return this.set('loop', loop);
+      }
+      /**
+       * A promise to set the muted state of the player.
+       *
+       * @promise SetMutedPromise
+       * @fulfill {boolean} The muted state that was set.
+       */
+
+      /**
+       * Set the muted state of the player. When set to `true`, the player
+       * volume will be muted.
+       *
+       * @param {boolean} muted
+       * @return {SetMutedPromise}
+       */
+
+    }, {
+      key: "setMuted",
+      value: function setMuted(muted) {
+        return this.set('muted', muted);
+      }
+      /**
+       * A promise to get the muted state of the player.
+       *
+       * @promise GetMutedPromise
+       * @fulfill {boolean} Whether or not the player is muted.
+       */
+
+      /**
+       * Get the muted state of the player.
+       *
+       * @return {GetMutedPromise}
+       */
+
+    }, {
+      key: "getMuted",
+      value: function getMuted() {
+        return this.get('muted');
       }
       /**
        * A promise to get the paused state of the player.
