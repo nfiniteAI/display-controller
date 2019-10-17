@@ -10,6 +10,7 @@ const oEmbedParameters = [
     'background',
     'byline',
     'color',
+    'controls',
     'dnt',
     'height',
     'id',
@@ -21,6 +22,7 @@ const oEmbedParameters = [
     'portrait',
     'responsive',
     'speed',
+    'texttrack',
     'title',
     'transparent',
     'url',
@@ -85,7 +87,7 @@ export function getOEmbedData(videoUrl, params = {}, element) {
             throw new TypeError(`“${videoUrl}” is not a vimeo.com url.`);
         }
 
-        let url = `https://vimeo.com/api/oembed.json?url=${encodeURIComponent(videoUrl)}&domain=${window.location.hostname}`;
+        let url = `https://vimeo.com/api/oembed.json?url=${encodeURIComponent(videoUrl)}`;
 
         for (const param in params) {
             if (params.hasOwnProperty(param)) {
