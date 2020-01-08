@@ -212,6 +212,7 @@ it will also import the Player constructor directly:
     + [bufferend](#bufferend)
     + [error](#error)
     + [loaded](#loaded)
+    + [durationchange](#durationchange)
 * [Embed Options](#embed-options)
 
 ## Create a Player
@@ -1293,6 +1294,15 @@ Triggered when a new video is loaded in the player.
 ```js
 {
     id: 76979871
+}
+```
+
+### durationchange
+Triggered when the duration attribute has been updated.
+
+```js
+{
+    duration: 60
 }
 ```
 
