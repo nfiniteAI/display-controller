@@ -1,8 +1,5 @@
 import './lib/compatibility-check'
 
-import 'weakmap-polyfill'
-import Promise from 'native-promise-only'
-
 import { storeCallback, getCallbacks, removeCallback, swapCallbacks } from './lib/callbacks'
 import { getMethodName, isDomElement, isVimeoUrl, getVimeoUrl, isNode } from './lib/functions'
 import { getOEmbedParameters, getOEmbedData, createEmbed, initializeEmbeds, resizeEmbeds } from './lib/embed'

@@ -1,3 +1,6 @@
+import 'whatwg-fetch'
+import jquery from 'jquery'
+
 const html = `<body>
 	<div id="test_player" data-vimeo-id="2"></div>
 	<div class="multiple">
@@ -6,5 +9,5 @@ const html = `<body>
 	</div>
 </body>`
 
-global.jQuery = require('jquery')
+global.jQuery = jquery
 document.body.innerHTML = html
