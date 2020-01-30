@@ -4,6 +4,7 @@ import { storeCallback, getCallbacks, removeCallback, swapCallbacks } from './li
 import { getMethodName, isDomElement, isVimeoUrl, getVimeoUrl, isNode } from './lib/functions'
 import { getOEmbedParameters, getOEmbedData, createEmbed, initializeEmbeds, resizeEmbeds } from './lib/embed'
 import { parseMessageData, postMessage, processData } from './lib/postmessage'
+import { log } from './lib/log'
 
 const playerMap = new WeakMap()
 const readyMap = new WeakMap()
@@ -20,8 +21,8 @@ class Player {
   constructor(element, options = {}) {
     /* global jQuery */
     if (window.jQuery && element instanceof jQuery) {
-      if (element.length > 1 && window.console && console.warn) {
-        console.warn('A jQuery object with multiple elements was passed, using the first element.')
+      if (element.length > 1) {
+        log.warn('A jQuery object with multiple elements was passed, using the first element.')
       }
 
       element = element[0]
@@ -145,7 +146,6 @@ class Player {
     return new Promise((resolve, reject) => {
       // We are storing the resolve/reject handlers to call later, so we
       // can’t return here.
-      // eslint-disable-next-line promise/always-return
       return this.ready()
         .then(() => {
           storeCallback(this, name, {
@@ -171,7 +171,6 @@ class Player {
 
       // We are storing the resolve/reject handlers to call later, so we
       // can’t return here.
-      // eslint-disable-next-line promise/always-return
       return this.ready()
         .then(() => {
           storeCallback(this, name, {
@@ -202,7 +201,6 @@ class Player {
 
       // We are storing the resolve/reject handlers to call later, so we
       // can’t return here.
-      // eslint-disable-next-line promise/always-return
       return this.ready()
         .then(() => {
           storeCallback(this, name, {
@@ -271,7 +269,7 @@ class Player {
 
     // If there are no callbacks left, remove the listener
     if (lastCallback) {
-      this.callMethod('removeEventListener', eventName).catch(e => {
+      this.callMethod('removeEventListener', eventName).catch(() => {
         // Ignore the error. There will be an error event fired that
         // will trigger the error callback if they are listening.
       })

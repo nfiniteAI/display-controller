@@ -1,3 +1,5 @@
+/*global html*/
+
 import Player from './player'
 
 test('constructor accepts only Vimeo embeds', () => {
@@ -32,7 +34,7 @@ test('constructor accepts only Vimeo embeds', () => {
 
 test('contructor does not throw if jquery is not present', () => {
   /* eslint-env jquery */
-  /* globals jQuery:true */
+  /* eslint-disable no-global-assign */
   const frames = jQuery('iframe')[0]
   const oldJQuery = jQuery
 
@@ -43,6 +45,7 @@ test('contructor does not throw if jquery is not present', () => {
   }).not.toThrow()
 
   jQuery = window.jQuery = oldJQuery
+  /* eslint-enable no-global-assign */
 })
 
 test('constructor uses the first element from a jQuery object', () => {
@@ -169,15 +172,10 @@ test('player object includes all api methods', () => {
 })
 
 test('set requires a value', async () => {
-  expect.assertions(1)
   const iframe = document.querySelector('.one')
   const player = new Player(iframe)
 
-  try {
-    await player.set('color')
-  } catch (err) {
-    expect(err).toBeInstanceOf(TypeError)
-  }
+  await expect(player.set('color')).rejects.toThrowError(TypeError)
 })
 
 test('on requires an event and a callback', () => {

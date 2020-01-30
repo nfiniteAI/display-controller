@@ -162,10 +162,13 @@ test('processData rejects a method promise on an error event', async () => {
   })
 
   expect(getCallbacks(player, 'getColor')).toHaveLength(0)
+  await expect(methodPromise).rejects.toThrowError('The color should be 3- or 6-digit hex value.')
+
+  // we need this test because error name are set dynmaically so it cannot be tested by jest correctly
   try {
     await methodPromise
   } catch (error) {
+    // eslint-disable-next-line jest/no-try-expect
     expect(error.name).toBe('TypeError')
-    expect(error.message).toBe('The color should be 3- or 6-digit hex value.')
   }
 })

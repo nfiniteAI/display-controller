@@ -3,6 +3,7 @@
  */
 
 import { getCallbacks, removeCallback, shiftCallbacks } from './callbacks'
+import { log } from './log'
 
 /**
  * Parse a message received from postMessage.
@@ -16,7 +17,7 @@ export function parseMessageData(data) {
       data = JSON.parse(data)
     } catch (error) {
       // If the message cannot be parsed, throw the error as a warning
-      console.warn(error)
+      log.warn(error)
       return {}
     }
   }

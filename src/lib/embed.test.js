@@ -1,3 +1,5 @@
+/*global html*/
+
 import { getOEmbedParameters, getOEmbedData, createEmbed, initializeEmbeds, resizeEmbeds } from './embed'
 
 test('getOEmbedParameters retrieves the params from data attributes', () => {
@@ -24,12 +26,7 @@ test('getOEmbedParameters builds off of a defaults object', () => {
 })
 
 test('getOEmbedData doesn’t operate on non-Vimeo urls', async () => {
-  expect.assertions(1)
-  try {
-    await getOEmbedData('https://notvimeo.com')
-  } catch (err) {
-    expect(err).toBeInstanceOf(TypeError)
-  }
+  await expect(getOEmbedData('https://notvimeo.com')).rejects.toThrowError(TypeError)
 })
 
 test('getOEmbedData returns a json oembed response', async () => {
@@ -97,7 +94,7 @@ test('initializeEmbeds should create embeds', async () => {
   `
   document.body.appendChild(div)
 
-  await new Promise((resolve, reject) => {
+  await new Promise(resolve => {
     initializeEmbeds()
     // wait 500ms for the embeds to initialize.
     setTimeout(resolve, 500)

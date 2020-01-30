@@ -29,7 +29,7 @@
       }
     ],
     "no-duplicate-imports":["error"],
-    "no-param-reassign":["warn"],
+    "no-param-reassign":["off"],
     "no-unused-vars":["error",{"vars":"all","args":"after-used","ignoreRestSiblings":true}]
   },
   "settings": {

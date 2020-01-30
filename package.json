@@ -47,8 +47,7 @@
     "rollup-plugin-node-resolve": "^5.0.0",
     "rollup-plugin-uglify": "^6.0.4",
     "uglify-js": "^3.7.6",
-    "whatwg-fetch": "^3.0.0",
-    "xhr2": "0.2.0"
+    "whatwg-fetch": "^3.0.0"
   },
   "husky": {
     "hooks": {

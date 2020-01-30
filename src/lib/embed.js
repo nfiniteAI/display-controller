@@ -3,6 +3,7 @@
  */
 
 import { isVimeoUrl, getVimeoUrl } from './functions'
+import { log } from './log'
 
 const oEmbedParameters = [
   'autopause',
@@ -90,12 +91,12 @@ export function getOEmbedData(videoUrl, params = {}, element) {
     let url = `https://vimeo.com/api/oembed.json?url=${encodeURIComponent(videoUrl)}`
 
     for (const param in params) {
-      if (params.hasOwnProperty(param)) {
+      if (Object.prototype.hasOwnProperty.call(params, param)) {
         url += `&${param}=${encodeURIComponent(params[param])}`
       }
     }
 
-    const xhr = 'XDomainRequest' in window ? new XDomainRequest() : new XMLHttpRequest()
+    const xhr = new XMLHttpRequest()
     xhr.open('GET', url, true)
 
     xhr.onload = function() {
@@ -144,9 +145,7 @@ export function initializeEmbeds(parent = document) {
   const elements = [].slice.call(parent.querySelectorAll('[data-vimeo-id], [data-vimeo-url]'))
 
   const handleError = error => {
-    if ('console' in window && console.error) {
-      console.error(`There was an error creating an embed: ${error}`)
-    }
+    log.error(`There was an error creating an embed: ${error}`)
   }
 
   elements.forEach(element => {

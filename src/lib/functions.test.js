@@ -1,3 +1,5 @@
+/*global html*/
+
 import { getMethodName, isDomElement, isInteger, isVimeoUrl, getVimeoUrl } from './functions'
 
 test('getMethodName properly formats the method name', () => {
