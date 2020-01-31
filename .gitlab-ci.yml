@@ -1,0 +1,14 @@
+include:
+  - project: 'hubstairs/platform/hubstairs-ci-template'
+    ref: master
+    file: 'platform/pipelines/package_yarn.yml'
+
+publish:
+  extends: .yarn
+  stage: publish
+  image: node:latest
+  script:
+    - echo "no publish step defined"
+  when: manual
+  only:
+    - master
