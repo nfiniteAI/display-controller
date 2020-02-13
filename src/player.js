@@ -277,25 +277,6 @@ class Player {
   }
 
   /**
-   * A promise to load a new video.
-   *
-   * @promise LoadVideoPromise
-   * @fulfill {number} The video with this id successfully loaded.
-   * @reject {TypeError} The id was not a number.
-   */
-  /**
-   * Load a new video into this embed. The promise will be resolved if
-   * the video is successfully loaded, or it will be rejected if it could
-   * not be loaded.
-   *
-   * @param {number|object} options The id of the video or an object with embed options.
-   * @return {LoadVideoPromise}
-   */
-  loadVideo(options) {
-    return this.callMethod('loadVideo', options)
-  }
-
-  /**
    * A promise to perform an action when the Player is ready.
    *
    * @todo document errors
@@ -316,150 +297,6 @@ class Player {
         reject(new Error('Unknown player. Probably unloaded.'))
       })
     return Promise.resolve(readyPromise)
-  }
-
-  /**
-   * A promise to add a cue point to the player.
-   *
-   * @promise AddCuePointPromise
-   * @fulfill {string} The id of the cue point to use for removeCuePoint.
-   * @reject {RangeError} the time was less than 0 or greater than the
-   *         video’s duration.
-   * @reject {UnsupportedError} Cue points are not supported with the current
-   *         player or browser.
-   */
-  /**
-   * Add a cue point to the player.
-   *
-   * @param {number} time The time for the cue point.
-   * @param {object} [data] Arbitrary data to be returned with the cue point.
-   * @return {AddCuePointPromise}
-   */
-  addCuePoint(time, data = {}) {
-    return this.callMethod('addCuePoint', { time, data })
-  }
-
-  /**
-   * A promise to remove a cue point from the player.
-   *
-   * @promise AddCuePointPromise
-   * @fulfill {string} The id of the cue point that was removed.
-   * @reject {InvalidCuePoint} The cue point with the specified id was not
-   *         found.
-   * @reject {UnsupportedError} Cue points are not supported with the current
-   *         player or browser.
-   */
-  /**
-   * Remove a cue point from the video.
-   *
-   * @param {string} id The id of the cue point to remove.
-   * @return {RemoveCuePointPromise}
-   */
-  removeCuePoint(id) {
-    return this.callMethod('removeCuePoint', id)
-  }
-
-  /**
-   * A representation of a text track on a video.
-   *
-   * @typedef {Object} VimeoTextTrack
-   * @property {string} language The ISO language code.
-   * @property {string} kind The kind of track it is (captions or subtitles).
-   * @property {string} label The human‐readable label for the track.
-   */
-  /**
-   * A promise to enable a text track.
-   *
-   * @promise EnableTextTrackPromise
-   * @fulfill {VimeoTextTrack} The text track that was enabled.
-   * @reject {InvalidTrackLanguageError} No track was available with the
-   *         specified language.
-   * @reject {InvalidTrackError} No track was available with the specified
-   *         language and kind.
-   */
-  /**
-   * Enable the text track with the specified language, and optionally the
-   * specified kind (captions or subtitles).
-   *
-   * When set via the API, the track language will not change the viewer’s
-   * stored preference.
-   *
-   * @param {string} language The two‐letter language code.
-   * @param {string} [kind] The kind of track to enable (captions or subtitles).
-   * @return {EnableTextTrackPromise}
-   */
-  enableTextTrack(language, kind) {
-    if (!language) {
-      throw new TypeError('You must pass a language.')
-    }
-
-    return this.callMethod('enableTextTrack', {
-      language,
-      kind,
-    })
-  }
-
-  /**
-   * A promise to disable the active text track.
-   *
-   * @promise DisableTextTrackPromise
-   * @fulfill {void} The track was disabled.
-   */
-  /**
-   * Disable the currently-active text track.
-   *
-   * @return {DisableTextTrackPromise}
-   */
-  disableTextTrack() {
-    return this.callMethod('disableTextTrack')
-  }
-
-  /**
-   * A promise to pause the video.
-   *
-   * @promise PausePromise
-   * @fulfill {void} The video was paused.
-   */
-  /**
-   * Pause the video if it’s playing.
-   *
-   * @return {PausePromise}
-   */
-  pause() {
-    return this.callMethod('pause')
-  }
-
-  /**
-   * A promise to play the video.
-   *
-   * @promise PlayPromise
-   * @fulfill {void} The video was played.
-   */
-  /**
-   * Play the video if it’s paused. **Note:** on iOS and some other
-   * mobile devices, you cannot programmatically trigger play. Once the
-   * viewer has tapped on the play button in the player, however, you
-   * will be able to use this function.
-   *
-   * @return {PlayPromise}
-   */
-  play() {
-    return this.callMethod('play')
-  }
-
-  /**
-   * A promise to unload the video.
-   *
-   * @promise UnloadPromise
-   * @fulfill {void} The video was unloaded.
-   */
-  /**
-   * Return the player to its initial state.
-   *
-   * @return {UnloadPromise}
-   */
-  unload() {
-    return this.callMethod('unload')
   }
 
   /**
@@ -486,499 +323,58 @@ class Player {
   }
 
   /**
-   * A promise to get the autopause behavior of the video.
-   *
-   * @promise GetAutopausePromise
-   * @fulfill {boolean} Whether autopause is turned on or off.
-   * @reject {UnsupportedError} Autopause is not supported with the current
-   *         player or browser.
-   */
-  /**
-   * Get the autopause behavior for this player.
-   *
-   * @return {GetAutopausePromise}
-   */
-  getAutopause() {
-    return this.get('autopause')
-  }
-
-  /**
-   * A promise to set the autopause behavior of the video.
-   *
-   * @promise SetAutopausePromise
-   * @fulfill {boolean} Whether autopause is turned on or off.
-   * @reject {UnsupportedError} Autopause is not supported with the current
-   *         player or browser.
-   */
-  /**
-   * Enable or disable the autopause behavior of this player.
-   *
-   * By default, when another video is played in the same browser, this
-   * player will automatically pause. Unless you have a specific reason
-   * for doing so, we recommend that you leave autopause set to the
-   * default (`true`).
-   *
-   * @param {boolean} autopause
-   * @return {SetAutopausePromise}
-   */
-  setAutopause(autopause) {
-    return this.set('autopause', autopause)
-  }
-
-  /**
-   * A promise to get the buffered property of the video.
-   *
-   * @promise GetBufferedPromise
-   * @fulfill {Array} Buffered Timeranges converted to an Array.
-   */
-  /**
-   * Get the buffered property of the video.
-   *
-   * @return {GetBufferedPromise}
-   */
-  getBuffered() {
-    return this.get('buffered')
-  }
-
-  /**
-   * A promise to get the color of the player.
-   *
-   * @promise GetColorPromise
-   * @fulfill {string} The hex color of the player.
-   */
-  /**
-   * Get the color for this player.
-   *
-   * @return {GetColorPromise}
-   */
-  getColor() {
-    return this.get('color')
-  }
-
-  /**
-   * A promise to set the color of the player.
-   *
-   * @promise SetColorPromise
-   * @fulfill {string} The color was successfully set.
-   * @reject {TypeError} The string was not a valid hex or rgb color.
-   * @reject {ContrastError} The color was set, but the contrast is
-   *         outside of the acceptable range.
-   * @reject {EmbedSettingsError} The owner of the player has chosen to
-   *         use a specific color.
-   */
-  /**
-   * Set the color of this player to a hex or rgb string. Setting the
-   * color may fail if the owner of the video has set their embed
-   * preferences to force a specific color.
-   *
-   * @param {string} color The hex or rgb color string to set.
-   * @return {SetColorPromise}
-   */
-  setColor(color) {
-    return this.set('color', color)
-  }
-
-  /**
    * A representation of a cue point.
    *
-   * @typedef {Object} VimeoCuePoint
-   * @property {number} time The time of the cue point.
-   * @property {object} data The data passed when adding the cue point.
-   * @property {string} id The unique id for use with removeCuePoint.
+   * @typedef {Object} HubstairsProduct
+   * @property {productCode} string Identifier for the product.
    */
   /**
-   * A promise to get the cue points of a video.
+   * A promise to get the products displayed.
    *
-   * @promise GetCuePointsPromise
-   * @fulfill {VimeoCuePoint[]} The cue points added to the video.
-   * @reject {UnsupportedError} Cue points are not supported with the current
-   *         player or browser.
+   * @promise GetProductssPromise
+   * @fulfill {HubstairsProduct[]} The products displayed.
+   * @reject {Error} Cannot get the list of products
    */
   /**
    * Get an array of the cue points added to the video.
    *
-   * @return {GetCuePointsPromise}
+   * @return {getProductPromise}
    */
-  getCuePoints() {
-    return this.get('cuePoints')
+  getProducts() {
+    return this.get('products')
   }
 
   /**
-   * A promise to get the current time of the video.
+   * A promise to display the next scene
    *
-   * @promise GetCurrentTimePromise
-   * @fulfill {number} The current time in seconds.
+   * @promise NextScenePromise
+   * @fulfill {void} The next scene is displayed.
+   * @reject {nextSceneError} No next scene available
    */
   /**
-   * Get the current playback position in seconds.
+   * Display the nextScene if it's available
    *
-   * @return {GetCurrentTimePromise}
+   * @return {NextScenePromise}
    */
-  getCurrentTime() {
-    return this.get('currentTime')
+  nextScene() {
+    return this.callMethod('nextScene')
   }
 
   /**
-   * A promise to set the current time of the video.
+   * A promise to set dynamically the configuration.
    *
-   * @promise SetCurrentTimePromise
-   * @fulfill {number} The actual current time that was set.
-   * @reject {RangeError} the time was less than 0 or greater than the
-   *         video’s duration.
+   * @promise SetConfigPromise
+   * @fulfill {void} The configuration is set.
+   * @reject {configError} Error while setting configuration
    */
   /**
-   * Set the current playback position in seconds. If the player was
-   * paused, it will remain paused. Likewise, if the player was playing,
-   * it will resume playing once the video has buffered.
+   * Update the configuration
    *
-   * You can provide an accurate time and the player will attempt to seek
-   * to as close to that time as possible. The exact time will be the
-   * fulfilled value of the promise.
-   *
-   * @param {number} currentTime
-   * @return {SetCurrentTimePromise}
+   * @param {Config} config
+   * @return {SetConfigPromise}
    */
-  setCurrentTime(currentTime) {
-    return this.set('currentTime', currentTime)
-  }
-
-  /**
-   * A promise to get the duration of the video.
-   *
-   * @promise GetDurationPromise
-   * @fulfill {number} The duration in seconds.
-   */
-  /**
-   * Get the duration of the video in seconds. It will be rounded to the
-   * nearest second before playback begins, and to the nearest thousandth
-   * of a second after playback begins.
-   *
-   * @return {GetDurationPromise}
-   */
-  getDuration() {
-    return this.get('duration')
-  }
-
-  /**
-   * A promise to get the ended state of the video.
-   *
-   * @promise GetEndedPromise
-   * @fulfill {boolean} Whether or not the video has ended.
-   */
-  /**
-   * Get the ended state of the video. The video has ended if
-   * `currentTime === duration`.
-   *
-   * @return {GetEndedPromise}
-   */
-  getEnded() {
-    return this.get('ended')
-  }
-
-  /**
-   * A promise to get the loop state of the player.
-   *
-   * @promise GetLoopPromise
-   * @fulfill {boolean} Whether or not the player is set to loop.
-   */
-  /**
-   * Get the loop state of the player.
-   *
-   * @return {GetLoopPromise}
-   */
-  getLoop() {
-    return this.get('loop')
-  }
-
-  /**
-   * A promise to set the loop state of the player.
-   *
-   * @promise SetLoopPromise
-   * @fulfill {boolean} The loop state that was set.
-   */
-  /**
-   * Set the loop state of the player. When set to `true`, the player
-   * will start over immediately once playback ends.
-   *
-   * @param {boolean} loop
-   * @return {SetLoopPromise}
-   */
-  setLoop(loop) {
-    return this.set('loop', loop)
-  }
-
-  /**
-   * A promise to set the muted state of the player.
-   *
-   * @promise SetMutedPromise
-   * @fulfill {boolean} The muted state that was set.
-   */
-  /**
-   * Set the muted state of the player. When set to `true`, the player
-   * volume will be muted.
-   *
-   * @param {boolean} muted
-   * @return {SetMutedPromise}
-   */
-  setMuted(muted) {
-    return this.set('muted', muted)
-  }
-
-  /**
-   * A promise to get the muted state of the player.
-   *
-   * @promise GetMutedPromise
-   * @fulfill {boolean} Whether or not the player is muted.
-   */
-  /**
-   * Get the muted state of the player.
-   *
-   * @return {GetMutedPromise}
-   */
-  getMuted() {
-    return this.get('muted')
-  }
-
-  /**
-   * A promise to get the paused state of the player.
-   *
-   * @promise GetLoopPromise
-   * @fulfill {boolean} Whether or not the video is paused.
-   */
-  /**
-   * Get the paused state of the player.
-   *
-   * @return {GetLoopPromise}
-   */
-  getPaused() {
-    return this.get('paused')
-  }
-
-  /**
-   * A promise to get the playback rate of the player.
-   *
-   * @promise GetPlaybackRatePromise
-   * @fulfill {number} The playback rate of the player on a scale from 0.5 to 2.
-   */
-  /**
-   * Get the playback rate of the player on a scale from `0.5` to `2`.
-   *
-   * @return {GetPlaybackRatePromise}
-   */
-  getPlaybackRate() {
-    return this.get('playbackRate')
-  }
-
-  /**
-   * A promise to set the playbackrate of the player.
-   *
-   * @promise SetPlaybackRatePromise
-   * @fulfill {number} The playback rate was set.
-   * @reject {RangeError} The playback rate was less than 0.5 or greater than 2.
-   */
-  /**
-   * Set the playback rate of the player on a scale from `0.5` to `2`. When set
-   * via the API, the playback rate will not be synchronized to other
-   * players or stored as the viewer's preference.
-   *
-   * @param {number} playbackRate
-   * @return {SetPlaybackRatePromise}
-   */
-  setPlaybackRate(playbackRate) {
-    return this.set('playbackRate', playbackRate)
-  }
-
-  /**
-   * A promise to get the played property of the video.
-   *
-   * @promise GetPlayedPromise
-   * @fulfill {Array} Played Timeranges converted to an Array.
-   */
-  /**
-   * Get the played property of the video.
-   *
-   * @return {GetPlayedPromise}
-   */
-  getPlayed() {
-    return this.get('played')
-  }
-
-  /**
-   * A promise to get the seekable property of the video.
-   *
-   * @promise GetSeekablePromise
-   * @fulfill {Array} Seekable Timeranges converted to an Array.
-   */
-  /**
-   * Get the seekable property of the video.
-   *
-   * @return {GetSeekablePromise}
-   */
-  getSeekable() {
-    return this.get('seekable')
-  }
-
-  /**
-   * A promise to get the seeking property of the player.
-   *
-   * @promise GetSeekingPromise
-   * @fulfill {boolean} Whether or not the player is currently seeking.
-   */
-  /**
-   * Get if the player is currently seeking.
-   *
-   * @return {GetSeekingPromise}
-   */
-  getSeeking() {
-    return this.get('seeking')
-  }
-
-  /**
-   * A promise to get the text tracks of a video.
-   *
-   * @promise GetTextTracksPromise
-   * @fulfill {VimeoTextTrack[]} The text tracks associated with the video.
-   */
-  /**
-   * Get an array of the text tracks that exist for the video.
-   *
-   * @return {GetTextTracksPromise}
-   */
-  getTextTracks() {
-    return this.get('textTracks')
-  }
-
-  /**
-   * A promise to get the embed code for the video.
-   *
-   * @promise GetVideoEmbedCodePromise
-   * @fulfill {string} The `<iframe>` embed code for the video.
-   */
-  /**
-   * Get the `<iframe>` embed code for the video.
-   *
-   * @return {GetVideoEmbedCodePromise}
-   */
-  getVideoEmbedCode() {
-    return this.get('videoEmbedCode')
-  }
-
-  /**
-   * A promise to get the id of the video.
-   *
-   * @promise GetVideoIdPromise
-   * @fulfill {number} The id of the video.
-   */
-  /**
-   * Get the id of the video.
-   *
-   * @return {GetVideoIdPromise}
-   */
-  getVideoId() {
-    return this.get('videoId')
-  }
-
-  /**
-   * A promise to get the title of the video.
-   *
-   * @promise GetVideoTitlePromise
-   * @fulfill {number} The title of the video.
-   */
-  /**
-   * Get the title of the video.
-   *
-   * @return {GetVideoTitlePromise}
-   */
-  getVideoTitle() {
-    return this.get('videoTitle')
-  }
-
-  /**
-   * A promise to get the native width of the video.
-   *
-   * @promise GetVideoWidthPromise
-   * @fulfill {number} The native width of the video.
-   */
-  /**
-   * Get the native width of the currently‐playing video. The width of
-   * the highest‐resolution available will be used before playback begins.
-   *
-   * @return {GetVideoWidthPromise}
-   */
-  getVideoWidth() {
-    return this.get('videoWidth')
-  }
-
-  /**
-   * A promise to get the native height of the video.
-   *
-   * @promise GetVideoHeightPromise
-   * @fulfill {number} The native height of the video.
-   */
-  /**
-   * Get the native height of the currently‐playing video. The height of
-   * the highest‐resolution available will be used before playback begins.
-   *
-   * @return {GetVideoHeightPromise}
-   */
-  getVideoHeight() {
-    return this.get('videoHeight')
-  }
-
-  /**
-   * A promise to get the vimeo.com url for the video.
-   *
-   * @promise GetVideoUrlPromise
-   * @fulfill {number} The vimeo.com url for the video.
-   * @reject {PrivacyError} The url isn’t available because of the video’s privacy setting.
-   */
-  /**
-   * Get the vimeo.com url for the video.
-   *
-   * @return {GetVideoUrlPromise}
-   */
-  getVideoUrl() {
-    return this.get('videoUrl')
-  }
-
-  /**
-   * A promise to get the volume level of the player.
-   *
-   * @promise GetVolumePromise
-   * @fulfill {number} The volume level of the player on a scale from 0 to 1.
-   */
-  /**
-   * Get the current volume level of the player on a scale from `0` to `1`.
-   *
-   * Most mobile devices do not support an independent volume from the
-   * system volume. In those cases, this method will always return `1`.
-   *
-   * @return {GetVolumePromise}
-   */
-  getVolume() {
-    return this.get('volume')
-  }
-
-  /**
-   * A promise to set the volume level of the player.
-   *
-   * @promise SetVolumePromise
-   * @fulfill {number} The volume was set.
-   * @reject {RangeError} The volume was less than 0 or greater than 1.
-   */
-  /**
-   * Set the volume of the player on a scale from `0` to `1`. When set
-   * via the API, the volume level will not be synchronized to other
-   * players or stored as the viewer’s preference.
-   *
-   * Most mobile devices do not support setting the volume. An error will
-   * *not* be triggered in that situation.
-   *
-   * @param {number} volume
-   * @return {SetVolumePromise}
-   */
-  setVolume(volume) {
-    return this.set('volume', volume)
+  setConfig(config) {
+    return this.set('config', config)
   }
 }
 

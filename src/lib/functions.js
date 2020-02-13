@@ -59,7 +59,7 @@ export function isInteger(value) {
  * @return {boolean}
  */
 export function isVimeoUrl(url) {
-  return /^(https?:)?\/\/((player|www)\.)?vimeo\.com(?=$|\/)/.test(url)
+  return /^(https?:)?\/\/display.*hubstairs\.com(:\d+)?(?=$|\/)/.test(url)
 }
 
 /**
@@ -70,27 +70,26 @@ export function isVimeoUrl(url) {
  * @return {string}
  */
 export function getVimeoUrl(oEmbedParameters = {}) {
-  const id = oEmbedParameters.id
-  const url = oEmbedParameters.url
-  const idOrUrl = id || url
+  const { url, displayId } = oEmbedParameters
+  const idOrUrl = displayId || url
 
   if (!idOrUrl) {
     throw new Error(
-      'An id or url must be passed, either in an options object or as a data-vimeo-id or data-vimeo-url attribute.',
+      'An id or url must be passed, either in an options object or as a data-hubstairs-displayId attribute.',
     )
   }
 
   if (isInteger(idOrUrl)) {
-    return `https://vimeo.com/${idOrUrl}`
+    return `https://display.hubstairs.com/v1/${idOrUrl}`
   }
 
   if (isVimeoUrl(idOrUrl)) {
     return idOrUrl.replace('http:', 'https:')
   }
 
-  if (id) {
-    throw new TypeError(`“${id}” is not a valid video id.`)
+  if (displayId) {
+    throw new TypeError(`“${displayId}” is not a valid display id.`)
   }
 
-  throw new TypeError(`“${idOrUrl}” is not a vimeo.com url.`)
+  throw new TypeError(`“${idOrUrl}” is not a display.hubstairs.com url.`)
 }

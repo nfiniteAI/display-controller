@@ -4,23 +4,21 @@ import { getOEmbedParameters, getOEmbedData, createEmbed, initializeEmbeds, resi
 
 test('getOEmbedParameters retrieves the params from data attributes', () => {
   const el = html`
-    <div data-vimeo-id="2" data-vimeo-width="640" data-vimeo-autoplay></div>
+    <div data-hubstairs-displayId="2" data-hubstairs-productCode="1234"></div>
   `
   expect(getOEmbedParameters(el)).toEqual({
-    id: '2',
-    width: '640',
-    autoplay: 1,
+    displayId: '2',
+    productCode: '1234',
   })
 })
 
 test('getOEmbedParameters builds off of a defaults object', () => {
   const el = html`
-    <div data-vimeo-id="2" data-vimeo-width="640" data-vimeo-autoplay></div>
+    <div data-hubstairs-displayId="2" data-hubstairs-productCode="1234"></div>
   `
   expect(getOEmbedParameters(el, { loop: true })).toEqual({
-    id: '2',
-    width: '640',
-    autoplay: 1,
+    displayId: '2',
+    productCode: '1234',
     loop: true,
   })
 })
@@ -31,9 +29,9 @@ test('getOEmbedData doesn’t operate on non-Vimeo urls', async () => {
 
 test('getOEmbedData returns a json oembed response', async () => {
   expect.assertions(2)
-  const result = await getOEmbedData('https://player.vimeo.com/video/18')
+  const result = await getOEmbedData('https://display.hubstairs.com/v1/1234')
   expect(typeof result).toBe('object')
-  expect(result.type).toBe('video')
+  expect(result.type).toBe('rich')
 })
 
 test('createEmbed should throw if there’s no element', () => {
@@ -90,7 +88,7 @@ test('createEmbed returns the iframe from a responsive embed', () => {
 
 test('initializeEmbeds should create embeds', async () => {
   const div = html`
-    <div data-vimeo-id="18" data-vimeo-width="640" id="handstick"></div>
+    <div data-hubstairs-displayId="18" id="handstick"></div>
   `
   document.body.appendChild(div)
 
@@ -100,7 +98,15 @@ test('initializeEmbeds should create embeds', async () => {
     setTimeout(resolve, 500)
   })
 
-  expect(document.body.querySelector('#handstick').firstChild.nodeName).toBe('IFRAME')
+  expect(document.body.querySelector('#handstick').firstElementChild.nodeName).toBe('DIV')
+  expect(document.body.querySelector('#handstick').firstElementChild.firstElementChild.nodeName).toBe('DIV')
+  expect(document.body.querySelector('#handstick').firstElementChild.firstElementChild.firstElementChild.nodeName).toBe(
+    'DIV',
+  )
+  expect(
+    document.body.querySelector('#handstick').firstElementChild.firstElementChild.firstElementChild.firstElementChild
+      .nodeName,
+  ).toBe('IFRAME')
 })
 
 test('resizeEmbeds is a function and sets a window property', () => {

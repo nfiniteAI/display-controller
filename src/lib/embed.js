@@ -6,30 +6,7 @@ import { isVimeoUrl, getVimeoUrl } from './functions'
 import { log } from './log'
 import { fetchURL, HTTPError } from './fetch'
 
-const oEmbedParameters = [
-  'autopause',
-  'autoplay',
-  'background',
-  'byline',
-  'color',
-  'controls',
-  'dnt',
-  'height',
-  'id',
-  'loop',
-  'maxheight',
-  'maxwidth',
-  'muted',
-  'playsinline',
-  'portrait',
-  'responsive',
-  'speed',
-  'texttrack',
-  'title',
-  'transparent',
-  'url',
-  'width',
-]
+const oEmbedParameters = ['displayId', 'url', 'productCode']
 
 /**
  * Get the 'data-vimeo'-prefixed attributes from an element as an object.
@@ -40,7 +17,7 @@ const oEmbedParameters = [
  */
 export function getOEmbedParameters(element, defaults = {}) {
   return oEmbedParameters.reduce((params, param) => {
-    const value = element.getAttribute(`data-vimeo-${param}`)
+    const value = element.getAttribute(`data-hubstairs-${param}`)
 
     if (value || value === '') {
       params[param] = value === '' ? 1 : value
@@ -87,7 +64,7 @@ export function getOEmbedData(videoUrl, params = {}) {
     return Promise.reject(new TypeError(`“${videoUrl}” is not a vimeo.com url.`))
   }
 
-  let url = `https://vimeo.com/api/oembed.json?url=${encodeURIComponent(videoUrl)}`
+  let url = `https://api-test.hubstairs.com/oembed?url=${encodeURIComponent(videoUrl)}`
 
   for (const param in params) {
     if (Object.prototype.hasOwnProperty.call(params, param)) {
@@ -116,7 +93,7 @@ export function getOEmbedData(videoUrl, params = {}) {
  * @return {void}
  */
 export function initializeEmbeds(parent = document) {
-  const elements = [].slice.call(parent.querySelectorAll('[data-vimeo-id], [data-vimeo-url]'))
+  const elements = [].slice.call(parent.querySelectorAll('[data-hubstairs-displayId], [data-vimeo-url]'))
 
   const handleError = error => {
     log.error(`There was an error creating an embed: ${error}`)

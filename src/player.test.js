@@ -115,7 +115,7 @@ test('future calls to destroyed player should not not work', async () => {
 
   const player1 = new Player(
     html`
-      <iframe id="to-destroy" src="https://player.vimeo.com/video/76979871"></iframe>
+      <iframe id="to-destroy" src="https://display.hubstairs.com/v1/1234"></iframe>
     `,
   )
 
@@ -123,7 +123,7 @@ test('future calls to destroyed player should not not work', async () => {
   expect(document.querySelector('#to-destroy')).toBeFalsy()
 
   await expect(player1.ready()).rejects.toThrow()
-  await expect(player1.loadVideo(1)).rejects.toThrow()
+  await expect(player1.getProducts()).rejects.toThrow()
 })
 
 test('player object includes all api methods', () => {
@@ -135,47 +135,18 @@ test('player object includes all api methods', () => {
   expect(typeof player.callMethod).toBe('function')
   expect(typeof player.on).toBe('function')
   expect(typeof player.off).toBe('function')
-  expect(typeof player.loadVideo).toBe('function')
-  expect(typeof player.enableTextTrack).toBe('function')
-  expect(typeof player.disableTextTrack).toBe('function')
-  expect(typeof player.pause).toBe('function')
-  expect(typeof player.play).toBe('function')
-  expect(typeof player.unload).toBe('function')
-  expect(typeof player.getAutopause).toBe('function')
-  expect(typeof player.setAutopause).toBe('function')
-  expect(typeof player.getColor).toBe('function')
-  expect(typeof player.setColor).toBe('function')
-  expect(typeof player.getCurrentTime).toBe('function')
-  expect(typeof player.setCurrentTime).toBe('function')
-  expect(typeof player.getDuration).toBe('function')
-  expect(typeof player.getEnded).toBe('function')
-  expect(typeof player.getLoop).toBe('function')
-  expect(typeof player.setLoop).toBe('function')
-  expect(typeof player.getPaused).toBe('function')
-  expect(typeof player.getPlaybackRate).toBe('function')
-  expect(typeof player.setPlaybackRate).toBe('function')
-  expect(typeof player.getTextTracks).toBe('function')
-  expect(typeof player.getVideoEmbedCode).toBe('function')
-  expect(typeof player.getVideoId).toBe('function')
-  expect(typeof player.getVideoTitle).toBe('function')
-  expect(typeof player.getVideoWidth).toBe('function')
-  expect(typeof player.getVideoHeight).toBe('function')
-  expect(typeof player.getVideoUrl).toBe('function')
-  expect(typeof player.getVolume).toBe('function')
-  expect(typeof player.setVolume).toBe('function')
-  expect(typeof player.getBuffered).toBe('function')
-  expect(typeof player.getPlayed).toBe('function')
-  expect(typeof player.getSeekable).toBe('function')
-  expect(typeof player.getSeeking).toBe('function')
-  expect(typeof player.getMuted).toBe('function')
-  expect(typeof player.setMuted).toBe('function')
+  expect(typeof player.destroy).toBe('function')
+  expect(typeof player.nextScene).toBe('function')
+  expect(typeof player.getProducts).toBe('function')
+  expect(typeof player.setConfig).toBe('function')
+  expect(typeof player.destroy).toBe('function')
 })
 
 test('set requires a value', async () => {
   const iframe = document.querySelector('.one')
   const player = new Player(iframe)
 
-  await expect(player.set('color')).rejects.toThrowError(TypeError)
+  await expect(player.set('config')).rejects.toThrowError(TypeError)
 })
 
 test('on requires an event and a callback', () => {
@@ -183,9 +154,9 @@ test('on requires an event and a callback', () => {
   const player = new Player(iframe)
 
   expect(() => player.on()).toThrowError(TypeError)
-  expect(() => player.on('play')).toThrowError(TypeError)
-  expect(() => player.on('play', 'string')).toThrowError(TypeError)
-  expect(() => player.on('play', () => {})).not.toThrow()
+  expect(() => player.on('addToCart')).toThrowError(TypeError)
+  expect(() => player.on('addToCart', 'string')).toThrowError(TypeError)
+  expect(() => player.on('adddToCart', () => {})).not.toThrow()
 })
 
 test('off requires an event name, and the optional callback must be a function', () => {
@@ -193,6 +164,6 @@ test('off requires an event name, and the optional callback must be a function',
   const player = new Player(iframe)
 
   expect(() => player.off()).toThrowError(TypeError)
-  expect(() => player.off('play', 'string')).toThrowError(TypeError)
-  expect(() => player.off('play', () => {})).not.toThrow()
+  expect(() => player.off('addToCart', 'string')).toThrowError(TypeError)
+  expect(() => player.off('addToCart', () => {})).not.toThrow()
 })

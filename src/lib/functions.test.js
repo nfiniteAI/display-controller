@@ -45,45 +45,44 @@ test('isInteger returns true for integers', () => {
 })
 
 test('isVimeoUrl identifies *.vimeo.com only', () => {
-  expect(isVimeoUrl('http://vimeo.com')).toBe(true)
-  expect(isVimeoUrl('https://vimeo.com')).toBe(true)
-  expect(isVimeoUrl('//vimeo.com')).toBe(true)
-  expect(isVimeoUrl('http://www.vimeo.com')).toBe(true)
-  expect(isVimeoUrl('https://www.vimeo.com')).toBe(true)
-  expect(isVimeoUrl('//www.vimeo.com')).toBe(true)
-  expect(isVimeoUrl('http://player.vimeo.com')).toBe(true)
-  expect(isVimeoUrl('//player.vimeo.com')).toBe(true)
-  expect(isVimeoUrl('https://player.vimeo.com')).toBe(true)
-  expect(isVimeoUrl('https://notvimeo.com')).toBe(false)
-  expect(isVimeoUrl('https://vimeo.someone.com')).toBe(false)
-  expect(isVimeoUrl('https://player.vimeo.com/video/123')).toBe(true)
-  expect(isVimeoUrl('https://vimeo.com/2')).toBe(true)
-  expect(isVimeoUrl('https://vimeo.com.evil.net')).toBe(false)
-  expect(isVimeoUrl('http://player.vimeo.com.evil.com')).toBe(false)
-  expect(isVimeoUrl('https://player.vimeozcom')).toBe(false)
-  expect(isVimeoUrl('https://www2vimeo.com')).toBe(false)
+  expect(isVimeoUrl('http://display.hubstairs.com')).toBe(true)
+  expect(isVimeoUrl('https://display.hubstairs.com')).toBe(true)
+  expect(isVimeoUrl('//display.hubstairs.com')).toBe(true)
+  expect(isVimeoUrl('http://display-something.hubstairs.com')).toBe(true)
+  expect(isVimeoUrl('https://display-something.hubstairs.com')).toBe(true)
+  expect(isVimeoUrl('//display-something.hubstairs.com')).toBe(true)
+  expect(isVimeoUrl('http://display.hubstairs.com:1000')).toBe(true)
+  expect(isVimeoUrl('https://display.hubstairs.com:1000')).toBe(true)
+  expect(isVimeoUrl('//display.hubstairs.com:1000')).toBe(true)
+  expect(isVimeoUrl('https://nothubstairs.com')).toBe(false)
+  expect(isVimeoUrl('https://hubstairs.someone.com')).toBe(false)
+  expect(isVimeoUrl('https://display.hubstairs.com/v1/1234')).toBe(true)
+  expect(isVimeoUrl('https://display-something.hubstairs.com/v1/1234')).toBe(true)
+  expect(isVimeoUrl('https://display.hubstairs.com.evil.net')).toBe(false)
 })
 
 test('getVimeoUrl correctly returns a url from the embed parameters', () => {
-  expect(getVimeoUrl({ id: 2 })).toBe('https://vimeo.com/2')
-  expect(getVimeoUrl({ url: 'http://vimeo.com/2' })).toBe('https://vimeo.com/2')
-  expect(getVimeoUrl({ url: 'https://vimeo.com/2' })).toBe('https://vimeo.com/2')
+  expect(getVimeoUrl({ displayId: 1234 })).toBe('https://display.hubstairs.com/v1/1234')
+  expect(getVimeoUrl({ url: 'http://display.hubstairs.com/v1/1234' })).toBe('https://display.hubstairs.com/v1/1234')
+  expect(getVimeoUrl({ url: 'https://display.hubstairs.com/v1/1234' })).toBe('https://display.hubstairs.com/v1/1234')
 })
 
-test('getVimeoUrl throws when the required keys don’t exist', () => {
-  expect(() => {
-    getVimeoUrl()
-  }).toThrowError(Error)
+describe('getVimeoUrl throws when the required keys don’t exist', () => {
+  test('throws an error if there is no parameters', () => {
+    expect(() => {
+      getVimeoUrl()
+    }).toThrowError(Error)
+  })
 
-  expect(() => {
-    getVimeoUrl({ id: 'string' })
-  }).toThrowError(TypeError)
+  test('throws an error if the displayId parameter is not an integer', () => {
+    expect(() => {
+      getVimeoUrl({ displayId: 'https://notvimeo.com/2' })
+    }).toThrowError(TypeError)
+  })
 
-  expect(() => {
-    getVimeoUrl({ id: 'https://notvimeo.com/2' })
-  }).toThrowError(TypeError)
-
-  expect(() => {
-    getVimeoUrl({ url: 'https://notvimeo.com/2' })
-  }).toThrowError(TypeError)
+  test('throws an error if the url parameter is not a Hubstairs url', () => {
+    expect(() => {
+      getVimeoUrl({ url: 'https://notvimeo.com/2' })
+    }).toThrowError(TypeError)
+  })
 })
