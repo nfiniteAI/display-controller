@@ -1,7 +1,7 @@
 import './lib/compatibility-check'
 
 import { storeCallback, getCallbacks, removeCallback, swapCallbacks } from './lib/callbacks'
-import { getMethodName, isDomElement, isVimeoUrl, getVimeoUrl, isNode } from './lib/functions'
+import { getMethodName, isDomElement, isHubstairsUrl, getHubstairsUrl, isNode } from './lib/functions'
 import { getOEmbedParameters, getOEmbedData, createEmbed, initializeEmbeds, resizeEmbeds } from './lib/embed'
 import { parseMessageData, postMessage, processData } from './lib/postmessage'
 import { log } from './lib/log'
@@ -50,7 +50,7 @@ class Player {
     }
 
     // iframe url is not a Vimeo url
-    if (element.nodeName === 'IFRAME' && !isVimeoUrl(element.getAttribute('src') || '')) {
+    if (element.nodeName === 'IFRAME' && !isHubstairsUrl(element.getAttribute('src') || '')) {
       throw new Error('The player element passed isn’t a Vimeo embed.')
     }
 
@@ -64,7 +64,7 @@ class Player {
 
     const readyPromise = new Promise((resolve, reject) => {
       const onMessage = event => {
-        if (!isVimeoUrl(event.origin) || this.element.contentWindow !== event.source) {
+        if (!isHubstairsUrl(event.origin) || this.element.contentWindow !== event.source) {
           return
         }
 
@@ -103,7 +103,7 @@ class Player {
 
       if (this.element.nodeName !== 'IFRAME') {
         const params = getOEmbedParameters(element, options)
-        const url = getVimeoUrl(params)
+        const url = getHubstairsUrl(params)
 
         getOEmbedData(url, params)
           .then(data => {

@@ -2,7 +2,7 @@
  * @module lib/embed
  */
 
-import { isVimeoUrl, getVimeoUrl } from './functions'
+import { isHubstairsUrl, getHubstairsUrl } from './functions'
 import { log } from './log'
 import { fetchURL, HTTPError } from './fetch'
 
@@ -60,7 +60,7 @@ export function createEmbed({ html }, element) {
  * @return {Promise}
  */
 export function getOEmbedData(videoUrl, params = {}) {
-  if (!isVimeoUrl(videoUrl)) {
+  if (!isHubstairsUrl(videoUrl)) {
     return Promise.reject(new TypeError(`“${videoUrl}” is not a vimeo.com url.`))
   }
 
@@ -107,7 +107,7 @@ export function initializeEmbeds(parent = document) {
       }
 
       const params = getOEmbedParameters(element)
-      const url = getVimeoUrl(params)
+      const url = getHubstairsUrl(params)
 
       getOEmbedData(url, params)
         .then(data => {
@@ -134,7 +134,7 @@ export function resizeEmbeds(parent = document) {
   window.VimeoPlayerResizeEmbeds_ = true
 
   const onMessage = event => {
-    if (!isVimeoUrl(event.origin)) {
+    if (!isHubstairsUrl(event.origin)) {
       return
     }
 

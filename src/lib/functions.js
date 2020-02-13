@@ -58,18 +58,18 @@ export function isInteger(value) {
  * @param {string} url The url string.
  * @return {boolean}
  */
-export function isVimeoUrl(url) {
+export function isHubstairsUrl(url) {
   return /^(https?:)?\/\/display.*hubstairs\.com(:\d+)?(?=$|\/)/.test(url)
 }
 
 /**
- * Get the Vimeo URL from an element.
- * The element must have either a data-vimeo-id or data-vimeo-url attribute.
+ * Get the Hubstairs URL from an element.
+ * The element must have either a data-hubstairs-displayId or data-hubstairs-url attribute.
  *
  * @param {object} oEmbedParameters The oEmbed parameters.
  * @return {string}
  */
-export function getVimeoUrl(oEmbedParameters = {}) {
+export function getHubstairsUrl(oEmbedParameters = {}) {
   const { url, displayId } = oEmbedParameters
   const idOrUrl = displayId || url
 
@@ -83,7 +83,7 @@ export function getVimeoUrl(oEmbedParameters = {}) {
     return `https://display.hubstairs.com/v1/${idOrUrl}`
   }
 
-  if (isVimeoUrl(idOrUrl)) {
+  if (isHubstairsUrl(idOrUrl)) {
     return idOrUrl.replace('http:', 'https:')
   }
 
