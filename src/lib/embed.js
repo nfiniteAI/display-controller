@@ -2,52 +2,29 @@
  * @module lib/embed
  */
 
-import { isVimeoUrl, getVimeoUrl } from './functions'
-import { log } from './log'
+import { isHubstairsUrl, getHubstairsUrl, kebabToCamel, HubstairsError } from './functions'
+import { logger } from './logger'
 import { fetchURL, HTTPError } from './fetch'
 
-const oEmbedParameters = [
-  'autopause',
-  'autoplay',
-  'background',
-  'byline',
-  'color',
-  'controls',
-  'dnt',
-  'height',
-  'id',
-  'loop',
-  'maxheight',
-  'maxwidth',
-  'muted',
-  'playsinline',
-  'portrait',
-  'responsive',
-  'speed',
-  'texttrack',
-  'title',
-  'transparent',
-  'url',
-  'width',
-]
+const oEmbedParameters = ['displayid', 'url', 'productcode', 'responsive', 'display-url', 'oembed-url']
 
 /**
- * Get the 'data-vimeo'-prefixed attributes from an element as an object.
+ * Get the 'data-hubstairs'-prefixed attributes from an element as an object.
  *
  * @param {HTMLElement} element The element.
  * @param {Object} [defaults={}] The default values to use.
  * @return {Object<string, string>}
  */
 export function getOEmbedParameters(element, defaults = {}) {
-  return oEmbedParameters.reduce((params, param) => {
-    const value = element.getAttribute(`data-vimeo-${param}`)
-
+  const params = { ...defaults }
+  for (const param of oEmbedParameters) {
+    const value = element.getAttribute(`data-hubstairs-${param}`)
+    const camelParam = kebabToCamel(param)
     if (value || value === '') {
-      params[param] = value === '' ? 1 : value
+      params[camelParam] = value === '' ? 1 : value
     }
-
-    return params
-  }, defaults)
+  }
+  return params
 }
 
 /**
@@ -59,10 +36,10 @@ export function getOEmbedParameters(element, defaults = {}) {
  */
 export function createEmbed({ html }, element) {
   if (!element) {
-    throw new TypeError('An element must be provided')
+    throw new HubstairsError('An element must be provided', 'TypeError')
   }
 
-  if (element.getAttribute('data-vimeo-initialized') !== null) {
+  if (element.getAttribute('data-hubstairs-initialized') !== null) {
     return element.querySelector('iframe')
   }
 
@@ -70,7 +47,7 @@ export function createEmbed({ html }, element) {
   div.innerHTML = html
 
   element.appendChild(div.firstChild)
-  element.setAttribute('data-vimeo-initialized', 'true')
+  element.setAttribute('data-hubstairs-initialized', 'true')
 
   return element.querySelector('iframe')
 }
@@ -78,21 +55,24 @@ export function createEmbed({ html }, element) {
 /**
  * Make an oEmbed call for the specified URL.
  *
- * @param {string} videoUrl The vimeo.com url for the video.
+ * @param {string} displayUrl The hubstairs.com url for the display.
  * @param {Object} [params] Parameters to pass to oEmbed.
  * @return {Promise}
  */
-export function getOEmbedData(videoUrl, params = {}) {
-  if (!isVimeoUrl(videoUrl)) {
-    return Promise.reject(new TypeError(`“${videoUrl}” is not a vimeo.com url.`))
+export function getOEmbedData(displayUrl, { oembedUrl, ...params } = {}) {
+  if (!isHubstairsUrl(displayUrl)) {
+    return Promise.reject(new HubstairsError(`“${displayUrl}” is not a hubstairs.com url.`, 'TypeError'))
   }
 
-  let url = `https://vimeo.com/api/oembed.json?url=${encodeURIComponent(videoUrl)}`
+  let url = `${oembedUrl || 'https://api.hubstairs.com/oembed'}?url=${encodeURIComponent(displayUrl)}`
 
   for (const param in params) {
     if (Object.prototype.hasOwnProperty.call(params, param)) {
       url += `&${param}=${encodeURIComponent(params[param])}`
     }
+  }
+  if (!params.height && !params.width && !params.responsive) {
+    url += `&responsive=1`
   }
 
   return fetchURL(url)
@@ -100,12 +80,12 @@ export function getOEmbedData(videoUrl, params = {}) {
     .catch(err => {
       if (err instanceof HTTPError) {
         if (err.response.status === 404) {
-          throw new Error(`“${videoUrl}” was not found.`)
+          throw new HubstairsError(`“${displayUrl}” was not found.`)
         } else if (err.response.status === 403) {
-          throw new Error(`“${videoUrl}” is not embeddable.`)
+          throw new HubstairsError(`“${displayUrl}” is not embeddable.`)
         }
       }
-      throw new Error(`There was an error fetching the embed code from Vimeo${status}.`)
+      throw new HubstairsError(`There was an error fetching the embed code from Hubstairs ${status}.`)
     })
 }
 
@@ -116,21 +96,21 @@ export function getOEmbedData(videoUrl, params = {}) {
  * @return {void}
  */
 export function initializeEmbeds(parent = document) {
-  const elements = [].slice.call(parent.querySelectorAll('[data-vimeo-id], [data-vimeo-url]'))
+  const elements = [].slice.call(parent.querySelectorAll('[data-hubstairs-displayid], [data-hubstairs-url]'))
 
   const handleError = error => {
-    log.error(`There was an error creating an embed: ${error}`)
+    logger.error(`There was an error creating an embed`, error)
   }
 
   elements.forEach(element => {
     try {
-      // Skip any that have data-vimeo-defer
-      if (element.getAttribute('data-vimeo-defer') !== null) {
+      // Skip any that have data-hubstairs-defer
+      if (element.getAttribute('data-hubstairs-defer') !== null) {
         return
       }
 
       const params = getOEmbedParameters(element)
-      const url = getVimeoUrl(params)
+      const url = getHubstairsUrl(params)
 
       getOEmbedData(url, params)
         .then(data => {
@@ -144,20 +124,20 @@ export function initializeEmbeds(parent = document) {
 }
 
 /**
- * Resize embeds when messaged by the player.
+ * Resize embeds when messaged by the display.
  *
  * @param {HTMLElement} [parent=document] The parent element.
  * @return {void}
  */
 export function resizeEmbeds(parent = document) {
-  // Prevent execution if users include the player.js script multiple times.
-  if (window.VimeoPlayerResizeEmbeds_) {
+  // Prevent execution if users include the display.js script multiple times.
+  if (window.HubstairsDisplayResizeEmbeds_) {
     return
   }
-  window.VimeoPlayerResizeEmbeds_ = true
+  window.HubstairsDisplayResizeEmbeds_ = true
 
   const onMessage = event => {
-    if (!isVimeoUrl(event.origin)) {
+    if (!isHubstairsUrl(event.origin)) {
       return
     }
 

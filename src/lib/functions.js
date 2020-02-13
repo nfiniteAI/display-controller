@@ -1,3 +1,4 @@
+import { prefix } from './logger'
 /**
  * @module lib/functions
  */
@@ -7,6 +8,25 @@
  * @type {Boolean}
  */
 export const isNode = typeof global !== 'undefined' && {}.toString.call(global) === '[object global]'
+
+export class HubstairsError extends Error {
+  constructor(message, name) {
+    super(`${prefix} ${message}`)
+    if (name) {
+      this.name = name
+    }
+  }
+}
+
+/**
+ * Convert kebab case to camel case
+ *
+ * @param {string} the snake case string.
+ * @return {string}
+ */
+export function kebabToCamel(s) {
+  return s.replace(/(-\w)/g, m => m[1].toUpperCase())
+}
 
 /**
  * Get the name of the method for a given getter or setter.
@@ -53,44 +73,43 @@ export function isInteger(value) {
 }
 
 /**
- * Check to see if the URL is a Vimeo url.
+ * Check to see if the URL is a Hubstairs url.
  *
  * @param {string} url The url string.
  * @return {boolean}
  */
-export function isVimeoUrl(url) {
-  return /^(https?:)?\/\/((player|www)\.)?vimeo\.com(?=$|\/)/.test(url)
+export function isHubstairsUrl(url) {
+  return /^(https?:)?\/\/display.*hubstairs\.com(:\d+)?(?=$|\/)/.test(url)
 }
 
 /**
- * Get the Vimeo URL from an element.
- * The element must have either a data-vimeo-id or data-vimeo-url attribute.
+ * Get the Hubstairs URL from an element.
+ * The element must have either a data-hubstairs-displayid or data-hubstairs-url attribute.
  *
  * @param {object} oEmbedParameters The oEmbed parameters.
  * @return {string}
  */
-export function getVimeoUrl(oEmbedParameters = {}) {
-  const id = oEmbedParameters.id
-  const url = oEmbedParameters.url
-  const idOrUrl = id || url
+export function getHubstairsUrl(oEmbedParameters = {}) {
+  const { url, displayid, displayUrl } = oEmbedParameters
+  const idOrUrl = displayid || url
 
   if (!idOrUrl) {
-    throw new Error(
-      'An id or url must be passed, either in an options object or as a data-vimeo-id or data-vimeo-url attribute.',
+    throw new HubstairsError(
+      'An id or url must be passed, either in an options object or as a data-hubstairs-displayid attribute.',
     )
   }
 
   if (isInteger(idOrUrl)) {
-    return `https://vimeo.com/${idOrUrl}`
+    return `${displayUrl || 'https://display.hubstairs.com'}/v1/${idOrUrl}`
   }
 
-  if (isVimeoUrl(idOrUrl)) {
+  if (isHubstairsUrl(idOrUrl)) {
     return idOrUrl.replace('http:', 'https:')
   }
 
-  if (id) {
-    throw new TypeError(`“${id}” is not a valid video id.`)
+  if (displayid) {
+    throw new HubstairsError(`“${displayid}” is not a valid display id.`, 'TypeError')
   }
 
-  throw new TypeError(`“${idOrUrl}” is not a vimeo.com url.`)
+  throw new HubstairsError(`“${idOrUrl}” is not a display.hubstairs.com url.`, 'TypeError')
 }

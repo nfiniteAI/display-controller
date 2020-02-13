@@ -2,10 +2,10 @@ import 'whatwg-fetch'
 import jquery from 'jquery'
 
 const html = `<body>
-	<div id="test_player" data-vimeo-id="2"></div>
+	<div id="test_display" data-hubstairs-displayid="2"></div>
 	<div class="multiple">
-		<iframe class="two" src="https://player.vimeo.com/video/2"></iframe>
-		<iframe class="one" src="https://player.vimeo.com/video/76979871"></iframe>
+		<iframe class="two" src="https://display.hubstairs.com/v1/2"></iframe>
+		<iframe class="one" src="https://display.hubstairs.com/v1/1234"></iframe>
 	</div>
 </body>`
 
