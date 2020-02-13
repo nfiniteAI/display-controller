@@ -28,13 +28,13 @@ export function parseMessageData(data) {
 /**
  * Post a message to the specified target.
  *
- * @param {Player} player The player object to use.
+ * @param {Display} display The display object to use.
  * @param {string} method The API method to call.
- * @param {object} params The parameters to send to the player.
+ * @param {object} params The parameters to send to the display.
  * @return {void}
  */
-export function postMessage(player, method, params) {
-  if (!player.element.contentWindow || !player.element.contentWindow.postMessage) {
+export function postMessage(display, method, params) {
+  if (!display.element.contentWindow || !display.element.contentWindow.postMessage) {
     return
   }
 
@@ -52,38 +52,38 @@ export function postMessage(player, method, params) {
     message = JSON.stringify(message)
   }
 
-  player.element.contentWindow.postMessage(message, player.origin)
+  display.element.contentWindow.postMessage(message, display.origin)
 }
 
 /**
  * Parse the data received from a message event.
  *
- * @param {Player} player The player that received the message.
+ * @param {Display} display The display that received the message.
  * @param {(Object|string)} data The message data. Strings will be parsed into JSON.
  * @return {void}
  */
-export function processData(player, data) {
+export function processData(display, data) {
   data = parseMessageData(data)
   let callbacks = []
   let param
 
   if (data.event) {
     if (data.event === 'error') {
-      const promises = getCallbacks(player, data.data.method)
+      const promises = getCallbacks(display, data.data.method)
 
       promises.forEach(promise => {
         const error = new Error(data.data.message)
         error.name = data.data.name
 
         promise.reject(error)
-        removeCallback(player, data.data.method, promise)
+        removeCallback(display, data.data.method, promise)
       })
     }
 
-    callbacks = getCallbacks(player, `event:${data.event}`)
+    callbacks = getCallbacks(display, `event:${data.event}`)
     param = data.data
   } else if (data.method) {
-    const callback = shiftCallbacks(player, data.method)
+    const callback = shiftCallbacks(display, data.method)
 
     if (callback) {
       callbacks.push(callback)
@@ -94,7 +94,7 @@ export function processData(player, data) {
   callbacks.forEach(callback => {
     try {
       if (typeof callback === 'function') {
-        callback.call(player, param)
+        callback.call(display, param)
         return
       }
 
