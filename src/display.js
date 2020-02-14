@@ -6,17 +6,17 @@ import { getOEmbedParameters, getOEmbedData, createEmbed, initializeEmbeds, resi
 import { parseMessageData, postMessage, processData } from './lib/postmessage'
 import { log } from './lib/log'
 
-const playerMap = new WeakMap()
+const displayMap = new WeakMap()
 const readyMap = new WeakMap()
 
-class Player {
+class Display {
   /**
-   * Create a Player.
+   * Create a Display.
    *
-   * @param {(HTMLIFrameElement|HTMLElement|string|jQuery)} element A reference to the Vimeo
-   *        player iframe, and id, or a jQuery object.
+   * @param {(HTMLIFrameElement|HTMLElement|string|jQuery)} element A reference to the hubstairs
+   *        display iframe, and id, or a jQuery object.
    * @param {object} [options] oEmbed parameters to use when creating an embed in the element.
-   * @return {Player}
+   * @return {Display}
    */
   constructor(element, options = {}) {
     /* global jQuery */
@@ -49,14 +49,14 @@ class Player {
       }
     }
 
-    // iframe url is not a Vimeo url
+    // iframe url is not a hubstairs url
     if (element.nodeName === 'IFRAME' && !isHubstairsUrl(element.getAttribute('src') || '')) {
-      throw new Error('The player element passed isn’t a Vimeo embed.')
+      throw new Error('The display element passed isn’t a Hubstairs embed.')
     }
 
-    // If there is already a player object in the map, return that
-    if (playerMap.has(element)) {
-      return playerMap.get(element)
+    // If there is already a display object in the map, return that
+    if (displayMap.has(element)) {
+      return displayMap.get(element)
     }
 
     this.element = element
@@ -114,7 +114,7 @@ class Player {
             this._originalElement = element
 
             swapCallbacks(element, iframe)
-            playerMap.set(this.element, this)
+            displayMap.set(this.element, this)
 
             return data
           })
@@ -122,12 +122,12 @@ class Player {
       }
     })
 
-    // Store a copy of this Player in the map
+    // Store a copy of this Display in the map
     readyMap.set(this, readyPromise)
-    playerMap.set(this.element, this)
+    displayMap.set(this.element, this)
 
     // Send a ping to the iframe so the ready promise will be resolved if
-    // the player is already ready.
+    // the display is already ready.
     if (this.element.nodeName === 'IFRAME') {
       postMessage(this, 'ping')
     }
@@ -160,7 +160,7 @@ class Player {
   }
 
   /**
-   * Get a promise for the value of a player property.
+   * Get a promise for the value of a display property.
    *
    * @param {string} name The property name
    * @return {Promise}
@@ -185,7 +185,7 @@ class Player {
   }
 
   /**
-   * Get a promise for setting the value of a player property.
+   * Get a promise for setting the value of a display property.
    *
    * @param {string} name The API method to call.
    * @param {mixed} value The value to set.
@@ -277,14 +277,14 @@ class Player {
   }
 
   /**
-   * A promise to perform an action when the Player is ready.
+   * A promise to perform an action when the Display is ready.
    *
    * @todo document errors
-   * @promise LoadVideoPromise
+   * @promise LoadDisplayPromise
    * @fulfill {void}
    */
   /**
-   * Trigger a function when the player iframe has initialized. You do not
+   * Trigger a function when the display iframe has initialized. You do not
    * need to wait for `ready` to trigger to begin adding event listeners
    * or calling other methods.
    *
@@ -294,13 +294,13 @@ class Player {
     const readyPromise =
       readyMap.get(this) ||
       new Promise((resolve, reject) => {
-        reject(new Error('Unknown player. Probably unloaded.'))
+        reject(new Error('Unknown display. Probably unloaded.'))
       })
     return Promise.resolve(readyPromise)
   }
 
   /**
-   * Cleanup the player and remove it from the DOM
+   * Cleanup the display and remove it from the DOM
    *
    * It won't be usable and a new one should be constructed
    *  in order to do any operations.
@@ -310,9 +310,9 @@ class Player {
   destroy() {
     return new Promise(resolve => {
       readyMap.delete(this)
-      playerMap.delete(this.element)
+      displayMap.delete(this.element)
       if (this._originalElement) {
-        playerMap.delete(this._originalElement)
+        displayMap.delete(this._originalElement)
         this._originalElement.removeAttribute('data-vimeo-initialized')
       }
       if (this.element && this.element.nodeName === 'IFRAME' && this.element.parentNode) {
@@ -336,7 +336,7 @@ class Player {
    * @reject {Error} Cannot get the list of products
    */
   /**
-   * Get an array of the cue points added to the video.
+   * Get an array of the products displayed.
    *
    * @return {getProductPromise}
    */
@@ -384,4 +384,4 @@ if (!isNode) {
   resizeEmbeds()
 }
 
-export default Player
+export default Display

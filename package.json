@@ -11,8 +11,8 @@
     "test": "jest",
     "prettier:fix": "prettier --write '**/*.{js,jsx,json,md,css,scss,sh,yml,yaml,html}'"
   },
-  "main": "build/player.js",
-  "module": "build/player.esm.js",
+  "main": "build/display.js",
+  "module": "build/display.esm.js",
   "keywords": [
     "hubstairs",
     "display",

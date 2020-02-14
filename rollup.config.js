@@ -6,7 +6,7 @@ import filesize from 'rollup-plugin-filesize'
 import pkg from './package.json'
 
 const globalName = 'Hubstairs.Controller'
-const input = './src/player.js'
+const input = './src/display.js'
 
 export default [
   {
