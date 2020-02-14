@@ -7,5 +7,5 @@ const fetchSupport = typeof window !== 'undefined' && typeof window.fetch !== 'u
 const weakMapSupport = typeof window !== 'undefined' && typeof window.WeakMap !== 'undefined'
 
 if (!isNode && (!arrayIndexOfSupport || !postMessageSupport || !promiseSupport || !fetchSupport || !weakMapSupport)) {
-  throw new Error('Sorry, the Vimeo Player API is not available in this browser.')
+  throw new Error('Sorry, the Hubstairs Display API is not available in this browser.')
 }

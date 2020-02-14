@@ -313,7 +313,7 @@ class Display {
       displayMap.delete(this.element)
       if (this._originalElement) {
         displayMap.delete(this._originalElement)
-        this._originalElement.removeAttribute('data-vimeo-initialized')
+        this._originalElement.removeAttribute('data-hubstairs-initialized')
       }
       if (this.element && this.element.nodeName === 'IFRAME' && this.element.parentNode) {
         this.element.parentNode.removeChild(this.element)

@@ -53,7 +53,7 @@ export function isInteger(value) {
 }
 
 /**
- * Check to see if the URL is a Vimeo url.
+ * Check to see if the URL is a Hubstairs url.
  *
  * @param {string} url The url string.
  * @return {boolean}

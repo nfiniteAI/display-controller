@@ -9,7 +9,7 @@ import { fetchURL, HTTPError } from './fetch'
 const oEmbedParameters = ['displayId', 'url', 'productCode']
 
 /**
- * Get the 'data-vimeo'-prefixed attributes from an element as an object.
+ * Get the 'data-hubstairs'-prefixed attributes from an element as an object.
  *
  * @param {HTMLElement} element The element.
  * @param {Object} [defaults={}] The default values to use.
@@ -39,7 +39,7 @@ export function createEmbed({ html }, element) {
     throw new TypeError('An element must be provided')
   }
 
-  if (element.getAttribute('data-vimeo-initialized') !== null) {
+  if (element.getAttribute('data-hubstairs-initialized') !== null) {
     return element.querySelector('iframe')
   }
 
@@ -47,7 +47,7 @@ export function createEmbed({ html }, element) {
   div.innerHTML = html
 
   element.appendChild(div.firstChild)
-  element.setAttribute('data-vimeo-initialized', 'true')
+  element.setAttribute('data-hubstairs-initialized', 'true')
 
   return element.querySelector('iframe')
 }
@@ -55,16 +55,16 @@ export function createEmbed({ html }, element) {
 /**
  * Make an oEmbed call for the specified URL.
  *
- * @param {string} videoUrl The vimeo.com url for the video.
+ * @param {string} displayUrl The hubstairs.com url for the display.
  * @param {Object} [params] Parameters to pass to oEmbed.
  * @return {Promise}
  */
-export function getOEmbedData(videoUrl, params = {}) {
-  if (!isHubstairsUrl(videoUrl)) {
-    return Promise.reject(new TypeError(`“${videoUrl}” is not a vimeo.com url.`))
+export function getOEmbedData(displayUrl, params = {}) {
+  if (!isHubstairsUrl(displayUrl)) {
+    return Promise.reject(new TypeError(`“${displayUrl}” is not a hubstairs.com url.`))
   }
 
-  let url = `https://api-test.hubstairs.com/oembed?url=${encodeURIComponent(videoUrl)}`
+  let url = `https://api-test.hubstairs.com/oembed?url=${encodeURIComponent(displayUrl)}`
 
   for (const param in params) {
     if (Object.prototype.hasOwnProperty.call(params, param)) {
@@ -77,12 +77,12 @@ export function getOEmbedData(videoUrl, params = {}) {
     .catch(err => {
       if (err instanceof HTTPError) {
         if (err.response.status === 404) {
-          throw new Error(`“${videoUrl}” was not found.`)
+          throw new Error(`“${displayUrl}” was not found.`)
         } else if (err.response.status === 403) {
-          throw new Error(`“${videoUrl}” is not embeddable.`)
+          throw new Error(`“${displayUrl}” is not embeddable.`)
         }
       }
-      throw new Error(`There was an error fetching the embed code from Vimeo${status}.`)
+      throw new Error(`There was an error fetching the embed code from Hubstairs${status}.`)
     })
 }
 
@@ -93,7 +93,7 @@ export function getOEmbedData(videoUrl, params = {}) {
  * @return {void}
  */
 export function initializeEmbeds(parent = document) {
-  const elements = [].slice.call(parent.querySelectorAll('[data-hubstairs-displayId], [data-vimeo-url]'))
+  const elements = [].slice.call(parent.querySelectorAll('[data-hubstairs-displayId], [data-hubstairs-url]'))
 
   const handleError = error => {
     log.error(`There was an error creating an embed: ${error}`)
@@ -101,8 +101,8 @@ export function initializeEmbeds(parent = document) {
 
   elements.forEach(element => {
     try {
-      // Skip any that have data-vimeo-defer
-      if (element.getAttribute('data-vimeo-defer') !== null) {
+      // Skip any that have data-hubstairs-defer
+      if (element.getAttribute('data-hubstairs-defer') !== null) {
         return
       }
 
@@ -121,17 +121,17 @@ export function initializeEmbeds(parent = document) {
 }
 
 /**
- * Resize embeds when messaged by the player.
+ * Resize embeds when messaged by the display.
  *
  * @param {HTMLElement} [parent=document] The parent element.
  * @return {void}
  */
 export function resizeEmbeds(parent = document) {
-  // Prevent execution if users include the player.js script multiple times.
-  if (window.VimeoPlayerResizeEmbeds_) {
+  // Prevent execution if users include the display.js script multiple times.
+  if (window.HubstairsDisplayResizeEmbeds_) {
     return
   }
-  window.VimeoPlayerResizeEmbeds_ = true
+  window.HubstairsDisplayResizeEmbeds_ = true
 
   const onMessage = event => {
     if (!isHubstairsUrl(event.origin)) {

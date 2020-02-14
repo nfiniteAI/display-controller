@@ -16,49 +16,49 @@ test("parseMessageData returns empty object with strings that can't be parsed", 
 test('postMessage called correctly with just a method', () => {
   const postMessageSpy = jest.fn()
 
-  const player = {
+  const display = {
     element: {
       contentWindow: {
         postMessage: postMessageSpy,
       },
     },
-    origin: 'playerOrigin',
+    origin: 'displayOrigin',
   }
 
-  postMessage(player, 'testMethod')
+  postMessage(display, 'testMethod')
 
   expect(postMessageSpy).toHaveBeenCalled()
-  expect(postMessageSpy).toHaveBeenCalledWith({ method: 'testMethod' }, 'playerOrigin')
+  expect(postMessageSpy).toHaveBeenCalledWith({ method: 'testMethod' }, 'displayOrigin')
 })
 
 test('postMessage called correctly with a method and single param', () => {
   const postMessageSpy = jest.fn()
-  const player = {
+  const display = {
     element: {
       contentWindow: {
         postMessage: postMessageSpy,
       },
     },
-    origin: 'playerOrigin',
+    origin: 'displayOrigin',
   }
 
-  postMessage(player, 'testMethodWithParams', 'testParam')
+  postMessage(display, 'testMethodWithParams', 'testParam')
   expect(postMessageSpy).toHaveBeenCalled()
-  expect(postMessageSpy).toHaveBeenCalledWith({ method: 'testMethodWithParams', value: 'testParam' }, 'playerOrigin')
+  expect(postMessageSpy).toHaveBeenCalledWith({ method: 'testMethodWithParams', value: 'testParam' }, 'displayOrigin')
 })
 
 test('postMessage called correctly with a method and params object', () => {
   const postMessageSpy = jest.fn()
-  const player = {
+  const display = {
     element: {
       contentWindow: {
         postMessage: postMessageSpy,
       },
     },
-    origin: 'playerOrigin',
+    origin: 'displayOrigin',
   }
 
-  postMessage(player, 'testMethodWithParamObject', { language: 'en', kind: 'captions' })
+  postMessage(display, 'testMethodWithParamObject', { language: 'en', kind: 'captions' })
 
   expect(postMessageSpy).toHaveBeenCalled()
 
@@ -70,19 +70,19 @@ test('postMessage called correctly with a method and params object', () => {
         kind: 'captions',
       },
     },
-    'playerOrigin',
+    'displayOrigin',
   )
 })
 
 test('processData calls the proper callbacks for an event', () => {
-  const player = { element: {} }
+  const display = { element: {} }
   const callbacks = [jest.fn(), jest.fn()]
 
   callbacks.forEach(callback => {
-    storeCallback(player, 'event:play', callback)
+    storeCallback(display, 'event:play', callback)
   })
 
-  processData(player, { event: 'play', data: { seconds: 0 } })
+  processData(display, { event: 'play', data: { seconds: 0 } })
 
   callbacks.forEach(callback => {
     expect(callback).toHaveBeenCalled()
@@ -91,25 +91,25 @@ test('processData calls the proper callbacks for an event', () => {
 })
 
 test('processData resolves a method promise with the proper data', async () => {
-  const player = { element: {} }
+  const display = { element: {} }
   const callback = {}
   const methodPromise = new Promise((resolve, reject) => {
     callback.resolve = resolve
     callback.reject = reject
   })
 
-  storeCallback(player, 'getColor', callback)
+  storeCallback(display, 'getColor', callback)
 
-  processData(player, { method: 'getColor', value: '00adef' })
+  processData(display, { method: 'getColor', value: '00adef' })
 
-  expect(getCallbacks(player, 'getColor')).toHaveLength(0)
+  expect(getCallbacks(display, 'getColor')).toHaveLength(0)
 
   const value = await methodPromise
   expect(value).toBe('00adef')
 })
 
 test('processData resolves multiple of the same method calls with the proper data', async () => {
-  const player = { element: {} }
+  const display = { element: {} }
 
   const callbackOne = {}
   const methodPromiseOne = new Promise((resolve, reject) => {
@@ -129,12 +129,12 @@ test('processData resolves multiple of the same method calls with the proper dat
     callbackThree.reject = reject
   })
 
-  storeCallback(player, 'addCuePoint', callbackOne)
-  storeCallback(player, 'addCuePoint', callbackTwo)
-  processData(player, { method: 'addCuePoint', value: 'bf6a88a0-87ac-4196-b249-a66fde4339f2' })
-  storeCallback(player, 'addCuePoint', callbackThree)
-  processData(player, { method: 'addCuePoint', value: 'a6f3de01-f4cb-4956-a639-221e640ed458' })
-  processData(player, { method: 'addCuePoint', value: 'b9a2834a-6461-4785-8301-7e6501c3cf4c' })
+  storeCallback(display, 'addCuePoint', callbackOne)
+  storeCallback(display, 'addCuePoint', callbackTwo)
+  processData(display, { method: 'addCuePoint', value: 'bf6a88a0-87ac-4196-b249-a66fde4339f2' })
+  storeCallback(display, 'addCuePoint', callbackThree)
+  processData(display, { method: 'addCuePoint', value: 'a6f3de01-f4cb-4956-a639-221e640ed458' })
+  processData(display, { method: 'addCuePoint', value: 'b9a2834a-6461-4785-8301-7e6501c3cf4c' })
 
   const [idOne, idTwo, idThree] = await Promise.all([methodPromiseOne, methodPromiseTwo, methodPromiseThree])
   expect(idOne).toBe('bf6a88a0-87ac-4196-b249-a66fde4339f2')
@@ -143,16 +143,16 @@ test('processData resolves multiple of the same method calls with the proper dat
 })
 
 test('processData rejects a method promise on an error event', async () => {
-  const player = { element: {} }
+  const display = { element: {} }
   const callback = {}
   const methodPromise = new Promise((resolve, reject) => {
     callback.resolve = resolve
     callback.reject = reject
   })
 
-  storeCallback(player, 'getColor', callback)
+  storeCallback(display, 'getColor', callback)
 
-  processData(player, {
+  processData(display, {
     event: 'error',
     data: {
       method: 'getColor',
@@ -161,7 +161,7 @@ test('processData rejects a method promise on an error event', async () => {
     },
   })
 
-  expect(getCallbacks(player, 'getColor')).toHaveLength(0)
+  expect(getCallbacks(display, 'getColor')).toHaveLength(0)
   await expect(methodPromise).rejects.toThrowError('The color should be 3- or 6-digit hex value.')
 
   // we need this test because error name are set dynmaically so it cannot be tested by jest correctly

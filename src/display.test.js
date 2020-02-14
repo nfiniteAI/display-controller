@@ -2,11 +2,11 @@
 
 import Display from './display'
 
-test('constructor accepts only Vimeo embeds', () => {
+test('constructor accepts only Hubstairs embeds', () => {
   expect(() => {
     void new Display(
       html`
-        <div data-vimeo-initialized><iframe></iframe></div>
+        <div data-hubstairs-initialized><iframe></iframe></div>
       `,
     )
   }).toThrow()
@@ -104,7 +104,7 @@ test('constructor returns the same display object for the same element', () => {
 test('constructing a display with a bad URI should fail', async () => {
   const display1 = new Display(
     html`
-      <div data-vimeo-id="1"></div>
+      <div data-hubstairs-displayId="guihash"></div>
     `,
   )
   await expect(display1.ready()).rejects.toThrow()

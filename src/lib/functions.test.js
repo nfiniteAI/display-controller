@@ -44,7 +44,7 @@ test('isInteger returns true for integers', () => {
   expect(isInteger(Infinity)).toBe(false)
 })
 
-test('isHubstairsUrl identifies *.vimeo.com only', () => {
+test('isHubstairsUrl identifies right Hubstairs urls only', () => {
   expect(isHubstairsUrl('http://display.hubstairs.com')).toBe(true)
   expect(isHubstairsUrl('https://display.hubstairs.com')).toBe(true)
   expect(isHubstairsUrl('//display.hubstairs.com')).toBe(true)
@@ -78,13 +78,13 @@ describe('getHubstairsUrl throws when the required keys don’t exist', () => {
 
   test('throws an error if the displayId parameter is not an integer', () => {
     expect(() => {
-      getHubstairsUrl({ displayId: 'https://notvimeo.com/2' })
+      getHubstairsUrl({ displayId: 'https://nothubstairs.com/2' })
     }).toThrowError(TypeError)
   })
 
   test('throws an error if the url parameter is not a Hubstairs url', () => {
     expect(() => {
-      getHubstairsUrl({ url: 'https://notvimeo.com/2' })
+      getHubstairsUrl({ url: 'https://nothubstairs.com/2' })
     }).toThrowError(TypeError)
   })
 })
