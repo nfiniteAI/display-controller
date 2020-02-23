@@ -1,10 +1,10 @@
 import './lib/compatibility-check'
 
 import { storeCallback, getCallbacks, removeCallback, swapCallbacks } from './lib/callbacks'
-import { getMethodName, isDomElement, isHubstairsUrl, getHubstairsUrl, isNode } from './lib/functions'
+import { getMethodName, isDomElement, isHubstairsUrl, getHubstairsUrl, isNode, HubstairsError } from './lib/functions'
 import { getOEmbedParameters, getOEmbedData, createEmbed, initializeEmbeds, resizeEmbeds } from './lib/embed'
 import { parseMessageData, postMessage, processData } from './lib/postmessage'
-import { log } from './lib/log'
+import { logger } from './lib/logger'
 
 const displayMap = new WeakMap()
 const readyMap = new WeakMap()
@@ -22,7 +22,7 @@ class Display {
     /* global jQuery */
     if (window.jQuery && element instanceof jQuery) {
       if (element.length > 1) {
-        log.warn('A jQuery object with multiple elements was passed, using the first element.')
+        logger.warn('A jQuery object with multiple elements was passed, using the first element.')
       }
 
       element = element[0]
@@ -35,7 +35,7 @@ class Display {
 
     // Not an element!
     if (!isDomElement(element)) {
-      throw new TypeError('You must pass either a valid element or a valid id.')
+      throw new HubstairsError('You must pass either a valid element or a valid id.', 'TypeError')
     }
 
     const win = element.ownerDocument.defaultView
@@ -51,7 +51,7 @@ class Display {
 
     // iframe url is not a hubstairs url
     if (element.nodeName === 'IFRAME' && !isHubstairsUrl(element.getAttribute('src') || '')) {
-      throw new Error('The display element passed isn’t a Hubstairs embed.')
+      throw new HubstairsError('The display element passed isn’t a Hubstairs embed.')
     }
 
     // If there is already a display object in the map, return that
@@ -77,8 +77,7 @@ class Display {
         const isReadyError = isError && data.data && data.data.method === 'ready'
 
         if (isReadyError) {
-          const error = new Error(data.data.message)
-          error.name = data.data.name
+          const error = new HubstairsError(data.data.message, data.data.name)
           reject(error)
           return
         }
@@ -196,7 +195,7 @@ class Display {
       name = getMethodName(name, 'set')
 
       if (value === undefined || value === null) {
-        throw new TypeError('There must be a value to set.')
+        throw new HubstairsError('There must be a value to set.', 'TypeError')
       }
 
       // We are storing the resolve/reject handlers to call later, so we
@@ -225,15 +224,15 @@ class Display {
    */
   on(eventName, callback) {
     if (!eventName) {
-      throw new TypeError('You must pass an event name.')
+      throw new HubstairsError('You must pass an event name.', 'TypeError')
     }
 
     if (!callback) {
-      throw new TypeError('You must pass a callback function.')
+      throw new HubstairsError('You must pass a callback function.', 'TypeError')
     }
 
     if (typeof callback !== 'function') {
-      throw new TypeError('The callback must be a function.')
+      throw new HubstairsError('The callback must be a function.', 'TypeError')
     }
 
     const callbacks = getCallbacks(this, `event:${eventName}`)
@@ -258,11 +257,11 @@ class Display {
    */
   off(eventName, callback) {
     if (!eventName) {
-      throw new TypeError('You must pass an event name.')
+      throw new HubstairsError('You must pass an event name.', 'TypeError')
     }
 
     if (callback && typeof callback !== 'function') {
-      throw new TypeError('The callback must be a function.')
+      throw new HubstairsError('The callback must be a function.', 'TypeError')
     }
 
     const lastCallback = removeCallback(this, `event:${eventName}`, callback)
@@ -294,7 +293,7 @@ class Display {
     const readyPromise =
       readyMap.get(this) ||
       new Promise((resolve, reject) => {
-        reject(new Error('Unknown display. Probably unloaded.'))
+        reject(new HubstairsError('Unknown display. Probably unloaded.'))
       })
     return Promise.resolve(readyPromise)
   }
@@ -326,7 +325,7 @@ class Display {
    * A representation of a cue point.
    *
    * @typedef {Object} HubstairsProduct
-   * @property {productCode} string Identifier for the product.
+   * @property {productcode} string Identifier for the product.
    */
   /**
    * A promise to get the products displayed.

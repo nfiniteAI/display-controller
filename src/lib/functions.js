@@ -1,3 +1,4 @@
+import { prefix } from './logger'
 /**
  * @module lib/functions
  */
@@ -7,6 +8,25 @@
  * @type {Boolean}
  */
 export const isNode = typeof global !== 'undefined' && {}.toString.call(global) === '[object global]'
+
+export class HubstairsError extends Error {
+  constructor(message, name) {
+    super(`${prefix} ${message}`)
+    if (name) {
+      this.name = name
+    }
+  }
+}
+
+/**
+ * Convert kebab case to camel case
+ *
+ * @param {string} the snake case string.
+ * @return {string}
+ */
+export function kebabToCamel(s) {
+  return s.replace(/(-\w)/g, m => m[1].toUpperCase())
+}
 
 /**
  * Get the name of the method for a given getter or setter.
@@ -64,32 +84,32 @@ export function isHubstairsUrl(url) {
 
 /**
  * Get the Hubstairs URL from an element.
- * The element must have either a data-hubstairs-displayId or data-hubstairs-url attribute.
+ * The element must have either a data-hubstairs-displayid or data-hubstairs-url attribute.
  *
  * @param {object} oEmbedParameters The oEmbed parameters.
  * @return {string}
  */
 export function getHubstairsUrl(oEmbedParameters = {}) {
-  const { url, displayId } = oEmbedParameters
-  const idOrUrl = displayId || url
+  const { url, displayid, displayUrl } = oEmbedParameters
+  const idOrUrl = displayid || url
 
   if (!idOrUrl) {
-    throw new Error(
-      'An id or url must be passed, either in an options object or as a data-hubstairs-displayId attribute.',
+    throw new HubstairsError(
+      'An id or url must be passed, either in an options object or as a data-hubstairs-displayid attribute.',
     )
   }
 
   if (isInteger(idOrUrl)) {
-    return `https://display.hubstairs.com/v1/${idOrUrl}`
+    return `${displayUrl || 'https://display.hubstairs.com'}/v1/${idOrUrl}`
   }
 
   if (isHubstairsUrl(idOrUrl)) {
     return idOrUrl.replace('http:', 'https:')
   }
 
-  if (displayId) {
-    throw new TypeError(`“${displayId}” is not a valid display id.`)
+  if (displayid) {
+    throw new HubstairsError(`“${displayid}” is not a valid display id.`, 'TypeError')
   }
 
-  throw new TypeError(`“${idOrUrl}” is not a display.hubstairs.com url.`)
+  throw new HubstairsError(`“${idOrUrl}” is not a display.hubstairs.com url.`, 'TypeError')
 }

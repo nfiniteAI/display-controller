@@ -3,7 +3,8 @@
  */
 
 import { getCallbacks, removeCallback, shiftCallbacks } from './callbacks'
-import { log } from './log'
+import { HubstairsError } from './functions'
+import { logger } from './logger'
 
 /**
  * Parse a message received from postMessage.
@@ -17,7 +18,7 @@ export function parseMessageData(data) {
       data = JSON.parse(data)
     } catch (error) {
       // If the message cannot be parsed, throw the error as a warning
-      log.warn(error)
+      logger.warn(error)
       return {}
     }
   }
@@ -72,8 +73,7 @@ export function processData(display, data) {
       const promises = getCallbacks(display, data.data.method)
 
       promises.forEach(promise => {
-        const error = new Error(data.data.message)
-        error.name = data.data.name
+        const error = new HubstairsError(data.data.message, data.data.name)
 
         promise.reject(error)
         removeCallback(display, data.data.method, promise)
