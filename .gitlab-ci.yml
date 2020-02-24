@@ -1,4 +1,0 @@
-include:
-  - project: 'hubstairs/platform/hubstairs-ci-template'
-    ref: master
-    file: 'platform/pipelines/package_yarn.yml'
