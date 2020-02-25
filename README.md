@@ -26,7 +26,7 @@ few ways to get a display:
 
 ### Pre-existing display
 
-Already have a player on the page? Pass the element to the `Display`
+Already have a display on the page? Pass the element to the `Display`
 constructor and you’re ready to go.
 
 > ⚠ This mode is incompatible with [`responsive` mode](#embed-options)
@@ -89,6 +89,8 @@ attributes. Each element must have at least a `data-hubstairs-displayid` or
 You can also add attributes for any of the [embed options](#embed-options),
 prefixed with `data-hubstairs`.
 
+> ⚠ This mode is not recommended with virtual/shadow DOM
+
 ```html
 <div data-hubstairs-displayid="19231868" id="display"></div>
 <div data-hubstairs-url="https://display.hubstairs.com/v1/76979871" id="displaytwo"></div>
@@ -126,18 +128,17 @@ If you’re using the CDN version of the libray (UMD build), the display control
 constructor (unlike the browser where it is attached to `window.Hubstairs`):
 
 ```html
-<div id="display">
-  <script src="https://unpkg.com/@hubstairs/display-controller@1"></script>
-  <script>
-    const display = new Hubstairs.Display('display', {
-      displayid: 19231868,
-    })
+<div id="display"></div>
+<script src="https://unpkg.com/@hubstairs/display-controller@1"></script>
+<script>
+  const display = new Hubstairs.Display('display', {
+    displayid: 19231868,
+  })
 
-    display.on('addToCart', function(product) {
-      console.log(`addToCart button clicked for product ${product.code}`)
-    })
-  </script>
-</div>
+  display.on('addToCart', function(product) {
+    console.log(`addToCart button clicked for product ${product.code}`)
+  })
+</script>
 ```
 
 ## Table of Contents
@@ -149,7 +150,7 @@ constructor (unlike the browser where it is attached to `window.Hubstairs`):
   - [ready](#ready-promisevoid-error)
   - [nextScene](#nextscene-promisevoid-error)
   - [destroy](#destroy-promisevoid-error)
-  - [setConfig](#setconfigconfig-object-promiseboolean-error)
+  - [setConfig](#setconfigconfig-object-promiseobject-error)
   - [getProducts](#getproducts-promiseobject-error)
 - [Events](#events)
   - [addToCart](#addToCart)
@@ -304,7 +305,7 @@ display.off('addToCart')
 
 ### ready(): Promise&lt;void, Error&gt;
 
-Trigger a function when the player iframe has initialized. You do not need to
+Trigger a function when the display iframe has initialized. You do not need to
 wait for `ready` to trigger to begin adding event listeners or calling other
 methods.
 
@@ -331,7 +332,7 @@ display
 
 ### destroy(): Promise&lt;void, Error&gt;
 
-Cleanup the player and remove it from the DOM.
+Cleanup the display and remove it from the DOM.
 
 It won't be usable and a new one should be constructed
 in order to do any operations.
@@ -340,7 +341,7 @@ in order to do any operations.
 display
   .destroy()
   .then(function() {
-    // the player was destroyed
+    // the display was destroyed
   })
   .catch(function(error) {
     // an error occurred
@@ -362,7 +363,7 @@ display
   })
 ```
 
-### setConfig(config: object): Promise&lt;boolean, (Error)&gt;
+### setConfig(config: object): Promise&lt;object, (Error)&gt;
 
 Set the configuration
 
@@ -379,7 +380,7 @@ display
 
 ## Events
 
-You can listen for events in the player by attaching a callback using `.on()`:
+You can listen for events in the display by attaching a callback using `.on()`:
 
 ```js
 display.on('eventName', function(data) {
