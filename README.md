@@ -9,7 +9,11 @@ You can install the Hubstairs Display API through either npm:
 
 ```bash
 npm install @hubstairs/display-controller
-#or yarn
+```
+
+Or yarn:
+
+```bash
 yarn add @hubstairs/display-controller
 ```
 
@@ -21,7 +25,7 @@ Alternatively, you can reference an up‐to‐date version on unpkg (UMD build):
 
 ## Getting Started
 
-In order to control the Hubstairs display, you need a display to control. There are a
+In order to control the Hubstairs Display, you need a display to control. There are a
 few ways to get a display:
 
 ### Pre-existing display
@@ -211,15 +215,14 @@ Embed options will also be read from the `data-hubstairs-*` attributes. Attribut
 Elements with a `data-hubstairs-displayid` or `data-hubstairs-url` attribute will have embeds created automatically when the display API library is loaded. You can use the `data-hubstairs-defer` attribute to prevent that from happening and create the embed at a later time. This is useful for situations where the controller embed wouldn’t be visible right away, but only after some action was taken by the user (a lightbox opened from clicking on a thumbnail, for example).
 
 ```html
-<div data-hubstairss-displayid="59777392" data-hubstairs-defer id="made-in-paris"></div>
-<div data-hubstairss-displayid="19231868" data-hubstairs-defer data-hubstairs-width="500" id="display"></div>
+<div data-hubstairs-displayid="59777392" data-hubstairs-defer id="made-in-paris"></div>
+<div data-hubstairs-displayid="19231868" data-hubstairs-defer data-hubstairs-width="500" id="display"></div>
 
 <script>
   import Display from '@hubstairs/display-controller'
 
   const options = {
-    width: 640,
-    loop: true,
+    width: 640
   }
 
   // Will create inside the made-in-paris div:
@@ -440,7 +443,7 @@ included.
 These options are available to use as `data-hubstairs-` attributes on elements or as
 an object passed to the `Hubstairs.Display` constructor
 
-> camel cased options must be convert in kebab cased to use them in element (eg: `displayUrl` --> `data-hubstairs-display-url`)
+> camel cased options must be converted to kebab case in order to use them in element (eg: `displayUrl` --> `data-hubstairs-display-url`)
 
 | option             | default                             | description                                                                                              |
 | ------------------ | ----------------------------------- | -------------------------------------------------------------------------------------------------------- |
