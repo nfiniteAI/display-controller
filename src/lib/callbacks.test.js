@@ -1,7 +1,6 @@
-import test from 'ava'
 import { callbackMap, storeCallback, getCallbacks, removeCallback, shiftCallbacks, swapCallbacks } from './callbacks'
 
-test('storeCallback adds the callback when the name doesn’t exist', t => {
+test('storeCallback adds the callback when the name doesn’t exist', () => {
   const player = {
     element: {},
   }
@@ -9,12 +8,12 @@ test('storeCallback adds the callback when the name doesn’t exist', t => {
   const cb = () => {}
 
   storeCallback(player, 'test', cb)
-  t.true('test' in callbackMap.get(player.element))
-  t.true(Array.isArray(callbackMap.get(player.element).test))
-  t.true(callbackMap.get(player.element).test[0] === cb)
+  expect(callbackMap.get(player.element)).toHaveProperty('test')
+  expect(callbackMap.get(player.element).test).toBeInstanceOf(Array)
+  expect(callbackMap.get(player.element).test[0]).toBe(cb)
 })
 
-test('storeCallback adds the callback when the name already exists', t => {
+test('storeCallback adds the callback when the name already exists', () => {
   const player = {
     element: {},
   }
@@ -24,15 +23,15 @@ test('storeCallback adds the callback when the name already exists', t => {
 
   storeCallback(player, 'test', cb)
   storeCallback(player, 'test', cb2)
-  t.true(callbackMap.get(player.element).test.length === 2)
-  t.true(callbackMap.get(player.element).test[1] === cb2)
+  expect(callbackMap.get(player.element).test).toHaveLength(2)
+  expect(callbackMap.get(player.element).test[1]).toBe(cb2)
 })
 
-test('getCallbacks returns an empty array when there are no callbacks', t => {
-  t.deepEqual(getCallbacks({ element: {} }, 'test'), [])
+test('getCallbacks returns an empty array when there are no callbacks', () => {
+  expect(getCallbacks({ element: {} }, 'test')).toEqual([])
 })
 
-test('getCallbacks returns the callbacks', t => {
+test('getCallbacks returns the callbacks', () => {
   const player = {
     element: {},
   }
@@ -40,14 +39,14 @@ test('getCallbacks returns the callbacks', t => {
   const cb = () => {}
 
   callbackMap.set(player.element, { test: [cb] })
-  t.deepEqual(getCallbacks(player, 'test'), [cb])
+  expect(getCallbacks(player, 'test')).toEqual([cb])
 })
 
-test('removeCallback does nothing if there are no callbacks', t => {
-  t.true(removeCallback({ element: {} }, 'test'))
+test('removeCallback does nothing if there are no callbacks', () => {
+  expect(removeCallback({ element: {} }, 'test')).toBe(true)
 })
 
-test('removeCallback removes all callbacks without a callback arg', t => {
+test('removeCallback removes all callbacks without a callback arg', () => {
   const player = {
     element: {},
   }
@@ -56,11 +55,11 @@ test('removeCallback removes all callbacks without a callback arg', t => {
   const cb2 = () => {}
 
   callbackMap.set(player.element, { test: [cb, cb2] })
-  t.true(removeCallback(player, 'test'))
-  t.deepEqual(callbackMap.get(player.element), { test: [] })
+  expect(removeCallback(player, 'test')).toBe(true)
+  expect(callbackMap.get(player.element)).toEqual({ test: [] })
 })
 
-test('removeCallback removes just the callback specified', t => {
+test('removeCallback removes just the callback specified', () => {
   const player = {
     element: {},
   }
@@ -69,11 +68,11 @@ test('removeCallback removes just the callback specified', t => {
   const cb2 = () => {}
 
   callbackMap.set(player.element, { test: [cb, cb2] })
-  t.true(removeCallback(player, 'test', cb2) === false)
-  t.deepEqual(callbackMap.get(player.element), { test: [cb] })
+  expect(removeCallback(player, 'test', cb2)).toBe(false)
+  expect(callbackMap.get(player.element)).toEqual({ test: [cb] })
 })
 
-test('removeCallback does nothing if the callback passed isn’t in the map', t => {
+test('removeCallback does nothing if the callback passed isn’t in the map', () => {
   const player = {
     element: {},
   }
@@ -82,11 +81,11 @@ test('removeCallback does nothing if the callback passed isn’t in the map', t 
   const cb2 = () => {}
 
   callbackMap.set(player.element, { test: [cb] })
-  t.true(removeCallback(player, 'test', cb2) === false)
-  t.deepEqual(callbackMap.get(player.element), { test: [cb] })
+  expect(removeCallback(player, 'test', cb2)).toBe(false)
+  expect(callbackMap.get(player.element)).toEqual({ test: [cb] })
 })
 
-test('shiftCallbacks shifts a single callback from the callback array', t => {
+test('shiftCallbacks shifts a single callback from the callback array', () => {
   const player = {
     element: {},
   }
@@ -96,23 +95,23 @@ test('shiftCallbacks shifts a single callback from the callback array', t => {
 
   callbackMap.set(player.element, { test: [cb, cb2] })
 
-  t.true(shiftCallbacks(player, 'test') === cb)
+  expect(shiftCallbacks(player, 'test')).toBe(cb)
 
   const callbacks = getCallbacks(player, 'test')
-  t.true(callbacks.length === 1)
-  t.true(callbacks[0] === cb2)
+  expect(callbacks).toHaveLength(1)
+  expect(callbacks[0]).toBe(cb2)
 })
 
-test('shiftCallbacks returns false when there are no callbacks', t => {
+test('shiftCallbacks returns false when there are no callbacks', () => {
   const player = {
     element: {},
   }
 
   callbackMap.set(player.element, { test: [] })
-  t.true(shiftCallbacks(player, 'test') === false)
+  expect(shiftCallbacks(player, 'test')).toBe(false)
 })
 
-test('swapCallbacks moves the callbacks from one key to another', t => {
+test('swapCallbacks moves the callbacks from one key to another', () => {
   const oldElement = {}
   const newElement = {}
   const cb = () => {}
@@ -120,6 +119,6 @@ test('swapCallbacks moves the callbacks from one key to another', t => {
   callbackMap.set(oldElement, { test: [cb] })
   swapCallbacks(oldElement, newElement)
 
-  t.true(callbackMap.get(oldElement) === undefined)
-  t.deepEqual(callbackMap.get(newElement), { test: [cb] })
+  expect(callbackMap.get(oldElement)).toBeUndefined()
+  expect(callbackMap.get(newElement)).toEqual({ test: [cb] })
 })

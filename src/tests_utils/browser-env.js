@@ -1,6 +1,3 @@
-/* eslint-env node */
-import { JSDOM } from 'jsdom'
-
 const html = `<body>
 	<div id="test_player" data-vimeo-id="2"></div>
 	<div class="multiple">
@@ -9,8 +6,5 @@ const html = `<body>
 	</div>
 </body>`
 
-global.window = new JSDOM(html).window
-global.document = window.document
-global.navigator = window.navigator
-global.window.jQuery = global.jQuery = require('jquery')
-global.XMLHttpRequest = require('xhr2')
+global.jQuery = require('jquery')
+document.body.innerHTML = html

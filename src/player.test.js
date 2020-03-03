@@ -1,39 +1,36 @@
-import test from 'ava'
-import sinon from 'sinon'
-import html from './tests_utils/html'
 import Player from './player'
 
-test('constructor accepts only Vimeo embeds', t => {
-  t.throws(() => {
+test('constructor accepts only Vimeo embeds', () => {
+  expect(() => {
     void new Player(
       html`
         <div data-vimeo-initialized><iframe></iframe></div>
       `,
     )
-  })
+  }).toThrow()
 
-  t.throws(() => {
+  expect(() => {
     void new Player('string')
-  })
+  }).toThrow()
 
-  t.throws(() => {
+  expect(() => {
     void new Player(
       html`
         <iframe></iframe>
       `,
     )
-  })
+  }).toThrow()
 
-  t.throws(() => {
+  expect(() => {
     void new Player(
       html`
         <iframe src="https://www.youtube.com/embed/Uj3_KqkI9Zo"></iframe>
       `,
     )
-  })
+  }).toThrow()
 })
 
-test('contructor does not throw if jquery is not present', t => {
+test('contructor does not throw if jquery is not present', () => {
   /* eslint-env jquery */
   /* globals jQuery:true */
   const frames = jQuery('iframe')[0]
@@ -41,37 +38,33 @@ test('contructor does not throw if jquery is not present', t => {
 
   window.jQuery = jQuery = undefined
 
-  t.notThrows(() => {
+  expect(() => {
     void new Player(frames)
-  })
+  }).not.toThrow()
 
   jQuery = window.jQuery = oldJQuery
 })
 
-test('constructor uses the first element from a jQuery object', t => {
+test('constructor uses the first element from a jQuery object', () => {
   /* eslint-env jquery */
-  const consoleWarnSpy = sinon.spy(console, 'warn')
+  const consoleWarnSpy = jest.spyOn(console, 'warn')
 
   const iframes = jQuery('iframe')
   const player = new Player(iframes)
 
-  t.true(consoleWarnSpy.called)
-  t.true(player.element === iframes[0])
-
-  console.warn.restore()
+  expect(consoleWarnSpy).toHaveBeenCalled()
+  expect(player.element).toBe(iframes[0])
 })
 
-test('constructor does not warn if only one jQuery object', t => {
+test('constructor does not warn if only one jQuery object', () => {
   /* eslint-env jquery */
-  const consoleWarnSpy = sinon.spy(console, 'warn')
+  const consoleWarnSpy = jest.spyOn(console, 'warn')
 
   const div = jQuery('.one')
   const player = new Player(div)
 
-  t.true(consoleWarnSpy.called === false)
-  t.true(player.element === div[0])
-
-  console.warn.restore()
+  expect(consoleWarnSpy).toHaveBeenCalled()
+  expect(player.element).toBe(div[0])
 })
 
 // test.skip('constructor accepts a div without attributes when there is an options object', (t) => {
@@ -97,104 +90,111 @@ test('constructor does not warn if only one jQuery object', t => {
 //     t.ok(player.element === element);
 // });
 
-test('constructor returns the same player object for the same element', t => {
+test('constructor returns the same player object for the same element', () => {
   const iframe = document.querySelector('.one')
   const player1 = new Player(iframe)
   const player2 = new Player(iframe)
 
-  t.true(player1 === player2)
+  expect(player1).toBe(player2)
 })
 
-test('constructing a player with a bad URI should fail', async t => {
+test('constructing a player with a bad URI should fail', async () => {
   const player1 = new Player(
     html`
       <div data-vimeo-id="1"></div>
     `,
   )
-  await t.throwsAsync(() => player1.ready())
+  await expect(player1.ready()).rejects.toThrow()
 })
 
-test('future calls to destroyed player should not not work', async t => {
+test('future calls to destroyed player should not not work', async () => {
+  expect.assertions(4)
+
   const player1 = new Player(
     html`
       <iframe id="to-destroy" src="https://player.vimeo.com/video/76979871"></iframe>
     `,
   )
 
-  await t.notThrows(() => player1.destroy())
-  t.falsy(document.querySelector('#to-destroy'))
+  await expect(player1.destroy()).resolves.toBeUndefined()
+  expect(document.querySelector('#to-destroy')).toBeFalsy()
 
-  await t.throwsAsync(() => player1.ready())
-  await t.throwsAsync(() => player1.loadVideo(1))
+  await expect(player1.ready()).rejects.toThrow()
+  await expect(player1.loadVideo(1)).rejects.toThrow()
 })
 
-test('player object includes all api methods', t => {
+test('player object includes all api methods', () => {
   const iframe = document.querySelector('.one')
   const player = new Player(iframe)
 
-  t.true(typeof player.get === 'function')
-  t.true(typeof player.set === 'function')
-  t.true(typeof player.callMethod === 'function')
-  t.true(typeof player.on === 'function')
-  t.true(typeof player.off === 'function')
-  t.true(typeof player.loadVideo === 'function')
-  t.true(typeof player.enableTextTrack === 'function')
-  t.true(typeof player.disableTextTrack === 'function')
-  t.true(typeof player.pause === 'function')
-  t.true(typeof player.play === 'function')
-  t.true(typeof player.unload === 'function')
-  t.true(typeof player.getAutopause === 'function')
-  t.true(typeof player.setAutopause === 'function')
-  t.true(typeof player.getColor === 'function')
-  t.true(typeof player.setColor === 'function')
-  t.true(typeof player.getCurrentTime === 'function')
-  t.true(typeof player.setCurrentTime === 'function')
-  t.true(typeof player.getDuration === 'function')
-  t.true(typeof player.getEnded === 'function')
-  t.true(typeof player.getLoop === 'function')
-  t.true(typeof player.setLoop === 'function')
-  t.true(typeof player.getPaused === 'function')
-  t.true(typeof player.getPlaybackRate === 'function')
-  t.true(typeof player.setPlaybackRate === 'function')
-  t.true(typeof player.getTextTracks === 'function')
-  t.true(typeof player.getVideoEmbedCode === 'function')
-  t.true(typeof player.getVideoId === 'function')
-  t.true(typeof player.getVideoTitle === 'function')
-  t.true(typeof player.getVideoWidth === 'function')
-  t.true(typeof player.getVideoHeight === 'function')
-  t.true(typeof player.getVideoUrl === 'function')
-  t.true(typeof player.getVolume === 'function')
-  t.true(typeof player.setVolume === 'function')
-  t.true(typeof player.getBuffered === 'function')
-  t.true(typeof player.getPlayed === 'function')
-  t.true(typeof player.getSeekable === 'function')
-  t.true(typeof player.getSeeking === 'function')
-  t.true(typeof player.getMuted === 'function')
-  t.true(typeof player.setMuted === 'function')
+  expect(typeof player.get).toBe('function')
+  expect(typeof player.set).toBe('function')
+  expect(typeof player.callMethod).toBe('function')
+  expect(typeof player.on).toBe('function')
+  expect(typeof player.off).toBe('function')
+  expect(typeof player.loadVideo).toBe('function')
+  expect(typeof player.enableTextTrack).toBe('function')
+  expect(typeof player.disableTextTrack).toBe('function')
+  expect(typeof player.pause).toBe('function')
+  expect(typeof player.play).toBe('function')
+  expect(typeof player.unload).toBe('function')
+  expect(typeof player.getAutopause).toBe('function')
+  expect(typeof player.setAutopause).toBe('function')
+  expect(typeof player.getColor).toBe('function')
+  expect(typeof player.setColor).toBe('function')
+  expect(typeof player.getCurrentTime).toBe('function')
+  expect(typeof player.setCurrentTime).toBe('function')
+  expect(typeof player.getDuration).toBe('function')
+  expect(typeof player.getEnded).toBe('function')
+  expect(typeof player.getLoop).toBe('function')
+  expect(typeof player.setLoop).toBe('function')
+  expect(typeof player.getPaused).toBe('function')
+  expect(typeof player.getPlaybackRate).toBe('function')
+  expect(typeof player.setPlaybackRate).toBe('function')
+  expect(typeof player.getTextTracks).toBe('function')
+  expect(typeof player.getVideoEmbedCode).toBe('function')
+  expect(typeof player.getVideoId).toBe('function')
+  expect(typeof player.getVideoTitle).toBe('function')
+  expect(typeof player.getVideoWidth).toBe('function')
+  expect(typeof player.getVideoHeight).toBe('function')
+  expect(typeof player.getVideoUrl).toBe('function')
+  expect(typeof player.getVolume).toBe('function')
+  expect(typeof player.setVolume).toBe('function')
+  expect(typeof player.getBuffered).toBe('function')
+  expect(typeof player.getPlayed).toBe('function')
+  expect(typeof player.getSeekable).toBe('function')
+  expect(typeof player.getSeeking).toBe('function')
+  expect(typeof player.getMuted).toBe('function')
+  expect(typeof player.setMuted).toBe('function')
 })
 
-test('set requires a value', async t => {
+test('set requires a value', async () => {
+  expect.assertions(1)
   const iframe = document.querySelector('.one')
   const player = new Player(iframe)
 
-  await t.throwsAsync(() => player.set('color'), TypeError)
+  try {
+    await player.set('color')
+  } catch (err) {
+    expect(err).toBeInstanceOf(TypeError)
+  }
 })
 
-test('on requires an event and a callback', t => {
+test('on requires an event and a callback', () => {
   const iframe = document.querySelector('.one')
   const player = new Player(iframe)
 
-  t.throws(() => player.on(), TypeError, 'You must pass an event name.')
-  t.throws(() => player.on('play'), TypeError, 'You must pass a callback function.')
-  t.throws(() => player.on('play', 'string'), TypeError, 'The callback must be a function.')
-  t.notThrows(() => player.on('play', () => {}))
+  expect(() => player.on()).toThrowError(TypeError)
+  expect(() => player.on('play')).toThrowError(TypeError)
+  expect(() => player.on('play', 'string')).toThrowError(TypeError)
+  expect(() => player.on('play', () => {})).not.toThrow()
 })
 
-test('off requires an event name, and the optional callback must be a function', t => {
+test('off requires an event name, and the optional callback must be a function', () => {
   const iframe = document.querySelector('.one')
   const player = new Player(iframe)
 
-  t.throws(() => player.off(), TypeError, 'You must pass an event name.')
-  t.throws(() => player.off('play', 'string'), TypeError, 'The callback must be a function.')
-  t.notThrows(() => player.off('play', () => {}))
+  expect(() => player.off()).toThrowError(TypeError)
+  expect(() => player.off('play', 'string')).toThrowError(TypeError)
+  expect(() => player.off('play', () => {})).not.toThrow()
 })
