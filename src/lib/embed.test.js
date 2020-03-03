@@ -1,23 +1,21 @@
-import test from 'ava'
-import html from '../tests_utils/html'
 import { getOEmbedParameters, getOEmbedData, createEmbed, initializeEmbeds, resizeEmbeds } from './embed'
 
-test('getOEmbedParameters retrieves the params from data attributes', t => {
+test('getOEmbedParameters retrieves the params from data attributes', () => {
   const el = html`
     <div data-vimeo-id="2" data-vimeo-width="640" data-vimeo-autoplay></div>
   `
-  t.deepEqual(getOEmbedParameters(el), {
+  expect(getOEmbedParameters(el)).toEqual({
     id: '2',
     width: '640',
     autoplay: 1,
   })
 })
 
-test('getOEmbedParameters builds off of a defaults object', t => {
+test('getOEmbedParameters builds off of a defaults object', () => {
   const el = html`
     <div data-vimeo-id="2" data-vimeo-width="640" data-vimeo-autoplay></div>
   `
-  t.deepEqual(getOEmbedParameters(el, { loop: true }), {
+  expect(getOEmbedParameters(el, { loop: true })).toEqual({
     id: '2',
     width: '640',
     autoplay: 1,
@@ -25,25 +23,29 @@ test('getOEmbedParameters builds off of a defaults object', t => {
   })
 })
 
-test('getOEmbedData doesn’t operate on non-Vimeo urls', async t => {
-  t.plan(1)
-  await t.throwsAsync(() => getOEmbedData('https://notvimeo.com'), TypeError)
+test('getOEmbedData doesn’t operate on non-Vimeo urls', async () => {
+  expect.assertions(1)
+  try {
+    await getOEmbedData('https://notvimeo.com')
+  } catch (err) {
+    expect(err).toBeInstanceOf(TypeError)
+  }
 })
 
-test('getOEmbedData returns a json oembed response', async t => {
-  t.plan(2)
+test('getOEmbedData returns a json oembed response', async () => {
+  expect.assertions(2)
   const result = await getOEmbedData('https://player.vimeo.com/video/18')
-  t.is(typeof result, 'object')
-  t.is(result.type, 'video')
+  expect(typeof result).toBe('object')
+  expect(result.type).toBe('video')
 })
 
-test('createEmbed should throw if there’s no element', t => {
-  t.throws(() => {
+test('createEmbed should throw if there’s no element', () => {
+  expect(() => {
     createEmbed({ html: 'html' })
-  }, TypeError)
+  }).toThrowError(TypeError)
 })
 
-test('createEmbed returns the already-initialized iframe', t => {
+test('createEmbed returns the already-initialized iframe', () => {
   const container = html`
     <div data-vimeo-initialized></div>
   `
@@ -51,26 +53,25 @@ test('createEmbed returns the already-initialized iframe', t => {
     <iframe src="https://player.vimeo.com/2"></iframe>
   `
   container.appendChild(iframe)
-  t.deepEqual(createEmbed({ html: 'html' }, container), iframe)
+  expect(createEmbed({ html: 'html' }, container)).toEqual(iframe)
 })
 
-test('createEmbed makes an iframe from the oembed data', t => {
+test('createEmbed makes an iframe from the oembed data', () => {
   const container = html`
     <div></div>
   `
   const markup = '<iframe src="https://player.vimeo.com/2"></iframe>'
 
   const embed = createEmbed({ html: markup }, container)
-  t.true(container.getAttribute('data-vimeo-initialized') === 'true')
-  t.deepEqual(
-    embed.outerHTML,
+  expect(container.getAttribute('data-vimeo-initialized')).toBe('true')
+  expect(embed.outerHTML).toEqual(
     html`
       <iframe src="https://player.vimeo.com/2"></iframe>
     `.outerHTML,
   )
 })
 
-test('createEmbed returns the iframe from a responsive embed', t => {
+test('createEmbed returns the iframe from a responsive embed', () => {
   const container = html`
     <div></div>
   `
@@ -78,9 +79,8 @@ test('createEmbed returns the iframe from a responsive embed', t => {
     '<div style="position:relative;padding-bottom:42.5%;height:0"><iframe src="https://player.vimeo.com/video/2" style="position:absolute;top:0;left:0;width:100%;height:100%" frameborder="0"></iframe></div>'
 
   const embed = createEmbed({ html: markup }, container)
-  t.true(container.getAttribute('data-vimeo-initialized') === 'true')
-  t.deepEqual(
-    embed.outerHTML,
+  expect(container.getAttribute('data-vimeo-initialized')).toBe('true')
+  expect(embed.outerHTML).toEqual(
     html`
       <iframe
         src="https://player.vimeo.com/video/2"
@@ -91,7 +91,7 @@ test('createEmbed returns the iframe from a responsive embed', t => {
   )
 })
 
-test('initializeEmbeds should create embeds', async t => {
+test('initializeEmbeds should create embeds', async () => {
   const div = html`
     <div data-vimeo-id="18" data-vimeo-width="640" id="handstick"></div>
   `
@@ -103,13 +103,13 @@ test('initializeEmbeds should create embeds', async t => {
     setTimeout(resolve, 500)
   })
 
-  t.is(document.body.querySelector('#handstick').firstChild.nodeName, 'IFRAME')
+  expect(document.body.querySelector('#handstick').firstChild.nodeName).toBe('IFRAME')
 })
 
-test('resizeEmbeds is a function and sets a window property', t => {
-  t.plan(2)
-  t.true(typeof resizeEmbeds === 'function')
+test('resizeEmbeds is a function and sets a window property', () => {
+  expect.assertions(2)
+  expect(typeof resizeEmbeds).toBe('function')
 
   resizeEmbeds()
-  t.true(window.VimeoPlayerResizeEmbeds_)
+  expect(window.VimeoPlayerResizeEmbeds_).toBe(true)
 })
