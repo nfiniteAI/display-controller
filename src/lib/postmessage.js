@@ -2,7 +2,7 @@
  * @module lib/postmessage
  */
 
-import { getCallbacks, removeCallback, shiftCallbacks } from './callbacks';
+import { getCallbacks, removeCallback, shiftCallbacks } from './callbacks'
 
 /**
  * Parse a message received from postMessage.
@@ -11,18 +11,17 @@ import { getCallbacks, removeCallback, shiftCallbacks } from './callbacks';
  * @return {object}
  */
 export function parseMessageData(data) {
-    if (typeof data === 'string') {
-        try {
-            data = JSON.parse(data);
-        }
-        catch (error) {
-            // If the message cannot be parsed, throw the error as a warning
-            console.warn(error);
-            return {};
-        }
+  if (typeof data === 'string') {
+    try {
+      data = JSON.parse(data)
+    } catch (error) {
+      // If the message cannot be parsed, throw the error as a warning
+      console.warn(error)
+      return {}
     }
+  }
 
-    return data;
+  return data
 }
 
 /**
@@ -34,25 +33,25 @@ export function parseMessageData(data) {
  * @return {void}
  */
 export function postMessage(player, method, params) {
-    if (!player.element.contentWindow || !player.element.contentWindow.postMessage) {
-        return;
-    }
+  if (!player.element.contentWindow || !player.element.contentWindow.postMessage) {
+    return
+  }
 
-    let message = {
-        method
-    };
+  let message = {
+    method,
+  }
 
-    if (params !== undefined) {
-        message.value = params;
-    }
+  if (params !== undefined) {
+    message.value = params
+  }
 
-    // IE 8 and 9 do not support passing messages, so stringify them
-    const ieVersion = parseFloat(navigator.userAgent.toLowerCase().replace(/^.*msie (\d+).*$/, '$1'));
-    if (ieVersion >= 8 && ieVersion < 10) {
-        message = JSON.stringify(message);
-    }
+  // IE 8 and 9 do not support passing messages, so stringify them
+  const ieVersion = parseFloat(navigator.userAgent.toLowerCase().replace(/^.*msie (\d+).*$/, '$1'))
+  if (ieVersion >= 8 && ieVersion < 10) {
+    message = JSON.stringify(message)
+  }
 
-    player.element.contentWindow.postMessage(message, player.origin);
+  player.element.contentWindow.postMessage(message, player.origin)
 }
 
 /**
@@ -63,46 +62,44 @@ export function postMessage(player, method, params) {
  * @return {void}
  */
 export function processData(player, data) {
-    data = parseMessageData(data);
-    let callbacks = [];
-    let param;
+  data = parseMessageData(data)
+  let callbacks = []
+  let param
 
-    if (data.event) {
-        if (data.event === 'error') {
-            const promises = getCallbacks(player, data.data.method);
+  if (data.event) {
+    if (data.event === 'error') {
+      const promises = getCallbacks(player, data.data.method)
 
-            promises.forEach((promise) => {
-                const error = new Error(data.data.message);
-                error.name = data.data.name;
+      promises.forEach(promise => {
+        const error = new Error(data.data.message)
+        error.name = data.data.name
 
-                promise.reject(error);
-                removeCallback(player, data.data.method, promise);
-            });
-        }
-
-        callbacks = getCallbacks(player, `event:${data.event}`);
-        param = data.data;
-    }
-    else if (data.method) {
-        const callback = shiftCallbacks(player, data.method);
-
-        if (callback) {
-            callbacks.push(callback);
-            param = data.value;
-        }
+        promise.reject(error)
+        removeCallback(player, data.data.method, promise)
+      })
     }
 
-    callbacks.forEach((callback) => {
-        try {
-            if (typeof callback === 'function') {
-                callback.call(player, param);
-                return;
-            }
+    callbacks = getCallbacks(player, `event:${data.event}`)
+    param = data.data
+  } else if (data.method) {
+    const callback = shiftCallbacks(player, data.method)
 
-            callback.resolve(param);
-        }
-        catch (e) {
-            // empty
-        }
-    });
+    if (callback) {
+      callbacks.push(callback)
+      param = data.value
+    }
+  }
+
+  callbacks.forEach(callback => {
+    try {
+      if (typeof callback === 'function') {
+        callback.call(player, param)
+        return
+      }
+
+      callback.resolve(param)
+    } catch (e) {
+      // empty
+    }
+  })
 }

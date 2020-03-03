@@ -2,7 +2,7 @@
  * @module lib/callbacks
  */
 
-export const callbackMap = new WeakMap();
+export const callbackMap = new WeakMap()
 
 /**
  * Store a callback for a method or event for a player.
@@ -14,14 +14,14 @@ export const callbackMap = new WeakMap();
  * @return {void}
  */
 export function storeCallback(player, name, callback) {
-    const playerCallbacks = callbackMap.get(player.element) || {};
+  const playerCallbacks = callbackMap.get(player.element) || {}
 
-    if (!(name in playerCallbacks)) {
-        playerCallbacks[name] = [];
-    }
+  if (!(name in playerCallbacks)) {
+    playerCallbacks[name] = []
+  }
 
-    playerCallbacks[name].push(callback);
-    callbackMap.set(player.element, playerCallbacks);
+  playerCallbacks[name].push(callback)
+  callbackMap.set(player.element, playerCallbacks)
 }
 
 /**
@@ -32,8 +32,8 @@ export function storeCallback(player, name, callback) {
  * @return {function[]}
  */
 export function getCallbacks(player, name) {
-    const playerCallbacks = callbackMap.get(player.element) || {};
-    return playerCallbacks[name] || [];
+  const playerCallbacks = callbackMap.get(player.element) || {}
+  return playerCallbacks[name] || []
 }
 
 /**
@@ -45,28 +45,28 @@ export function getCallbacks(player, name) {
  * @return {boolean} Was this the last callback?
  */
 export function removeCallback(player, name, callback) {
-    const playerCallbacks = callbackMap.get(player.element) || {};
+  const playerCallbacks = callbackMap.get(player.element) || {}
 
-    if (!playerCallbacks[name]) {
-        return true;
-    }
+  if (!playerCallbacks[name]) {
+    return true
+  }
 
-    // If no callback is passed, remove all callbacks for the event
-    if (!callback) {
-        playerCallbacks[name] = [];
-        callbackMap.set(player.element, playerCallbacks);
+  // If no callback is passed, remove all callbacks for the event
+  if (!callback) {
+    playerCallbacks[name] = []
+    callbackMap.set(player.element, playerCallbacks)
 
-        return true;
-    }
+    return true
+  }
 
-    const index = playerCallbacks[name].indexOf(callback);
+  const index = playerCallbacks[name].indexOf(callback)
 
-    if (index !== -1) {
-        playerCallbacks[name].splice(index, 1);
-    }
+  if (index !== -1) {
+    playerCallbacks[name].splice(index, 1)
+  }
 
-    callbackMap.set(player.element, playerCallbacks);
-    return playerCallbacks[name] && playerCallbacks[name].length === 0;
+  callbackMap.set(player.element, playerCallbacks)
+  return playerCallbacks[name] && playerCallbacks[name].length === 0
 }
 
 /**
@@ -77,15 +77,15 @@ export function removeCallback(player, name, callback) {
  * @return {function} The callback, or false if there were none
  */
 export function shiftCallbacks(player, name) {
-    const playerCallbacks = getCallbacks(player, name);
+  const playerCallbacks = getCallbacks(player, name)
 
-    if (playerCallbacks.length < 1) {
-        return false;
-    }
+  if (playerCallbacks.length < 1) {
+    return false
+  }
 
-    const callback = playerCallbacks.shift();
-    removeCallback(player, name, callback);
-    return callback;
+  const callback = playerCallbacks.shift()
+  removeCallback(player, name, callback)
+  return callback
 }
 
 /**
@@ -96,8 +96,8 @@ export function shiftCallbacks(player, name) {
  * @return {void}
  */
 export function swapCallbacks(oldElement, newElement) {
-    const playerCallbacks = callbackMap.get(oldElement);
+  const playerCallbacks = callbackMap.get(oldElement)
 
-    callbackMap.set(newElement, playerCallbacks);
-    callbackMap.delete(oldElement);
+  callbackMap.set(newElement, playerCallbacks)
+  callbackMap.delete(oldElement)
 }

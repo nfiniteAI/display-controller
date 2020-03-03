@@ -7,8 +7,7 @@
  * @type {Boolean}
  */
 /* global global */
-export const isNode = typeof global !== 'undefined' &&
-  ({}).toString.call(global) === '[object global]';
+export const isNode = typeof global !== 'undefined' && {}.toString.call(global) === '[object global]'
 
 /**
  * Get the name of the method for a given getter or setter.
@@ -18,11 +17,11 @@ export const isNode = typeof global !== 'undefined' &&
  * @return {string}
  */
 export function getMethodName(prop, type) {
-    if (prop.indexOf(type.toLowerCase()) === 0) {
-        return prop;
-    }
+  if (prop.indexOf(type.toLowerCase()) === 0) {
+    return prop
+  }
 
-    return `${type.toLowerCase()}${prop.substr(0, 1).toUpperCase()}${prop.substr(1)}`;
+  return `${type.toLowerCase()}${prop.substr(0, 1).toUpperCase()}${prop.substr(1)}`
 }
 
 /**
@@ -32,10 +31,13 @@ export function getMethodName(prop, type) {
  * @return {boolean}
  */
 export function isDomElement(element) {
-    return Boolean(
-        element && element.nodeType === 1 && 'nodeName' in element &&
-        element.ownerDocument && element.ownerDocument.defaultView
-    );
+  return Boolean(
+    element &&
+      element.nodeType === 1 &&
+      'nodeName' in element &&
+      element.ownerDocument &&
+      element.ownerDocument.defaultView,
+  )
 }
 
 /**
@@ -47,8 +49,8 @@ export function isDomElement(element) {
  * @return {boolean}
  */
 export function isInteger(value) {
-    // eslint-disable-next-line eqeqeq
-    return !isNaN(parseFloat(value)) && isFinite(value) && Math.floor(value) == value;
+  // eslint-disable-next-line eqeqeq
+  return !isNaN(parseFloat(value)) && isFinite(value) && Math.floor(value) == value
 }
 
 /**
@@ -58,7 +60,7 @@ export function isInteger(value) {
  * @return {boolean}
  */
 export function isVimeoUrl(url) {
-    return (/^(https?:)?\/\/((player|www)\.)?vimeo\.com(?=$|\/)/).test(url);
+  return /^(https?:)?\/\/((player|www)\.)?vimeo\.com(?=$|\/)/.test(url)
 }
 
 /**
@@ -69,25 +71,27 @@ export function isVimeoUrl(url) {
  * @return {string}
  */
 export function getVimeoUrl(oEmbedParameters = {}) {
-    const id = oEmbedParameters.id;
-    const url = oEmbedParameters.url;
-    const idOrUrl = id || url;
+  const id = oEmbedParameters.id
+  const url = oEmbedParameters.url
+  const idOrUrl = id || url
 
-    if (!idOrUrl) {
-        throw new Error('An id or url must be passed, either in an options object or as a data-vimeo-id or data-vimeo-url attribute.');
-    }
+  if (!idOrUrl) {
+    throw new Error(
+      'An id or url must be passed, either in an options object or as a data-vimeo-id or data-vimeo-url attribute.',
+    )
+  }
 
-    if (isInteger(idOrUrl)) {
-        return `https://vimeo.com/${idOrUrl}`;
-    }
+  if (isInteger(idOrUrl)) {
+    return `https://vimeo.com/${idOrUrl}`
+  }
 
-    if (isVimeoUrl(idOrUrl)) {
-        return idOrUrl.replace('http:', 'https:');
-    }
+  if (isVimeoUrl(idOrUrl)) {
+    return idOrUrl.replace('http:', 'https:')
+  }
 
-    if (id) {
-        throw new TypeError(`“${id}” is not a valid video id.`);
-    }
+  if (id) {
+    throw new TypeError(`“${id}” is not a valid video id.`)
+  }
 
-    throw new TypeError(`“${idOrUrl}” is not a vimeo.com url.`);
+  throw new TypeError(`“${idOrUrl}” is not a vimeo.com url.`)
 }
