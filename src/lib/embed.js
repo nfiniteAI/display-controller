@@ -46,6 +46,7 @@ export function createEmbed({ html }, element) {
   const div = document.createElement('div')
   div.innerHTML = html
 
+  div.firstChild.style.display = 'none' // show it only when ready
   element.appendChild(div.firstChild)
   element.setAttribute('data-hubstairs-initialized', 'true')
 

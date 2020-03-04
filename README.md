@@ -92,7 +92,7 @@ prefixed with `data-hubstairs`.
 > ⚠ This mode is not recommended with virtual/shadow DOM
 
 ```html
-<div data-hubstairs-displayid="19231868" id="display"></div>
+<div data-hubstairs-displayid="5e417dbac5d2651adbe509ec" id="display"></div>
 <div data-hubstairs-url="https://display.hubstairs.com/v1/76979871" id="displaytwo"></div>
 
 <script>
@@ -132,7 +132,7 @@ constructor (unlike the browser where it is attached to `window.Hubstairs`):
 <script src="https://unpkg.com/@hubstairs/display-controller@1"></script>
 <script>
   const display = new Hubstairs.Display('display', {
-    displayid: 19231868,
+    displayid: '5e417dbac5d2651adbe509ec',
   })
 
   display.on('addToCart', function(product) {
@@ -197,7 +197,7 @@ an embed inside that element. The options object should consist of either an
   import Display from '@hubstairs/display-controller'
 
   const options = {
-    displayid: 59777392,
+    displayid: '5e417dbac5d2651adbe509ec',
   }
 
   // Will create inside the made-in-paris div:
@@ -211,23 +211,27 @@ Embed options will also be read from the `data-hubstairs-*` attributes. Attribut
 Elements with a `data-hubstairs-displayid` or `data-hubstairs-url` attribute will have embeds created automatically when the display API library is loaded. You can use the `data-hubstairs-defer` attribute to prevent that from happening and create the embed at a later time. This is useful for situations where the controller embed wouldn’t be visible right away, but only after some action was taken by the user (a lightbox opened from clicking on a thumbnail, for example).
 
 ```html
-<div data-hubstairss-displayid="59777392" data-hubstairs-defer id="made-in-paris"></div>
-<div data-hubstairss-displayid="19231868" data-hubstairs-defer data-hubstairs-width="500" id="display"></div>
+<div data-hubstairss-displayid="5e417dbac5d2651adbe509ec" data-hubstairs-defer id="made-in-paris"></div>
+<div
+  data-hubstairss-displayid="5e417dbac5d2651adbe509ec"
+  data-hubstairs-defer
+  data-hubstairs-width="500"
+  id="display"
+></div>
 
 <script>
   import Display from '@hubstairs/display-controller'
 
   const options = {
     width: 640,
-    loop: true,
   }
 
   // Will create inside the made-in-paris div:
-  // <iframe src="https://display.hubstairs.com/v1/59777392" width="640" height="360" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+  // <iframe src="https://display.hubstairs.com/v1/5e417dbac5d2651adbe509ec" width="640" height="360" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
   const madeInParis = new Display('made-in-paris', options)
 
   // Will create inside the display div:
-  // <iframe src="https://display.hubstairs.com/v1/19231868?loop=1" width="500" height="281" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+  // <iframe src="https://display.hubstairs.com/v1/19231868?5e417dbac5d2651adbe509ec" width="500" height="281" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
   const display = new Display(document.getElementById('display'), options)
 </script>
 ```

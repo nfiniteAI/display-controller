@@ -9,7 +9,7 @@
     "build": "NODE_ENV=production rollup -c",
     "lint": "eslint src",
     "test": "jest",
-    "prettier:fix": "prettier --write '**/*.{js,jsx,json,md,css,scss,sh,yml,yaml,html}'"
+    "prettier:fix": "prettier --write '**/*.{js,jsx,json,md,css,scss,sh,yml,yaml,html}' --ignore-path .gitignore"
   },
   "main": "build/display.js",
   "module": "build/display.esm.js",

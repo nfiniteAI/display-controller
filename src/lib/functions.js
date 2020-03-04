@@ -59,17 +59,8 @@ export function isDomElement(element) {
   )
 }
 
-/**
- * Check to see whether the value is a number.
- *
- * @see http://dl.dropboxusercontent.com/u/35146/js/tests/isNumber.html
- * @param {*} value The value to check.
- * @param {boolean} integer Check if the value is an integer.
- * @return {boolean}
- */
-export function isInteger(value) {
-  // eslint-disable-next-line eqeqeq
-  return !isNaN(parseFloat(value)) && isFinite(value) && Math.floor(value) == value
+export function isObjectId(value) {
+  return /^[a-fA-F0-9]{24}$/.test(value)
 }
 
 /**
@@ -99,7 +90,7 @@ export function getHubstairsUrl(oEmbedParameters = {}) {
     )
   }
 
-  if (isInteger(idOrUrl)) {
+  if (isObjectId(idOrUrl)) {
     return `${displayUrl || 'https://display.hubstairs.com'}/v1/${idOrUrl}`
   }
 

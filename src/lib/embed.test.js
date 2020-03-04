@@ -68,30 +68,30 @@ beforeEach(() => {
 describe('getOEmbedParameters', () => {
   test('retrieves the params from data attributes', () => {
     const el = html`
-      <div data-hubstairs-displayid="2" data-hubstairs-productcode="1234"></div>
+      <div data-hubstairs-displayid="5e417dbac5d2651adbe509ec" data-hubstairs-productcode="1234"></div>
     `
     expect(getOEmbedParameters(el)).toEqual({
-      displayid: '2',
+      displayid: '5e417dbac5d2651adbe509ec',
       productcode: '1234',
     })
   })
 
   test('converts to camel case all the kebab case attributes', () => {
     const el = html`
-      <div data-hubstairs-displayid="2" data-hubstairs-display-url="gui"></div>
+      <div data-hubstairs-displayid="5e417dbac5d2651adbe509ec" data-hubstairs-display-url="gui"></div>
     `
     expect(getOEmbedParameters(el)).toEqual({
-      displayid: '2',
+      displayid: '5e417dbac5d2651adbe509ec',
       displayUrl: 'gui',
     })
   })
 
   test('builds off of a defaults object', () => {
     const el = html`
-      <div data-hubstairs-displayid="2" data-hubstairs-productcode="1234"></div>
+      <div data-hubstairs-displayid="5e417dbac5d2651adbe509ec" data-hubstairs-productcode="1234"></div>
     `
     expect(getOEmbedParameters(el, { loop: true })).toEqual({
-      displayid: '2',
+      displayid: '5e417dbac5d2651adbe509ec',
       productcode: '1234',
       loop: true,
     })
@@ -124,7 +124,7 @@ describe('createEmbed', () => {
       <div data-hubstairs-initialized></div>
     `
     const iframe = html`
-      <iframe src="https://display.hubstairs.com/v1/2"></iframe>
+      <iframe src="https://display.hubstairs.com/v1/5e417dbac5d2651adbe509ec"></iframe>
     `
     container.appendChild(iframe)
     expect(createEmbed({ html: 'html' }, container)).toEqual(iframe)
@@ -134,13 +134,13 @@ describe('createEmbed', () => {
     const container = html`
       <div></div>
     `
-    const markup = '<iframe src="https://display.hubstairs.com/v1/2"></iframe>'
+    const markup = '<iframe src="https://display.hubstairs.com/v1/5e417dbac5d2651adbe509ec"></iframe>'
 
     const embed = createEmbed({ html: markup }, container)
     expect(container.getAttribute('data-hubstairs-initialized')).toBe('true')
     expect(embed.outerHTML).toEqual(
       html`
-        <iframe src="https://display.hubstairs.com/v1/2"></iframe>
+        <iframe src="https://display.hubstairs.com/v1/5e417dbac5d2651adbe509ec" style="display: none;"></iframe>
       `.outerHTML,
     )
   })
@@ -150,14 +150,14 @@ describe('createEmbed', () => {
       <div></div>
     `
     const markup =
-      '<div style="position:relative;padding-bottom:42.5%;height:0"><iframe src="https://display.hubstairs.com/v1/2" style="position:absolute;top:0;left:0;width:100%;height:100%" frameborder="0"></iframe></div>'
+      '<div style="position:relative;padding-bottom:42.5%;height:0"><iframe src="https://display.hubstairs.com/v1/5e417dbac5d2651adbe509ec" style="position:absolute;top:0;left:0;width:100%;height:100%" frameborder="0"></iframe></div>'
 
     const embed = createEmbed({ html: markup }, container)
     expect(container.getAttribute('data-hubstairs-initialized')).toBe('true')
     expect(embed.outerHTML).toEqual(
       html`
         <iframe
-          src="https://display.hubstairs.com/v1/2"
+          src="https://display.hubstairs.com/v1/5e417dbac5d2651adbe509ec"
           style="position:absolute;top:0;left:0;width:100%;height:100%"
           frameborder="0"
         ></iframe>
@@ -171,7 +171,7 @@ describe('initializeEmbeds', () => {
     fetch.mockResponse(JSON.stringify(mockOEmbedResponse), { status: 200, headers })
 
     const div = html`
-      <div data-hubstairs-displayid="18" data-hubstairs-responsive="false" id="display"></div>
+      <div data-hubstairs-displayid="5e417dbac5d2651adbe509ec" data-hubstairs-responsive="false" id="display"></div>
     `
     document.body.appendChild(div)
 
@@ -187,7 +187,7 @@ describe('initializeEmbeds', () => {
   test('creates responsive embeds', async () => {
     fetch.mockResponse(JSON.stringify(mockOEmbedResponseResponsive), { status: 200, headers })
     const div = html`
-      <div data-hubstairs-displayid="18" id="display2"></div>
+      <div data-hubstairs-displayid="5e417dbac5d2651adbe509ec" id="display2"></div>
     `
     document.body.appendChild(div)
 

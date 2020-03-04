@@ -3,7 +3,7 @@
 import {
   getMethodName,
   isDomElement,
-  isInteger,
+  isObjectId,
   isHubstairsUrl,
   getHubstairsUrl,
   kebabToCamel,
@@ -54,15 +54,12 @@ describe('getMethodName', () => {
   })
 })
 
-describe('isInteger', () => {
-  test('returns true for integers', () => {
-    expect(isInteger(1)).toBe(true)
-    expect(isInteger('1')).toBe(true)
-    expect(isInteger(1.0)).toBe(true)
-    expect(isInteger(1.1)).toBe(false)
-    expect(isInteger(false)).toBe(false)
-    expect(isInteger(NaN)).toBe(false)
-    expect(isInteger(Infinity)).toBe(false)
+describe('isObjectId', () => {
+  test('returns true for ObjectId', () => {
+    expect(isObjectId('5e417dbac5d2651adbe509ec')).toBe(true)
+    expect(isObjectId(null)).toBe(false)
+    expect(isObjectId(0)).toBe(false)
+    expect(isObjectId('any')).toBe(false)
   })
 })
 
@@ -87,12 +84,14 @@ describe('isHubstairsUrl', () => {
 
 describe('getHubstairsUrl', () => {
   test('returns correctly a url from the embed parameters', () => {
-    expect(getHubstairsUrl({ displayid: 1234 })).toBe('https://display.hubstairs.com/v1/1234')
-    expect(getHubstairsUrl({ url: 'http://display.hubstairs.com/v1/1234' })).toBe(
-      'https://display.hubstairs.com/v1/1234',
+    expect(getHubstairsUrl({ displayid: '5e417dbac5d2651adbe509ec' })).toBe(
+      'https://display.hubstairs.com/v1/5e417dbac5d2651adbe509ec',
     )
-    expect(getHubstairsUrl({ url: 'https://display.hubstairs.com/v1/1234' })).toBe(
-      'https://display.hubstairs.com/v1/1234',
+    expect(getHubstairsUrl({ url: 'http://display.hubstairs.com/v1/5e417dbac5d2651adbe509ec' })).toBe(
+      'https://display.hubstairs.com/v1/5e417dbac5d2651adbe509ec',
+    )
+    expect(getHubstairsUrl({ url: 'https://display.hubstairs.com/v1/5e417dbac5d2651adbe509ec' })).toBe(
+      'https://display.hubstairs.com/v1/5e417dbac5d2651adbe509ec',
     )
   })
 
