@@ -1,6 +1,7 @@
 import resolve from 'rollup-plugin-node-resolve'
 import babel from 'rollup-plugin-babel'
-import { uglify } from 'rollup-plugin-uglify'
+import { terser } from 'rollup-plugin-terser'
+
 import filesize from 'rollup-plugin-filesize'
 
 import pkg from './package.json'
@@ -19,7 +20,7 @@ export default [
     output: {
       file: pkg.module,
       sourcemap: true,
-      format: 'esm',
+      format: 'es',
       banner,
     },
     plugins: [
@@ -50,6 +51,6 @@ export default [
       sourcemap: true,
       banner,
     },
-    plugins: [babel(), resolve(), uglify(), filesize({ showBrotliSize: true, showMinifiedSize: false })],
+    plugins: [babel(), resolve(), terser(), filesize({ showBrotliSize: true, showMinifiedSize: false })],
   },
 ]
