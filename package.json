@@ -42,7 +42,7 @@
     "jest-fetch-mock": "^3.0.3",
     "jquery": "^3.4.1",
     "lint-staged": "^10.0.8",
-    "prettier": "^1.19.1",
+    "prettier": "^2.0.1",
     "rollup": "^2.1.0",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-filesize": "^6.2.1",

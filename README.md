@@ -47,11 +47,11 @@ constructor and you’re ready to go.
   const iframe = document.querySelector('iframe')
   const display = new Display(iframe)
 
-  display.on('addToCart', function(product) {
+  display.on('addToCart', function (product) {
     console.log(`addToCart button clicked for product ${product.code}`)
   })
 
-  display.getProducts().then(function(products) {
+  display.getProducts().then(function (products) {
     console.log('products:', products)
   })
 </script>
@@ -75,7 +75,7 @@ element and the display id or display.hubstairs.com url (and optional
 
   const display = new Display('made-in-paris', options)
 
-  display.on('addToCart', function(product) {
+  display.on('addToCart', function (product) {
     console.log(`addToCart button clicked for product ${product.code}`)
   })
 </script>
@@ -100,12 +100,12 @@ prefixed with `data-hubstairs`.
   // If you want to control the embeds, you’ll need to create a Display object.
   // You can pass either the `<div>` or the `<iframe>` created inside the div.
   const display = new Display('display')
-  display.on('addToCart', function(product) {
+  display.on('addToCart', function (product) {
     console.log(`addToCart button clicked for product ${product.code}`)
   })
 
   const displayTwo = new Display('displaytwo')
-  displayTwo.on('addToCart', function(product) {
+  displayTwo.on('addToCart', function (product) {
     console.log(`addToCart button clicked for product ${product.code}`)
   })
 </script>
@@ -135,7 +135,7 @@ constructor (unlike the browser where it is attached to `window.Hubstairs`):
     displayid: '5e417dbac5d2651adbe509ec',
   })
 
-  display.on('addToCart', function(product) {
+  display.on('addToCart', function (product) {
     console.log(`addToCart button clicked for product ${product.code}`)
   })
 </script>
@@ -249,10 +249,10 @@ All methods, except for `on()` and `off()` return a Promise. The Promise may or 
 ```js
 display
   .nextScene()
-  .then(function() {
+  .then(function () {
     // the next scene is displayed
   })
-  .catch(function(error) {
+  .catch(function (error) {
     // an error occurred
   })
 ```
@@ -260,7 +260,7 @@ display
 Promises for getters are resolved with the value of the property:
 
 ```js
-display.getProducts().then(function(products) {})
+display.getProducts().then(function (products) {})
 ```
 
 Promises for setters are resolved with the value set, or rejected with an error if the set fails. For example:
@@ -268,10 +268,10 @@ Promises for setters are resolved with the value set, or rejected with an error 
 ```js
 display
   .setConfig({ gui: 'hash' })
-  .then(function(config) {
+  .then(function (config) {
     // the config was set
   })
-  .catch(function(error) {
+  .catch(function (error) {
     // an error occurred setting the color
   })
 ```
@@ -314,7 +314,7 @@ wait for `ready` to trigger to begin adding event listeners or calling other
 methods.
 
 ```js
-display.ready().then(function() {
+display.ready().then(function () {
   // the controller is ready
 })
 ```
@@ -326,10 +326,10 @@ Display the next scene
 ```js
 display
   .nextScene()
-  .then(function() {
+  .then(function () {
     // the next scene is displayed
   })
-  .catch(function(error) {
+  .catch(function (error) {
     // error
   })
 ```
@@ -344,10 +344,10 @@ in order to do any operations.
 ```js
 display
   .destroy()
-  .then(function() {
+  .then(function () {
     // the display was destroyed
   })
-  .catch(function(error) {
+  .catch(function (error) {
     // an error occurred
   })
 ```
@@ -359,10 +359,10 @@ Get all the products displayed in the scene
 ```js
 display
   .getProducts()
-  .then(function(products) {
+  .then(function (products) {
     // products
   })
-  .catch(function(error) {
+  .catch(function (error) {
     // error
   })
 ```
@@ -374,10 +374,10 @@ Set the configuration
 ```js
 display
   .setConfig({ gui: 'hash' })
-  .then(function(config) {
+  .then(function (config) {
     // configuration is set
   })
-  .catch(function(error) {
+  .catch(function (error) {
     // error
   })
 ```
@@ -387,7 +387,7 @@ display
 You can listen for events in the display by attaching a callback using `.on()`:
 
 ```js
-display.on('eventName', function(data) {
+display.on('eventName', function (data) {
   // data is an object containing properties specific to that event
 })
 ```

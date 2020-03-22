@@ -37,20 +37,8 @@ describe('getMethodName', () => {
     expect(isDomElement(false)).toBe(false)
     expect(isDomElement(1)).toBe(false)
     expect(isDomElement(1.1)).toBe(false)
-    expect(
-      isDomElement(
-        html`
-          <iframe></iframe>
-        `,
-      ),
-    ).toBe(true)
-    expect(
-      isDomElement(
-        html`
-          <div></div>
-        `,
-      ),
-    ).toBe(true)
+    expect(isDomElement(html`<iframe></iframe> `)).toBe(true)
+    expect(isDomElement(html`<div></div> `)).toBe(true)
   })
 })
 
