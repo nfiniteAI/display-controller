@@ -1,0 +1,14 @@
+include:
+  - project: 'hubstairs/platform/hubstairs-ci-template'
+    ref: master
+    file: 'platform/pipelines/package_yarn.yml'
+
+trigger:
+  stage: publish
+  trigger:
+    project: hubstairs/front/website-display
+    branch: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME
+    strategy: depend
+  allow_failure: true
+  only:
+    - merge_requests
