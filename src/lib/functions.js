@@ -80,8 +80,7 @@ export function isHubstairsUrl(url) {
  * @param {object} oEmbedParameters The oEmbed parameters.
  * @return {string}
  */
-export function getHubstairsUrl(oEmbedParameters = {}) {
-  const { url, displayid, displayUrl } = oEmbedParameters
+export function getHubstairsUrl({ url, displayid, displayUrl } = {}) {
   const idOrUrl = displayid || url
 
   if (!idOrUrl) {

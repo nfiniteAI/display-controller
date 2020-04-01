@@ -6,7 +6,16 @@ import { isHubstairsUrl, getHubstairsUrl, kebabToCamel, HubstairsError } from '.
 import { logger } from './logger'
 import { fetchURL, HTTPError } from './fetch'
 
-const oEmbedParameters = ['displayid', 'url', 'productcode', 'responsive', 'display-url', 'oembed-url']
+const oEmbedParameters = [
+  'displayid',
+  'url',
+  'productcode',
+  'responsive',
+  'display-url',
+  'oembed-url',
+  'language',
+  'token',
+]
 
 /**
  * Get the 'data-hubstairs'-prefixed attributes from an element as an object.
@@ -60,34 +69,36 @@ export function createEmbed({ html }, element) {
  * @param {Object} [params] Parameters to pass to oEmbed.
  * @return {Promise}
  */
-export function getOEmbedData(displayUrl, { oembedUrl, ...params } = {}) {
-  if (!isHubstairsUrl(displayUrl)) {
-    return Promise.reject(new HubstairsError(`“${displayUrl}” is not a hubstairs.com url.`, 'TypeError'))
-  }
+export function getOEmbedData({ url, displayid, displayUrl, oembedUrl, ...params } = {}) {
+  try {
+    const fullDisplayUrl = getHubstairsUrl({ url, displayid, displayUrl })
 
-  let url = `${oembedUrl || 'https://api.hubstairs.com/oembed'}?url=${encodeURIComponent(displayUrl)}`
+    let fullOembedUrl = `${oembedUrl || 'https://api.hubstairs.com/oembed'}?url=${encodeURIComponent(fullDisplayUrl)}`
 
-  for (const param in params) {
-    if (Object.prototype.hasOwnProperty.call(params, param)) {
-      url += `&${param}=${encodeURIComponent(params[param])}`
-    }
-  }
-  if (!params.height && !params.width && !params.responsive) {
-    url += `&responsive=1`
-  }
-
-  return fetchURL(url)
-    .then(res => res.data)
-    .catch(err => {
-      if (err instanceof HTTPError) {
-        if (err.response.status === 404) {
-          throw new HubstairsError(`“${displayUrl}” was not found.`)
-        } else if (err.response.status === 403) {
-          throw new HubstairsError(`“${displayUrl}” is not embeddable.`)
-        }
+    for (const param in params) {
+      if (Object.prototype.hasOwnProperty.call(params, param)) {
+        fullOembedUrl += `&${param}=${encodeURIComponent(params[param])}`
       }
-      throw new HubstairsError(`There was an error fetching the embed code from Hubstairs ${status}.`)
-    })
+    }
+    if (!params.height && !params.width && !params.responsive) {
+      fullOembedUrl += `&responsive=1`
+    }
+
+    return fetchURL(fullOembedUrl)
+      .then(res => res.data)
+      .catch(err => {
+        if (err instanceof HTTPError) {
+          if (err.response.status === 404) {
+            throw new HubstairsError(`“${fullDisplayUrl}” was not found.`)
+          } else if (err.response.status === 403) {
+            throw new HubstairsError(`“${fullDisplayUrl}” is not embeddable.`)
+          }
+        }
+        throw new HubstairsError(`There was an error fetching the embed code from Hubstairs ${status}.`)
+      })
+  } catch (e) {
+    return Promise.reject(e)
+  }
 }
 
 /**
@@ -111,9 +122,8 @@ export function initializeEmbeds(parent = document) {
       }
 
       const params = getOEmbedParameters(element)
-      const url = getHubstairsUrl(params)
 
-      getOEmbedData(url, params)
+      getOEmbedData(params)
         .then(data => {
           return createEmbed(data, element)
         })

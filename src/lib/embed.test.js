@@ -94,13 +94,13 @@ describe('getOEmbedParameters', () => {
 
 describe('getOEmbedData', () => {
   test('doesn’t operate on non-Hubstairs urls', async () => {
-    await expect(getOEmbedData('https://nothubstairs.com')).rejects.toThrowError(HubstairsError)
+    await expect(getOEmbedData({ url: 'https://nothubstairs.com' })).rejects.toThrowError(HubstairsError)
   })
 
   test('returns a json oembed response', async () => {
     expect.assertions(2)
     fetch.mockResponse(JSON.stringify(mockOEmbedResponse), { status: 200 })
-    const result = await getOEmbedData('https://display.hubstairs.com/v1/1234')
+    const result = await getOEmbedData({ url: 'https://display.hubstairs.com/v1/1234' })
     expect(typeof result).toBe('object')
     expect(result.type).toBe('rich')
   })

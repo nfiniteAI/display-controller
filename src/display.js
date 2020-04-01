@@ -1,7 +1,7 @@
 import './lib/compatibility-check'
 
 import { storeCallback, getCallbacks, removeCallback, swapCallbacks } from './lib/callbacks'
-import { getMethodName, isDomElement, isHubstairsUrl, getHubstairsUrl, isNode, HubstairsError } from './lib/functions'
+import { getMethodName, isDomElement, isHubstairsUrl, isNode, HubstairsError } from './lib/functions'
 import { getOEmbedParameters, getOEmbedData, createEmbed, initializeEmbeds, resizeEmbeds } from './lib/embed'
 import { parseMessageData, postMessage, processData } from './lib/postmessage'
 import { logger } from './lib/logger'
@@ -103,9 +103,8 @@ class Display {
 
       if (this.element.nodeName !== 'IFRAME') {
         const params = getOEmbedParameters(element, options)
-        const url = getHubstairsUrl(params)
 
-        getOEmbedData(url, params)
+        getOEmbedData(params)
           .then(data => {
             const iframe = createEmbed(data, element)
             // Overwrite element with the new iframe,
@@ -358,6 +357,23 @@ class Display {
    */
   nextScene() {
     return this.callMethod('nextScene')
+  }
+
+  /**
+   * A promise to set dynamically the language.
+   *
+   * @promise setLanguagePromise
+   * @fulfill {void} The language is set.
+   * @reject {configError} Error while setting the language
+   */
+  /**
+   * Update the language
+   *
+   * @param {String} language
+   * @return {SetLanguagePromise}
+   */
+  setLanguage(config) {
+    return this.set('language', config)
   }
 
   /**

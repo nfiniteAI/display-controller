@@ -9,7 +9,11 @@ You can install the Hubstairs Display API through either npm:
 
 ```bash
 npm install @hubstairs/display-controller
-#or yarn
+```
+
+Or yarn:
+
+```bash
 yarn add @hubstairs/display-controller
 ```
 
@@ -21,7 +25,7 @@ Alternatively, you can reference an up‐to‐date version on unpkg (UMD build):
 
 ## Getting Started
 
-In order to control the Hubstairs display, you need a display to control. There are a
+In order to control the Hubstairs Display, you need a display to control. There are a
 few ways to get a display:
 
 ### Pre-existing display
@@ -37,8 +41,10 @@ constructor and you’re ready to go.
   width="640"
   height="360"
   frameborder="0"
+  allow="fullscreen;"
   allowfullscreen
-  allow="autoplay; encrypted-media"
+  mozallowfullscreen="true"
+  webkitallowfullscreen="true"
 ></iframe>
 
 <script>
@@ -47,8 +53,8 @@ constructor and you’re ready to go.
   const iframe = document.querySelector('iframe')
   const display = new Display(iframe)
 
-  display.on('addToCart', function (product) {
-    console.log(`addToCart button clicked for product ${product.code}`)
+  display.on('productClick', function (product) {
+    console.log(`product button clicked for product ${product.code}`)
   })
 
   display.getProducts().then(function (products) {
@@ -75,8 +81,8 @@ element and the display id or display.hubstairs.com url (and optional
 
   const display = new Display('made-in-paris', options)
 
-  display.on('addToCart', function (product) {
-    console.log(`addToCart button clicked for product ${product.code}`)
+  display.on('productClick', function (product) {
+    console.log(`product button clicked for product ${product.code}`)
   })
 </script>
 ```
@@ -100,21 +106,20 @@ prefixed with `data-hubstairs`.
   // If you want to control the embeds, you’ll need to create a Display object.
   // You can pass either the `<div>` or the `<iframe>` created inside the div.
   const display = new Display('display')
-  display.on('addToCart', function (product) {
-    console.log(`addToCart button clicked for product ${product.code}`)
+  display.on('productClick', function (product) {
+    console.log(`product button clicked for product ${product.code}`)
   })
 
   const displayTwo = new Display('displaytwo')
-  displayTwo.on('addToCart', function (product) {
-    console.log(`addToCart button clicked for product ${product.code}`)
+  displayTwo.on('productClick', function (product) {
+    console.log(`product button clicked for product ${product.code}`)
   })
 </script>
 ```
 
 ## Browser Support
 
-The Display controller API library is supported in IE 11+, Chrome, Firefox, Safari, and
-Opera.
+The Display controller API library is supported in Edge, Chrome, Firefox, Safari, and Opera.
 
 To use this library, You should polyfill by your own:
 
@@ -135,8 +140,8 @@ constructor (unlike the browser where it is attached to `window.Hubstairs`):
     displayid: '5e417dbac5d2651adbe509ec',
   })
 
-  display.on('addToCart', function (product) {
-    console.log(`addToCart button clicked for product ${product.code}`)
+  display.on('productClick', function (product) {
+    console.log(`product button clicked for product ${product.code}`)
   })
 </script>
 ```
@@ -148,13 +153,12 @@ constructor (unlike the browser where it is attached to `window.Hubstairs`):
   - [on](#onevent-string-callback-function-void)
   - [off](#offevent-string-callback-function-void)
   - [ready](#ready-promisevoid-error)
-  - [nextScene](#nextscene-promisevoid-error)
   - [destroy](#destroy-promisevoid-error)
-  - [setConfig](#setconfigconfig-object-promiseobject-error)
+  - [nextScene](#nextscene-promisevoid-error)
+  - [setLanguage](#setlanguagelanguage-string-promisestring-error)
   - [getProducts](#getproducts-promiseobject-error)
 - [Events](#events)
-  - [addToCart](#addToCart)
-  - [clickProduct](#clickProduct)
+  - [productClick](#productClick)
 - [Embed Options](#embed-options)
 
 ## Create a Display
@@ -201,7 +205,7 @@ an embed inside that element. The options object should consist of either an
   }
 
   // Will create inside the made-in-paris div:
-  // <iframe src="https://display.hubstairs.com/v1/59777392" width="640" height="360" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+  // <iframe src="https://display.hubstairs.com/v1/59777392" width="640" height="360" frameborder="0" allow="fullscreen;" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
   const madeInParis = new Display('made-in-paris', options)
 </script>
 ```
@@ -211,9 +215,9 @@ Embed options will also be read from the `data-hubstairs-*` attributes. Attribut
 Elements with a `data-hubstairs-displayid` or `data-hubstairs-url` attribute will have embeds created automatically when the display API library is loaded. You can use the `data-hubstairs-defer` attribute to prevent that from happening and create the embed at a later time. This is useful for situations where the controller embed wouldn’t be visible right away, but only after some action was taken by the user (a lightbox opened from clicking on a thumbnail, for example).
 
 ```html
-<div data-hubstairss-displayid="5e417dbac5d2651adbe509ec" data-hubstairs-defer id="made-in-paris"></div>
+<div data-hubstairs-displayid="5e417dbac5d2651adbe509ec" data-hubstairs-defer id="made-in-paris"></div>
 <div
-  data-hubstairss-displayid="5e417dbac5d2651adbe509ec"
+  data-hubstairs-displayid="5e417dbac5d2651adbe509ec"
   data-hubstairs-defer
   data-hubstairs-width="500"
   id="display"
@@ -227,11 +231,11 @@ Elements with a `data-hubstairs-displayid` or `data-hubstairs-url` attribute wil
   }
 
   // Will create inside the made-in-paris div:
-  // <iframe src="https://display.hubstairs.com/v1/5e417dbac5d2651adbe509ec" width="640" height="360" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+  // <iframe src="https://display.hubstairs.com/v1/5e417dbac5d2651adbe509ec" width="640" height="360" frameborder="0" allow="fullscreen;" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
   const madeInParis = new Display('made-in-paris', options)
 
   // Will create inside the display div:
-  // <iframe src="https://display.hubstairs.com/v1/19231868?5e417dbac5d2651adbe509ec" width="500" height="281" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+  // <iframe src="https://display.hubstairs.com/v1/19231868?5e417dbac5d2651adbe509ec" width="500" height="281" frameborder="0" allow="fullscreen;" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
   const display = new Display(document.getElementById('display'), options)
 </script>
 ```
@@ -267,8 +271,8 @@ Promises for setters are resolved with the value set, or rejected with an error 
 
 ```js
 display
-  .setConfig({ gui: 'hash' })
-  .then(function (config) {
+  .setLanguage('en-US')
+  .then(function (language) {
     // the config was set
   })
   .catch(function (error) {
@@ -282,11 +286,11 @@ Add an event listener for the specified event. Will call the callback with a sin
 [events](#events) below for details.
 
 ```js
-function onAddToCart(data) {
+function productClick(data) {
   // data is an object containing properties specific to that event
 }
 
-display.on('addToCart', onAddToCart)
+display.on('productClick', productClick)
 ```
 
 ### off(event: string, callback?: function): void
@@ -294,17 +298,17 @@ display.on('addToCart', onAddToCart)
 Remove an event listener for the specified event. Will remove all listeners for that event if a `callback` isn’t passed, or only that specific callback if it is passed.
 
 ```js
-function onAddToCart(data) {
+function productClick(data) {
   // data is an object containing properties specific to that event
 }
 
-display.on('addToCart', onAddToCart)
+display.on('productClick', productClick)
 
 // If later on you decide that you don’t need to listen for play anymore.
-display.off('addToCart', onAddToCart)
+display.off('productClick', productClick)
 
 // Alternatively, `off` can be called with just the event name to remove all listeners.
-display.off('addToCart')
+display.off('productClick')
 ```
 
 ### ready(): Promise&lt;void, Error&gt;
@@ -317,21 +321,6 @@ methods.
 display.ready().then(function () {
   // the controller is ready
 })
-```
-
-### nextScene(): Promise&lt;void, (Error)&gt;
-
-Display the next scene
-
-```js
-display
-  .nextScene()
-  .then(function () {
-    // the next scene is displayed
-  })
-  .catch(function (error) {
-    // error
-  })
 ```
 
 ### destroy(): Promise&lt;void, Error&gt;
@@ -352,6 +341,36 @@ display
   })
 ```
 
+### nextScene(): Promise&lt;void, (Error)&gt;
+
+Display the next scene
+
+```js
+display
+  .nextScene()
+  .then(function () {
+    // the next scene is displayed
+  })
+  .catch(function (error) {
+    // error
+  })
+```
+
+### setLanguage(language: string): Promise&lt;string, (Error)&gt;
+
+Set the configuration
+
+```js
+display
+  .setLanguage('fr-FR')
+  .then(function (language) {
+    // language is set
+  })
+  .catch(function (error) {
+    // error
+  })
+```
+
 ### getProducts(): Promise&lt;object[], (Error)&gt;
 
 Get all the products displayed in the scene
@@ -361,21 +380,6 @@ display
   .getProducts()
   .then(function (products) {
     // products
-  })
-  .catch(function (error) {
-    // error
-  })
-```
-
-### setConfig(config: object): Promise&lt;object, (Error)&gt;
-
-Set the configuration
-
-```js
-display
-  .setConfig({ gui: 'hash' })
-  .then(function (config) {
-    // configuration is set
   })
   .catch(function (error) {
     // error
@@ -402,17 +406,7 @@ display.off('eventName', callback)
 
 If you pass only an event name, all listeners for that event will be removed.
 
-### addToCart
-
-Triggered when the a addToCart button is clicked, returns a product
-
-```js
-{
-  code: 1234
-}
-```
-
-### clickProduct
+### productClick
 
 Triggered when a product is clicked, returns a product
 
@@ -422,6 +416,7 @@ Triggered when a product is clicked, returns a product
 }
 ```
 
+<!--
 ### error
 
 Triggered when some kind of error is generated in the display controller. In general if you
@@ -438,19 +433,22 @@ included.
   name: 'ContrastError'
 }
 ```
+-->
 
 ## Embed Options
 
 These options are available to use as `data-hubstairs-` attributes on elements or as
 an object passed to the `Hubstairs.Display` constructor
 
-> camel cased options must be convert in kebab cased to use them in element (eg: `displayUrl` --> `data-hubstairs-display-url`)
+> camel cased options must be converted to kebab case in order to use them in element (eg: `displayUrl` --> `data-hubstairs-display-url`)
 
-| option             | default                             | description                                                                                              |
-| ------------------ | ----------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| displayid _or_ url |                                     | **Required.** Either the id or the url of the Hubstairs Display.                                         |
-| responsive         | `true` (if no width and height set) | Resize according their parent element, this parameter is incompatible with height and width parameters   |
-| height             |                                     | The exact height of the display. Defaults to the height of the largest available version of the display. |
-| width              |                                     | The exact width of the display. Defaults to the width of the largest available version of the display.   |
-| displayUrl         | `https://display.hubstairs.com`     | Override the generated base url for display (useful in development mode).                                |
-| oembedUrl          | `https://api.hubstairs.com/oembed`  | Override the generated base url for oembed api (useful in development mode).                             |
+| option             | default                                   | description                                                                                              |
+| ------------------ | ----------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| displayid _or_ url |                                           | **Required.** Either the id or the url of the Hubstairs Display.                                         |
+| responsive         | `true` (if no width and height set)       | Resize according their parent element, this parameter is incompatible with height and width parameters   |
+| height             |                                           | The exact height of the display. Defaults to the height of the largest available version of the display. |
+| width              |                                           | The exact width of the display. Defaults to the width of the largest available version of the display.   |
+| displayUrl         | `https://display.hubstairs.com`           | Override the generated base url for display (useful in development mode).                                |
+| oembedUrl          | `https://api.hubstairs.com/oembed`        | Override the generated base url for oembed api (useful in development mode).                             |
+| token              |                                           | **Required.** Token generated in app.hubstairs.com (in the service user section).                        |
+| language           | default language set in app.hubstairs.com | One of the defined language in app.hubstairs.com (in the platorm section).                               |
