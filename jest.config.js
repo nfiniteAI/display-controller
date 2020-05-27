@@ -1,3 +1,5 @@
 module.exports = {
-  setupFiles: ['./src/tests_utils/browser-env.js', './src/tests_utils/html.js'],
+  setupFiles: ['./tests_utils/browser-env.js', './tests_utils/html.js'],
+  silent: true,
+  verbose: true,
 }

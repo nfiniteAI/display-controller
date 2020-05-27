@@ -1,31 +1,15 @@
 {
-  "name": "@hubstairs/display-controller",
+  "name": "@hubstairs/display",
+  "private": true,
   "version": "0.0.0",
-  "description": "Interact with and control an embedded Hubstairs display.",
   "license": "MIT",
   "author": "Guillaume HERTAULT <gh@hubstairs.com>",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "start": "NODE_ENV=development rollup -c --watch",
-    "build": "NODE_ENV=production rollup -c",
-    "lint": "eslint src",
-    "test": "jest",
     "prettier:fix": "prettier --write '**/*.{js,jsx,json,md,css,scss,sh,yml,yaml,html}' --ignore-path .gitignore"
   },
-  "main": "build/display.js",
-  "module": "build/display.esm.js",
-  "files": [
-    "build"
-  ],
-  "keywords": [
-    "hubstairs",
-    "display",
-    "api",
-    "iframe",
-    "embed",
-    "javascript",
-    "postMessage"
-  ],
-  "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.9.6",
     "@babel/preset-env": "^7.9.5",
@@ -41,6 +25,7 @@
     "jest": "^25.4.0",
     "jest-fetch-mock": "^3.0.3",
     "jquery": "^3.5.1",
+    "lerna": "^3.20.2",
     "lint-staged": "^10.2.2",
     "prettier": "^2.0.5",
     "rollup": "^2.8.2",
@@ -48,7 +33,6 @@
     "rollup-plugin-filesize": "^8.0.2",
     "rollup-plugin-node-resolve": "^5.0.0",
     "rollup-plugin-terser": "^5.3.0",
-    "uglify-js": "^3.9.2",
     "whatwg-fetch": "^3.0.0"
   },
   "husky": {

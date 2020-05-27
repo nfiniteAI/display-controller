@@ -1,0 +1,39 @@
+{
+  "name": "@hubstairs/display-controller",
+  "version": "0.0.7",
+  "description": "Interact with and control an embedded Hubstairs display.",
+  "license": "MIT",
+  "author": "Guillaume HERTAULT <gh@hubstairs.com>",
+  "scripts": {
+    "start": "NODE_ENV=development rollup -c --watch",
+    "build": "NODE_ENV=production rollup -c",
+    "lint": "eslint src",
+    "test": "jest --config ../../jest.config.js"
+  },
+  "main": "build/display.js",
+  "module": "build/display.esm.js",
+  "files": [
+    "build"
+  ],
+  "keywords": [
+    "hubstairs",
+    "display",
+    "api",
+    "iframe",
+    "embed",
+    "javascript",
+    "postMessage"
+  ],
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/node": "^7.8.7",
+    "eslint": "^6.8.0",
+    "jest": "^25.4.0",
+    "prettier": "^2.0.5",
+    "rollup": "^2.8.2",
+    "@babel/core": "^7.9.6",
+    "jest-fetch-mock": "^3.0.3",
+    "jquery": "^3.5.1",
+    "whatwg-fetch": "^3.0.0"
+  }
+}

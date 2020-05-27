@@ -1,0 +1,78 @@
+include:
+  - local: /template.yml
+
+stages:
+  - dependencies
+  - test
+  - build
+  - publish
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: never
+    - when: always
+
+dependencies:
+  extends: .cache_node_pull_push
+  stage: dependencies
+  script:
+    - generate_auth_npm
+    - npx lerna bootstrap -- --pure-lockfile
+  rules:
+    # on merge_request or on master
+    - if: $CI_MERGE_REQUEST_ID || $CI_COMMIT_REF_NAME == "master"
+
+test:
+  extends: .cache_node_pull
+  stage: test
+  script:
+    - generate_auth_npm
+    - npx lerna bootstrap -- --pure-lockfile
+    - npx lerna run test --stream --parallel
+  rules:
+    # on merge_request or on master
+    - if: $CI_MERGE_REQUEST_ID || $CI_COMMIT_REF_NAME == "master"
+
+build:
+  extends: .cache_node_pull
+  stage: build
+  script:
+    - generate_auth_npm
+    - npx lerna bootstrap -- --pure-lockfile
+    - npx lerna run build --stream --parallel
+  rules:
+    # on merge_request or on master
+    - if: $CI_MERGE_REQUEST_ID || $CI_COMMIT_REF_NAME == "master"
+  artifacts:
+    paths:
+      - packages/test-core/build/
+      - packages/test-use/build/
+
+publish:canary:
+  extends: .cache_node_pull
+  image: node:12.14.1
+  stage: publish
+  script:
+    - prepare_lerna
+    - generate_auth_npm
+    - npx lerna bootstrap -- --pure-lockfile
+    - npx lerna publish --canary --yes --preid $CI_COMMIT_REF_NAME
+  rules:
+    # on merge_request or on master
+    - if: $CI_MERGE_REQUEST_ID
+      when: manual
+
+publish:
+  extends: .cache_node_pull
+  image: node:12.14.1
+  stage: publish
+  script:
+    - prepare_lerna
+    - generate_auth_npm
+    - npx lerna bootstrap -- --pure-lockfile
+    - npx lerna publish --conventional-commits --yes
+  rules:
+    # on merge_request or on master
+    - if: $CI_COMMIT_REF_NAME == "master"
+      when: manual

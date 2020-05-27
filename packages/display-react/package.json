@@ -1,0 +1,41 @@
+{
+  "name": "@hubstairs/display-react",
+  "version": "0.0.7",
+  "description": "Interact with and control an embedded Hubstairs display with a React component.",
+  "license": "MIT",
+  "author": "Guillaume HERTAULT <gh@hubstairs.com>",
+  "scripts": {
+    "start": "NODE_ENV=development rollup -c --watch",
+    "build": "NODE_ENV=production rollup -c",
+    "lint": "eslint src",
+    "test": "jest --config ../../jest.config.js"
+  },
+  "main": "build/index.js",
+  "module": "build/index.esm.js",
+  "files": [
+    "build"
+  ],
+  "keywords": [
+    "hubstairs",
+    "display",
+    "api",
+    "iframe",
+    "embed",
+    "javascript",
+    "postMessage",
+    "react"
+  ],
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/node": "^7.8.7",
+    "babel-preset-react-app": "^9.1.2",
+    "eslint": "^6.8.0",
+    "jest": "^25.4.0",
+    "prettier": "^2.0.5",
+    "react": "^16.13.1",
+    "rollup": "^2.8.2"
+  },
+  "dependencies": {
+    "@hubstairs/display-controller": "^0.0.7"
+  }
+}

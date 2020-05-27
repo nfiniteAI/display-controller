@@ -1,0 +1,65 @@
+.scripts: &scripts |
+  function get_version_release() {
+    if [[ "$CI_COMMIT_TITLE" == "chore(release): publish" ]]; then
+      echo $(cat microservices/$MS_NAME/package.json \
+      | grep version \
+      | head -1 \
+      | awk -F: '{ print $2 }' \
+      | sed 's/[",]//g')
+    else
+      echo $CI_COMMIT_REF_SLUG
+    fi
+  }
+
+  function generate_auth_npm() {
+    echo registry=https://npm-proxy.fury.io/hubstairs/ >> $HOME/.npmrc
+    echo //npm-proxy.fury.io/hubstairs/:_authToken=$NPM_TOKEN >> $HOME/.npmrc
+    echo ca="" >> $HOME/.npmrc
+  }
+
+  function generate_auth_docker() {
+    echo registry=https://npm-proxy.fury.io/hubstairs/ >> .npmrc
+    echo //npm-proxy.fury.io/hubstairs/:_authToken=$NPM_TOKEN >> .npmrc
+    echo ca="" >> .npmrc
+    echo "{\"auths\":{\"${CI_REGISTRY}\":{\"username\":\"${CI_REGISTRY_USER}\",\"password\":\"${CI_REGISTRY_PASSWORD}\"}}}" > /kaniko/.docker/config.json
+  }
+
+  function prepare_lerna() {
+    export GIT_AUTHOR_NAME=$HUBSTAIRS_BOT_NAME
+    export GIT_AUTHOR_EMAIL=$HUBSTAIRS_BOT_EMAIL
+    export GIT_COMMITTER_NAME=$HUBSTAIRS_BOT_NAME
+    export GIT_COMMITTER_EMAIL=$HUBSTAIRS_BOT_EMAIL
+    git remote set-url origin "https://gitlab-ci-token:$HUBSTAIRS_BOT_TOKEN@$CI_SERVER_HOST/$CI_PROJECT_PATH.git"
+    git checkout -B "$CI_COMMIT_REF_NAME" "$CI_COMMIT_SHA"
+    generate_auth_npm
+    yarn config set unsafe-perm true
+  }
+
+.template:
+  image: registry.gitlab.com/hubstairs/platform/container-registry/node:hubstairs-lts-debian-slim
+  tags:
+    - hubstairs-gitlab-runner-temp
+  retry:
+    max: 2
+  before_script:
+    - *scripts
+  script:
+    - echo "No script set for this job"
+
+.cache_node_pull:
+  extends: .template
+  cache:
+    key: $CI_COMMIT_REF_SLUG
+    paths:
+      - node_modules/
+      - packages/*/node_modules/*
+    policy: pull
+
+.cache_node_pull_push:
+  extends: .template
+  cache:
+    key: $CI_COMMIT_REF_SLUG
+    paths:
+      - node_modules/
+      - packages/*/node_modules/*
+    policy: pull-push
