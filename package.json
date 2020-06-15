@@ -47,7 +47,7 @@
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-filesize": "^8.0.2",
     "rollup-plugin-node-resolve": "^5.0.0",
-    "rollup-plugin-terser": "^5.3.0",
+    "rollup-plugin-terser": "^6.1.0",
     "uglify-js": "^3.9.3",
     "whatwg-fetch": "^3.0.0"
   },
