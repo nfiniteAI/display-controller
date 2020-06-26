@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, forwardRef } from 'react'
 import Controller from '@hubstairs/display-js'
+import React, { forwardRef, useEffect, useRef } from 'react'
 
 function useLatest(callback) {
   const ref = useRef(callback)
@@ -25,6 +25,7 @@ const EVENTS = {
   PRODUCT_CLICK: 'poductClick',
   CHANGE_SCENE: 'changeScene',
   FILTER: 'filter',
+  ERROR: 'error',
 }
 
 // TODO add `componentDidCatch`
@@ -65,18 +66,28 @@ function Display(
           displayUrl,
         })
 
-        if (onReadyStable.current) {
+        if (onReadyStable.current || onErrorStable.current) {
           const onReady = e => onReadyStable.current(e)
-          ctrl.current.ready().then(onReady)
+          const onError = e => onErrorStable.current(e)
+          ctrl.current
+            .ready()
+            .then(() => {
+              onReadyStable.current && onReady()
+            })
+            .catch(e => {
+              onErrorStable.current && onError(e)
+            })
         }
 
         const callbackOnChangeScene = registerEvent(ctrl, EVENTS.CHANGE_SCENE, onChangeSceneStable)
+        const callbackOnError = registerEvent(ctrl, EVENTS.ERROR, onErrorStable)
         const callbackOnProductClick = registerEvent(ctrl, EVENTS.PRODUCT_CLICK, onProductClickStable)
         const callbackOnFilter = registerEvent(ctrl, EVENTS.FILTER, onFilterStable)
         return () => {
           unRegisterEvent(ctrl, EVENTS.CHANGE_SCENE, callbackOnChangeScene)
           unRegisterEvent(ctrl, EVENTS.PRODUCT_CLICK, callbackOnProductClick)
           unRegisterEvent(ctrl, EVENTS.FILTER, callbackOnFilter)
+          unRegisterEvent(ctrl, EVENTS.ERROR, callbackOnError)
           ctrl.current.destroy()
         }
       } catch (e) {

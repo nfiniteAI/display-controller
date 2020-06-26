@@ -323,12 +323,6 @@ class Display {
   }
 
   /**
-   * A representation of a cue point.
-   *
-   * @typedef {Object} HubstairsProduct
-   * @property {productcode} string Identifier for the product.
-   */
-  /**
    * A promise to get the products displayed.
    *
    * @promise GetProductssPromise
