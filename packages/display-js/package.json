@@ -1,6 +1,6 @@
 {
   "name": "@hubstairs/display-js",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Interact with and control an embedded Hubstairs display.",
   "license": "MIT",
   "author": "Guillaume HERTAULT <gh@hubstairs.com>",
