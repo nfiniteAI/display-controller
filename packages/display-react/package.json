@@ -1,0 +1,53 @@
+{
+  "name": "@hubstairs/display-react",
+  "version": "0.0.8",
+  "description": "Interact with and control an embedded Hubstairs display with a React component.",
+  "license": "MIT",
+  "author": "Guillaume HERTAULT <gh@hubstairs.com>",
+  "scripts": {
+    "start": "NODE_ENV=development rollup -c --watch",
+    "build": "NODE_ENV=production rollup -c",
+    "lint": "eslint src",
+    "test": "jest --config ../../jest.config.js --rootDir . --passWithNoTests"
+  },
+  "main": "build/index.js",
+  "module": "build/index.esm.js",
+  "files": [
+    "build"
+  ],
+  "keywords": [
+    "hubstairs",
+    "display",
+    "api",
+    "iframe",
+    "embed",
+    "javascript",
+    "postMessage",
+    "react"
+  ],
+  "devDependencies": {
+    "@babel/cli": "^7.10.3",
+    "@babel/node": "^7.10.3",
+    "@babel/plugin-transform-runtime": "^7.10.3",
+    "babel-preset-react-app": "^9.1.2",
+    "eslint": "^6.8.0",
+    "eslint-config-react-app": "^5.2.1",
+    "eslint-plugin-flowtype": "^5.1.3",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react-hooks": "^4.0.4",
+    "jest": "^26.1.0",
+    "prettier": "^2.0.5",
+    "rollup": "^2.8.2",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-filesize": "^9.0.1",
+    "rollup-plugin-node-resolve": "^5.2.0"
+  },
+  "peerDependencies": {
+    "react": ">= 16.8"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.10.3",
+    "@hubstairs/display-js": "^0.0.8"
+  }
+}

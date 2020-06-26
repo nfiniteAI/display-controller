@@ -194,7 +194,7 @@ class Display {
     return new Promise((resolve, reject) => {
       name = getMethodName(name, 'set')
 
-      if (value === undefined || value === null) {
+      if (value === undefined) {
         throw new HubstairsError('There must be a value to set.', 'TypeError')
       }
 
@@ -356,8 +356,24 @@ class Display {
    *
    * @return {NextScenePromise}
    */
-  nextScene() {
-    return this.callMethod('nextScene')
+  nextScene(cursor) {
+    return this.callMethod('nextScene', { cursor })
+  }
+
+  /**
+   * A promise to set the filter
+   *
+   * @promise setFilterPromise
+   * @fulfill {void} The filter is set.
+   * @reject {setFilterError} Invalid filter
+   */
+  /**
+   * Set or unset a filter
+   *
+   * @return {SetFilterPromise}
+   */
+  setFilter(filter) {
+    return this.set('setFilter', filter)
   }
 
   /**

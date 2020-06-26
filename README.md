@@ -8,19 +8,19 @@ Display.
 You can install the Hubstairs Display API through either npm:
 
 ```bash
-npm install @hubstairs/display-controller
+npm install @hubstairs/display-js
 ```
 
 Or yarn:
 
 ```bash
-yarn add @hubstairs/display-controller
+yarn add @hubstairs/display-js
 ```
 
 Alternatively, you can reference an up‐to‐date version on unpkg (UMD build):
 
 ```html
-<script src="https://unpkg.com/@hubstairs/display-controller@1"></script>
+<script src="https://unpkg.com/@hubstairs/display-js@1"></script>
 ```
 
 ## Getting Started
@@ -48,7 +48,7 @@ constructor and you’re ready to go.
 ></iframe>
 
 <script>
-  import Display from '@hubstairs/display-controller'
+  import Display from '@hubstairs/display-js'
 
   const iframe = document.querySelector('iframe')
   const display = new Display(iframe)
@@ -73,7 +73,7 @@ element and the display id or display.hubstairs.com url (and optional
 <div id="made-in-paris"></div>
 
 <script>
-  import Display from '@hubstairs/display-controller'
+  import Display from '@hubstairs/display-js'
 
   const options = {
     displayid: 59777392,
@@ -102,7 +102,7 @@ prefixed with `data-hubstairs`.
 <div data-hubstairs-url="https://display.hubstairs.com/v1/76979871" id="displaytwo"></div>
 
 <script>
-  import Display from '@hubstairs/display-controller'
+  import Display from '@hubstairs/display-js'
   // If you want to control the embeds, you’ll need to create a Display object.
   // You can pass either the `<div>` or the `<iframe>` created inside the div.
   const display = new Display('display')
@@ -134,7 +134,7 @@ constructor (unlike the browser where it is attached to `window.Hubstairs`):
 
 ```html
 <div id="display"></div>
-<script src="https://unpkg.com/@hubstairs/display-controller@1"></script>
+<script src="https://unpkg.com/@hubstairs/display-js@1"></script>
 <script>
   const display = new Hubstairs.Display('display', {
     displayid: '5e417dbac5d2651adbe509ec',
@@ -173,7 +173,7 @@ constructor to get a `Display` object. You can also use jQuery to select the
 element, or pass a string that matches the `id` of the `<iframe>`.
 
 ```js
-import Display from '@hubstairs/display-controller'
+import Display from '@hubstairs/display-js'
 
 // Select with the DOM API
 const iframe = document.querySelector('iframe')
@@ -198,7 +198,7 @@ an embed inside that element. The options object should consist of either an
 <div id="made-in-paris"></div>
 
 <script>
-  import Display from '@hubstairs/display-controller'
+  import Display from '@hubstairs/display-js'
 
   const options = {
     displayid: '5e417dbac5d2651adbe509ec',
@@ -224,7 +224,7 @@ Elements with a `data-hubstairs-displayid` or `data-hubstairs-url` attribute wil
 ></div>
 
 <script>
-  import Display from '@hubstairs/display-controller'
+  import Display from '@hubstairs/display-js'
 
   const options = {
     width: 640,
