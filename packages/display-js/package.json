@@ -25,7 +25,7 @@
     "postMessage"
   ],
   "devDependencies": {
-    "@babel/cli": "^7.10.3",
+    "@babel/cli": "^7.10.4",
     "@babel/core": "^7.10.3",
     "@babel/node": "^7.10.3",
     "eslint": "^6.8.0",
