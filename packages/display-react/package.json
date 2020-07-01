@@ -47,7 +47,7 @@
     "react": ">= 16.8"
   },
   "dependencies": {
-    "@babel/runtime": "^7.10.3",
+    "@babel/runtime": "^7.10.4",
     "@hubstairs/display-js": "^0.0.9"
   }
 }
