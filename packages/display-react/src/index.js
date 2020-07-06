@@ -42,6 +42,7 @@ function Display(
     onReady,
     onFilter,
     onChangeScene,
+    noCache,
   },
   controller,
 ) {
@@ -64,6 +65,7 @@ function Display(
           responsive,
           oembedUrl,
           displayUrl,
+          noCache,
         })
 
         if (onReadyStable.current || onErrorStable.current) {
@@ -110,6 +112,7 @@ function Display(
     onProductClickStable,
     onFilterStable,
     onReadyStable,
+    noCache,
   ])
 
   return <div ref={displayRef} />
