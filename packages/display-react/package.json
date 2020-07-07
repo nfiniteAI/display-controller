@@ -1,6 +1,6 @@
 {
   "name": "@hubstairs/display-react",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "Interact with and control an embedded Hubstairs display with a React component.",
   "license": "MIT",
   "author": "Guillaume HERTAULT <gh@hubstairs.com>",
@@ -48,6 +48,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.10.3",
-    "@hubstairs/display-js": "^0.0.9"
+    "@hubstairs/display-js": "^0.1.0"
   }
 }
