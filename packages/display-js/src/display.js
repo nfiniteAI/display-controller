@@ -38,8 +38,6 @@ class Display {
       throw new HubstairsError('You must pass either a valid element or a valid id.', 'TypeError')
     }
 
-    const win = element.ownerDocument.defaultView
-
     // Already initialized an embed in this div, so grab the iframe
     if (element.nodeName !== 'IFRAME') {
       const iframe = element.querySelector('iframe')
@@ -59,11 +57,12 @@ class Display {
       return displayMap.get(element)
     }
 
+    this._window = element.ownerDocument.defaultView
     this.element = element
     this.origin = '*'
 
     const readyPromise = new Promise((resolve, reject) => {
-      const onMessage = event => {
+      this._onMessage = event => {
         if (!isHubstairsUrl(event.origin) || this.element.contentWindow !== event.source) {
           return
         }
@@ -95,11 +94,7 @@ class Display {
         processData(this, data)
       }
 
-      if (win.addEventListener) {
-        win.addEventListener('message', onMessage, false)
-      } else if (win.attachEvent) {
-        win.attachEvent('onmessage', onMessage)
-      }
+      this._window.addEventListener('message', this._onMessage)
 
       if (this.element.nodeName !== 'IFRAME') {
         const params = getOEmbedParameters(element, options)
@@ -310,14 +305,18 @@ class Display {
     return new Promise(resolve => {
       readyMap.delete(this)
       displayMap.delete(this.element)
+
       if (this._originalElement) {
         displayMap.delete(this._originalElement)
         this._originalElement.removeAttribute('data-hubstairs-initialized')
         this._originalElement.innerHTML = ''
       }
+
       if (this.element && this.element.nodeName === 'IFRAME' && this.element.parentNode) {
         this.element.parentNode.removeChild(this.element)
       }
+      this._window.removeEventListener('message', this._onMessage)
+
       resolve()
     })
   }

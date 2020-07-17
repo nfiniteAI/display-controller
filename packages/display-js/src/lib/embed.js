@@ -174,9 +174,5 @@ export function resizeEmbeds(parent = document) {
     }
   }
 
-  if (window.addEventListener) {
-    window.addEventListener('message', onMessage, false)
-  } else if (window.attachEvent) {
-    window.attachEvent('onmessage', onMessage)
-  }
+  window.addEventListener('message', onMessage)
 }
