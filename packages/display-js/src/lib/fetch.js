@@ -33,5 +33,7 @@ function parseAndPopulate(response) {
 }
 
 export function fetchURL(url, params) {
-  return fetch(url, params).then(parseAndPopulate).then(checkStatus)
+  return fetch(url, params)
+    .then(parseAndPopulate)
+    .then(checkStatus)
 }
