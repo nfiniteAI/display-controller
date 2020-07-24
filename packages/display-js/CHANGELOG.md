@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://gitlab.com/hubstairs/front/npm-modules/display-controller/compare/v0.1.0...v0.2.0) (2020-07-24)
+
+
+### Bug Fixes
+
+* memory leak on destroy ([65cd1aa](https://gitlab.com/hubstairs/front/npm-modules/display-controller/commit/65cd1aa74fc1a091bf540b0eae7bdcd85b3d45f4))
+
+
+
+
+
 # [0.1.0](https://gitlab.com/hubstairs/front/npm-modules/display-controller/compare/v0.0.9...v0.1.0) (2020-07-07)
 
 ### Features

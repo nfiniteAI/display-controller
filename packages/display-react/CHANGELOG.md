@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://gitlab.com/hubstairs/front/npm-modules/display-controller/compare/v0.1.0...v0.2.0) (2020-07-24)
+
+
+### Features
+
+* add props language to display react (!130) ([ee2058e](https://gitlab.com/hubstairs/front/npm-modules/display-controller/commit/ee2058eb532db206ff03e4ecffc7587beb250952))
+
+
+
+
+
 # [0.1.0](https://gitlab.com/hubstairs/front/npm-modules/display-controller/compare/v0.0.9...v0.1.0) (2020-07-07)
 
 ### Features
