@@ -36,6 +36,7 @@ function App() {
 | displayUrl                | `https://display.hubstairs.com`     | Override the generated base url for the Display (useful in development mode).                               |
 | oembedUrl                 | `https://api.hubstairs.com/oembed`  | Override the generated base url for oembed api (useful in development mode).                                |
 | noCache                   | `false`                             | By default data from the Display is cached, you can bypass that by setting noCache to `true`                |
+| language                  | default language set in app.hubstairs.com | One of the defined language in app.hubstairs.com (in the platform section).                           |
 | onError                   |                                     | Callback on error                                                                                           |
 | onReady                   |                                     | Callback when "ready" event is emitted                                                                      |
 | onFilter                  |                                     | Callback on filter change, it receives the `new filter` as argument                                         |

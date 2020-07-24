@@ -43,6 +43,7 @@ function Display(
     onFilter,
     onChangeScene,
     noCache,
+    language,
   },
   controller,
 ) {
@@ -66,6 +67,7 @@ function Display(
           oembedUrl,
           displayUrl,
           noCache,
+          language,
         })
 
         if (onReadyStable.current || onErrorStable.current) {
@@ -113,6 +115,7 @@ function Display(
     onFilterStable,
     onReadyStable,
     noCache,
+    language,
   ])
 
   return <div ref={displayRef} />
