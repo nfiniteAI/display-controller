@@ -1,5 +1,5 @@
-import resolve from 'rollup-plugin-node-resolve'
-import babel from 'rollup-plugin-babel'
+import resolve from '@rollup/plugin-node-resolve'
+import babel from '@rollup/plugin-babel'
 import { terser } from 'rollup-plugin-terser'
 
 import filesize from 'rollup-plugin-filesize'
@@ -25,6 +25,7 @@ export default [
     },
     plugins: [
       babel({
+        babelHelpers: 'bundled',
         presets: [['@babel/preset-env', { targets: { esmodules: true } }]],
       }),
       resolve(),
@@ -40,7 +41,11 @@ export default [
       sourcemap: true,
       banner,
     },
-    plugins: [babel(), resolve(), filesize({ showGzippedSize: false, showMinifiedSize: false })],
+    plugins: [
+      babel({ babelHelpers: 'bundled' }),
+      resolve(),
+      filesize({ showGzippedSize: false, showMinifiedSize: false }),
+    ],
   },
   {
     input,
@@ -51,6 +56,11 @@ export default [
       sourcemap: true,
       banner,
     },
-    plugins: [babel(), resolve(), terser(), filesize({ showBrotliSize: true, showMinifiedSize: false })],
+    plugins: [
+      babel({ babelHelpers: 'bundled' }),
+      resolve(),
+      terser(),
+      filesize({ showBrotliSize: true, showMinifiedSize: false }),
+    ],
   },
 ]

@@ -25,19 +25,19 @@
     "postMessage"
   ],
   "devDependencies": {
-    "@babel/cli": "^7.10.4",
-    "@babel/core": "^7.10.4",
-    "@babel/node": "^7.10.4",
-    "eslint": "^7.3.1",
-    "jest": "^26.1.0",
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.1",
+    "@babel/node": "^7.10.5",
+    "@rollup/plugin-babel": "^5.2.0",
+    "@rollup/plugin-node-resolve": "^9.0.0",
+    "eslint": "^7.6.0",
+    "jest": "^26.4.0",
     "jest-fetch-mock": "^3.0.3",
     "jquery": "^3.5.1",
     "prettier": "^2.0.5",
-    "rollup": "^2.18.1",
-    "rollup-plugin-babel": "^4.4.0",
+    "rollup": "^2.25.0",
     "rollup-plugin-filesize": "^9.0.2",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-terser": "^6.1.0",
-    "whatwg-fetch": "^3.1.0"
+    "rollup-plugin-terser": "^7.0.0",
+    "whatwg-fetch": "^3.4.0"
   }
 }

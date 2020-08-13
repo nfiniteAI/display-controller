@@ -1,5 +1,5 @@
-import resolve from 'rollup-plugin-node-resolve'
-import babel from 'rollup-plugin-babel'
+import resolve from '@rollup/plugin-node-resolve'
+import babel from '@rollup/plugin-babel'
 
 import filesize from 'rollup-plugin-filesize'
 
@@ -13,6 +13,7 @@ const url = 'https://www.hubstairs.com'
 const banner = `/*! ${name} | ${copyright} | ${pkg.license} License | ${url} */`
 
 const globalName = 'Hubstairs.DisplayReact'
+
 export default [
   {
     input,
@@ -25,7 +26,7 @@ export default [
     external: ['react', 'react-proptypes'],
     plugins: [
       babel({
-        runtimeHelpers: true,
+        babelHelpers: 'runtime',
         presets: [['@babel/preset-env', { targets: { esmodules: true } }]],
       }),
       resolve(),
@@ -41,6 +42,6 @@ export default [
       banner,
     },
     external: ['react', 'react-proptypes'],
-    plugins: [babel({ runtimeHelpers: true, plugins: ['@babel/plugin-transform-runtime'] }), resolve(), filesize()],
+    plugins: [babel({ babelHelpers: 'runtime', plugins: ['@babel/plugin-transform-runtime'] }), resolve(), filesize()],
   },
 ]

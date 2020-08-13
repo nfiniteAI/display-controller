@@ -11,23 +11,23 @@
     "prettier:fix": "prettier --write '**/*.{js,jsx,json,md,css,scss,sh,yml,yaml,html}' --ignore-path .gitignore"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.4",
-    "@babel/preset-env": "^7.10.4",
+    "@babel/core": "^7.11.1",
+    "@babel/preset-env": "^7.11.0",
     "babel-eslint": "^10.1.0",
-    "eslint": "^7.3.1",
+    "eslint": "^7.6.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-compat": "^3.8.0",
     "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-jest": "^23.17.1",
+    "eslint-plugin-jest": "^23.20.0",
     "eslint-plugin-prettier": "^3.1.4",
     "husky": "^4.2.5",
-    "jest": "^26.1.0",
+    "jest": "^26.4.0",
     "jest-fetch-mock": "^3.0.3",
     "jquery": "^3.5.1",
     "lerna": "^3.22.1",
     "lint-staged": "^10.2.2",
     "prettier": "^2.0.5",
-    "whatwg-fetch": "^3.1.0"
+    "whatwg-fetch": "^3.4.0"
   },
   "husky": {
     "hooks": {
