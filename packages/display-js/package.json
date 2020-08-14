@@ -1,18 +1,25 @@
 {
   "name": "@hubstairs/display-js",
   "version": "0.2.0",
+  "homepage": "https:/www.hubstairs.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hubstairs/display-controller.git"
+  },
   "description": "Interact with and control an embedded Hubstairs display.",
   "license": "MIT",
   "author": "Guillaume HERTAULT <gh@hubstairs.com>",
   "scripts": {
     "start": "NODE_ENV=development rollup -c --watch",
+    "prebuild": "cp ../../README.md . && cp -R ../../docs .",
     "build": "NODE_ENV=production rollup -c",
     "lint": "eslint src",
     "test": "jest --config ../../jest.config.js --rootDir ."
   },
-  "main": "build/display.js",
-  "module": "build/display.esm.js",
+  "main": "build/index.js",
+  "module": "build/index.esm.js",
   "files": [
+    "docs",
     "build"
   ],
   "keywords": [
@@ -24,6 +31,9 @@
     "javascript",
     "postMessage"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "@babel/cli": "^7.10.5",
     "@babel/core": "^7.11.1",

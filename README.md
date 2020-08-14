@@ -5,21 +5,21 @@ Take control of your Hubstairs Display.
 - [Foreword](#foreword)
 - [About](#about)
 - Integrations
-  - [React](./docs/REACT_INTEGRATION.md)
-  - [Advanced](./docs/ADVANCED_INTEGRATION.md)
+  - [React](docs/REACT_INTEGRATION.md)
+  - [Advanced](docs/ADVANCED_INTEGRATION.md)
 - [Installation](#installation)
 - [Getting Started](#getting-started)
 - [Browser Support](#browser-support)
 - [Troubleshooting](#troubleshooting)
-- [Display Controller API](./docs/API.md#display-controller-api)
-  - [Constructor](./docs/API.md#constructor)
-  - [Events](./docs/API.md#events)
-  - [Functions](./docs/API.md#functions)
-- [Contributing](./docs/CONTRIBUTING.md)
+- [Display Controller API](docs/API.md#display-controller-api)
+  - [Constructor](docs/API.md#constructor)
+  - [Events](docs/API.md#events)
+  - [Functions](docs/API.md#functions)
+- [Contributing](docs/CONTRIBUTING.md)
 
 ## Foreword
 
-This documentation evolves along with the development of the [Display Controller API](./docs/API.md#display-controller-api). This means that you can find options or features that are pretty new and they may not be totally stable. To mark those new things we use the following `badges`:
+This documentation evolves along with the development of the [Display Controller API](docs/API.md#display-controller-api). This means that you can find options or features that are pretty new and they may not be totally stable. To mark those new things we use the following `badges`:
 
 - ![draft] : documentation is still "Work in progress" (it concerns only the documentation)
 - ![beta] : early option/feature, its usage may change
@@ -36,7 +36,7 @@ Features:
 - Access to content information
 - Call functions
 
-Info: If you use `React` on your website, we recommend you to follow the [`React integration instructions`](./docs/REACT_INTEGRATION.md) instead. It allows you to manipulate your Display as a Component and keep the exact same features.
+Info: If you use `React` on your website, we recommend you to follow the [`React integration instructions`](docs/REACT_INTEGRATION.md) instead. It allows you to manipulate your Display as a Component and keep the exact same features.
 
 ## Installation
 
@@ -48,11 +48,11 @@ npm i @hubstairs/display-js
 yarn add @hubstairs/display-js
 ```
 
-Info: If you do not use `npm` as a package manager, you can follow the [script integration instructions](./docs/ADVANCED_INTEGRATION.md#using-a-cdn)
+Info: If you do not use `npm` as a package manager, you can follow the [script integration instructions](docs/ADVANCED_INTEGRATION.md#using-a-cdn)
 
 ## Getting started
 
-After having set your Display up on [Hubstairs™](https://app.hubstairs.com) you will received your `display id` and your access `token`. Those information are needed to instantiate your Display. Pass the parent `DOM element` to the [Display constructor](./docs/API#constructor).
+After having set your Display up on [Hubstairs™](https://app.hubstairs.com) you will received your `display id` and your access `token`. Those information are needed to instantiate your Display. Pass the parent `DOM element` to the [Display constructor](docs/API#constructor).
 
 ```html
 <div id="display">
@@ -90,7 +90,7 @@ display.nextScene().then(() => {
 })
 ```
 
-To go further there are [few advanced integration](./docs/ADVANCED_INTEGRATION.md) mode.
+To go further there are [few advanced integration](docs/ADVANCED_INTEGRATION.md) mode.
 
 ## Browser Support
 

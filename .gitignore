@@ -1,7 +1,9 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 #build
-**/build
+packages/**/build
+packages/**/docs
+packages/**/README.md
 
 # dependencies
 /node_modules

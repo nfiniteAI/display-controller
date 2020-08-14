@@ -1,11 +1,18 @@
 {
   "name": "@hubstairs/display-react",
   "version": "0.2.0",
+  "homepage": "https:/www.hubstairs.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hubstairs/display-controller.git"
+  },
+  "url": "https://github.com/hubstairs/display-controller",
   "description": "Interact with and control an embedded Hubstairs display with a React component.",
   "license": "MIT",
   "author": "Guillaume HERTAULT <gh@hubstairs.com>",
   "scripts": {
     "start": "NODE_ENV=development rollup -c --watch",
+    "prebuild": "cp ../../README.md . && cp -R ../../docs .",
     "build": "NODE_ENV=production rollup -c",
     "lint": "eslint src",
     "test": "jest --config ../../jest.config.js --rootDir . --passWithNoTests"
@@ -13,6 +20,7 @@
   "main": "build/index.js",
   "module": "build/index.esm.js",
   "files": [
+    "docs",
     "build"
   ],
   "keywords": [
@@ -42,6 +50,9 @@
     "prettier": "^2.0.5",
     "rollup": "^2.25.0",
     "rollup-plugin-filesize": "^9.0.2"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "peerDependencies": {
     "react": ">= 16.8"

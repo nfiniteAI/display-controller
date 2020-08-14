@@ -7,7 +7,7 @@ import filesize from 'rollup-plugin-filesize'
 import pkg from './package.json'
 
 const globalName = 'Hubstairs.Controller'
-const input = './src/display.js'
+const input = './src/index.js'
 
 const name = `${pkg.name} v${pkg.version}`
 const copyright = `(c) ${new Date().getFullYear()} Hubstairs`

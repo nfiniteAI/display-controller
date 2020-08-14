@@ -1,16 +1,12 @@
 /*global html*/
 
-import Display from './display'
+import Display from './index'
 import { HubstairsError } from './lib/functions'
 
 describe('constructor', () => {
   test('accepts only Hubstairs embeds', () => {
     expect(() => {
-      void new Display(
-        html`
-          <div data-hubstairs-initialized><iframe></iframe></div>
-        `,
-      )
+      void new Display(html` <div data-hubstairs-initialized><iframe></iframe></div> `)
     }).toThrow()
 
     expect(() => {
@@ -18,19 +14,11 @@ describe('constructor', () => {
     }).toThrow()
 
     expect(() => {
-      void new Display(
-        html`
-          <iframe></iframe>
-        `,
-      )
+      void new Display(html` <iframe></iframe> `)
     }).toThrow()
 
     expect(() => {
-      void new Display(
-        html`
-          <iframe src="https://www.youtube.com/embed/Uj3_KqkI9Zo"></iframe>
-        `,
-      )
+      void new Display(html` <iframe src="https://www.youtube.com/embed/Uj3_KqkI9Zo"></iframe> `)
     }).toThrow()
   })
 
@@ -81,11 +69,7 @@ describe('constructor', () => {
   })
 
   test('throws if displayId is bad', async () => {
-    const display1 = new Display(
-      html`
-        <div data-hubstairs-displayid="guihash"></div>
-      `,
-    )
+    const display1 = new Display(html` <div data-hubstairs-displayid="guihash"></div> `)
     await expect(display1.ready()).rejects.toThrow()
   })
 })
@@ -94,11 +78,7 @@ describe('methods', () => {
   test('future calls to destroyed display should not not work', async () => {
     expect.assertions(4)
 
-    const display1 = new Display(
-      html`
-        <iframe id="to-destroy" src="https://display.hubstairs.com/v1/1234"></iframe>
-      `,
-    )
+    const display1 = new Display(html` <iframe id="to-destroy" src="https://display.hubstairs.com/v1/1234"></iframe> `)
 
     await expect(display1.destroy()).resolves.toBeUndefined()
     expect(document.querySelector('#to-destroy')).toBeFalsy()

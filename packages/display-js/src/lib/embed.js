@@ -142,7 +142,7 @@ export function initializeEmbeds(parent = document) {
  * @return {void}
  */
 export function resizeEmbeds(parent = document) {
-  // Prevent execution if users include the display.js script multiple times.
+  // Prevent execution if users include the display script multiple times.
   if (window.HubstairsDisplayResizeEmbeds_) {
     return
   }

@@ -4,5 +4,6 @@
   "packages": [
     "packages/*"
   ],
+  "changelogPreset": "conventionalcommits",
   "version": "0.2.0"
 }
