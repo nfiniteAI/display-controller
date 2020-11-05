@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.0](https://github.com/hubstairs/display-controller/compare/v1.0.0...v1.1.0) (2020-11-05)
+
+
+### Features
+
+* add config option in display-react ([3412eb3](https://github.com/hubstairs/display-controller/commit/3412eb3ec3672a5b34d4f9a9beaea60f6b8a873b))
+
+
+
 # [0.2.0](https://gitlab.com/hubstairs/front/npm-modules/display-controller/compare/v0.1.0...v0.2.0) (2020-07-24)
 
 
