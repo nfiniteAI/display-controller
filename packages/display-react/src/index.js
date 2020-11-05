@@ -34,6 +34,7 @@ function Display(
     displayid,
     productcode,
     token,
+    config,
     displayUrl,
     oembedUrl,
     responsive = true,
@@ -55,6 +56,12 @@ function Display(
   const onProductClickStable = useLatest(onProductClick)
   const onFilterStable = useLatest(onFilter)
   const onReadyStable = useLatest(onReady)
+
+  useEffect(() => {
+    if (ctrl.current) {
+      ctrl.current.setConfig(config)
+    }
+  }, [ctrl, config])
 
   useEffect(() => {
     if (displayid && token) {
