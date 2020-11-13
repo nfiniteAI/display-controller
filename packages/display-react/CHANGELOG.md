@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [1.1.1](https://github.com/hubstairs/display-controller/compare/v1.1.0...v1.1.1) (2020-11-13)
+
+
+### Bug Fixes
+
+* unable to set config undefined ([06151be](https://github.com/hubstairs/display-controller/commit/06151be06429e73057adb989e50697150fa7ca7c))
+
+
+
 ## [1.1.0](https://github.com/hubstairs/display-controller/compare/v1.0.0...v1.1.0) (2020-11-05)
 
 
