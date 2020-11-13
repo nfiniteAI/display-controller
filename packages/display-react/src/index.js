@@ -58,7 +58,7 @@ function Display(
   const onReadyStable = useLatest(onReady)
 
   useEffect(() => {
-    if (ctrl.current) {
+    if (ctrl.current && config) {
       ctrl.current.setConfig(config)
     }
   }, [ctrl, config])
