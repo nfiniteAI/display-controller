@@ -173,7 +173,7 @@ describe('processData', () => {
     try {
       await methodPromise
     } catch (error) {
-      // eslint-disable-next-line jest/no-try-expect
+      // eslint-disable-next-line jest/no-try-expect, jest/no-conditional-expect
       expect(error.name).toBe('TypeError')
     }
   })
