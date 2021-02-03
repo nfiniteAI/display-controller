@@ -70,7 +70,7 @@ export function isObjectId(value) {
  * @return {boolean}
  */
 export function isHubstairsUrl(url) {
-  return /^(https?:)?\/\/display.*hubstairs\.com(:\d+)?(?=$|\/)/.test(url)
+  return /^(https?:)?\/\/display.*(hubstairs\.com|nfinite\.app)(:\d+)?(?=$|\/)/.test(url)
 }
 
 /**
