@@ -53,6 +53,7 @@ describe('isObjectId', () => {
 
 describe('isHubstairsUrl', () => {
   test('identifies right Hubstairs urls only', () => {
+    expect(isHubstairsUrl('http://display.nfinite.app')).toBe(true)
     expect(isHubstairsUrl('http://display.hubstairs.com')).toBe(true)
     expect(isHubstairsUrl('https://display.hubstairs.com')).toBe(true)
     expect(isHubstairsUrl('//display.hubstairs.com')).toBe(true)
