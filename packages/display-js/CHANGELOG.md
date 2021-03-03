@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.0](https://github.com/hubstairs/display-controller/compare/v1.2.0...v1.3.0) (2021-03-03)
+
+
+### Features
+
+* manage hubstairs.io urls ([7a8e39b](https://github.com/hubstairs/display-controller/commit/7a8e39bf8856350a0166a29eaf5a4a7e4bf0b00c))
+
+
+
 ## [1.2.0](https://github.com/hubstairs/display-controller/compare/v1.1.1...v1.2.0) (2021-02-03)
 
 
