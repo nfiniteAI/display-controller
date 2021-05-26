@@ -66,7 +66,7 @@ export function createEmbed({ html }, element) {
 /**
  * Make an oEmbed call for the specified URL.
  *
- * @param {string} displayUrl The hubstairs.com url for the display.
+ * @param {string} displayUrl The nfinite.app url for the display.
  * @param {Object} [params] Parameters to pass to oEmbed.
  * @return {Promise}
  */
@@ -74,7 +74,7 @@ export function getOEmbedData({ url, displayid, displayUrl, oembedUrl, ...params
   try {
     const fullDisplayUrl = getHubstairsUrl({ url, displayid, displayUrl })
 
-    let fullOembedUrl = `${oembedUrl || 'https://api.hubstairs.com/oembed'}?url=${encodeURIComponent(fullDisplayUrl)}`
+    let fullOembedUrl = `${oembedUrl || 'https://my.nfinite.app/api/oembed'}?url=${encodeURIComponent(fullDisplayUrl)}`
 
     for (const param in params) {
       if (Object.prototype.hasOwnProperty.call(params, param)) {

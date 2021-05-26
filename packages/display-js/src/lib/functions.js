@@ -90,7 +90,7 @@ export function getHubstairsUrl({ url, displayid, displayUrl } = {}) {
   }
 
   if (isObjectId(idOrUrl)) {
-    return `${displayUrl || 'https://display.hubstairs.com'}/v1/${idOrUrl}`
+    return `${displayUrl || 'https://display.nfinite.app'}/v1/${idOrUrl}`
   }
 
   if (isHubstairsUrl(idOrUrl)) {
@@ -101,5 +101,5 @@ export function getHubstairsUrl({ url, displayid, displayUrl } = {}) {
     throw new HubstairsError(`“${displayid}” is not a valid display id.`, 'TypeError')
   }
 
-  throw new HubstairsError(`“${idOrUrl}” is not a display.hubstairs.com url.`, 'TypeError')
+  throw new HubstairsError(`“${idOrUrl}” is not a display.nfinite.app url.`, 'TypeError')
 }

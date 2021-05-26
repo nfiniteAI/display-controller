@@ -78,7 +78,7 @@ describe('methods', () => {
   test('future calls to destroyed display should not not work', async () => {
     expect.assertions(4)
 
-    const display1 = new Display(html` <iframe id="to-destroy" src="https://display.hubstairs.com/v1/1234"></iframe> `)
+    const display1 = new Display(html` <iframe id="to-destroy" src="https://display.nfinite.app/v1/1234"></iframe> `)
 
     await expect(display1.destroy()).resolves.toBeUndefined()
     expect(document.querySelector('#to-destroy')).toBeFalsy()

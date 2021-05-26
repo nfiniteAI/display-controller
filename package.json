@@ -3,12 +3,12 @@
   "private": true,
   "version": "0.0.0",
   "license": "MIT",
-  "homepage": "https:/www.hubstairs.com",
+  "homepage": "https:/www.nfinite.app",
   "repository": {
     "type": "git",
     "url": "https://github.com/hubstairs/display-controller.git"
   },
-  "author": "Guillaume HERTAULT <gh@hubstairs.com>",
+  "author": "Guillaume HERTAULT <gh@hnfinite.com>",
   "workspaces": [
     "packages/*"
   ],

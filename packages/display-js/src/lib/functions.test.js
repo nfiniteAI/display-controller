@@ -76,13 +76,13 @@ describe('isHubstairsUrl', () => {
 describe('getHubstairsUrl', () => {
   test('returns correctly a url from the embed parameters', () => {
     expect(getHubstairsUrl({ displayid: '5e417dbac5d2651adbe509ec' })).toBe(
-      'https://display.hubstairs.com/v1/5e417dbac5d2651adbe509ec',
+      'https://display.nfinite.app/v1/5e417dbac5d2651adbe509ec',
     )
-    expect(getHubstairsUrl({ url: 'http://display.hubstairs.com/v1/5e417dbac5d2651adbe509ec' })).toBe(
-      'https://display.hubstairs.com/v1/5e417dbac5d2651adbe509ec',
+    expect(getHubstairsUrl({ url: 'http://display.nfinite.app/v1/5e417dbac5d2651adbe509ec' })).toBe(
+      'https://display.nfinite.app/v1/5e417dbac5d2651adbe509ec',
     )
-    expect(getHubstairsUrl({ url: 'https://display.hubstairs.com/v1/5e417dbac5d2651adbe509ec' })).toBe(
-      'https://display.hubstairs.com/v1/5e417dbac5d2651adbe509ec',
+    expect(getHubstairsUrl({ url: 'https://display.nfinite.app/v1/5e417dbac5d2651adbe509ec' })).toBe(
+      'https://display.nfinite.app/v1/5e417dbac5d2651adbe509ec',
     )
   })
 
@@ -94,13 +94,13 @@ describe('getHubstairsUrl', () => {
 
   test('throws an error if the displayid parameter is not an integer', () => {
     expect(() => {
-      getHubstairsUrl({ displayid: 'https://nothubstairs.com/2' })
+      getHubstairsUrl({ displayid: 'https://notnfinite.app/2' })
     }).toThrowError(HubstairsError)
   })
 
   test('throws an error if the url parameter is not a Hubstairs url', () => {
     expect(() => {
-      getHubstairsUrl({ url: 'https://nothubstairs.com/2' })
+      getHubstairsUrl({ url: 'https://notnfinite.app/aa' })
     }).toThrowError(HubstairsError)
   })
 })
