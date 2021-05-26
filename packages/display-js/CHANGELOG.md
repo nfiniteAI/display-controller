@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [1.3.1](https://github.com/hubstairs/display-controller/compare/v1.3.0...v1.3.1) (2021-05-26)
+
+
+### Bug Fixes
+
+* use nfinite urls ([2b43ba0](https://github.com/hubstairs/display-controller/commit/2b43ba08de319c76d9e001ff34b9e5e78af6a7af))
+
+
+
 ## [1.3.0](https://github.com/hubstairs/display-controller/compare/v1.2.0...v1.3.0) (2021-03-03)
 
 
