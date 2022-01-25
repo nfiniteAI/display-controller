@@ -74,7 +74,9 @@ export function getOEmbedData({ url, displayid, displayUrl, oembedUrl, ...params
   try {
     const fullDisplayUrl = getHubstairsUrl({ url, displayid, displayUrl })
 
-    let fullOembedUrl = `${oembedUrl || 'https://my.nfinite.app/api/oembed'}?url=${encodeURIComponent(fullDisplayUrl)}`
+    let fullOembedUrl = `${oembedUrl || 'https://display.nfinite.app/api/oembed'}?url=${encodeURIComponent(
+      fullDisplayUrl,
+    )}`
 
     for (const param in params) {
       if (Object.prototype.hasOwnProperty.call(params, param)) {
