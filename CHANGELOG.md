@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.0](https://github.com/hubstairs/display-controller/compare/v1.3.1...v1.4.0) (2022-02-01)
+
+
+### Features
+
+* new url for oembed API ([0f343b8](https://github.com/hubstairs/display-controller/commit/0f343b8acac74afd35e1d893b30db6a28adb2806))
+
+
+
 ### [1.3.1](https://github.com/hubstairs/display-controller/compare/v1.3.0...v1.3.1) (2021-05-26)
 
 
