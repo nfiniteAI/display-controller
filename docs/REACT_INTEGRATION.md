@@ -1,5 +1,7 @@
 # React integration ![beta]
 
+> React integration makes heavy use of React hooks, so you'll need to be on React 16.8 or greater
+
 ## Installation
 
 ```bash
