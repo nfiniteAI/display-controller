@@ -14,8 +14,8 @@ yarn add @hubstairs/display-react
 import Display from '@hubstairs/display-react'
 
 const displayProps = {
-  displayid
-  token
+  displayid,
+  token,
 }
 
 function App() {

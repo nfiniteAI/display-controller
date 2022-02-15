@@ -67,8 +67,8 @@ e.g.:
 
 ```js
 const options = {
-  displayid: 'display-id-from-nfinite'
-  token: 'access-token-from-nfinite'
+  displayid: 'display-id-from-nfinite',
+  token: 'access-token-from-nfinite',
 }
 
 new Display('element'), options)
