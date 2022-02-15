@@ -8,7 +8,7 @@ Already have a Display on the page? Pass the iframe to the Display constructor a
 
 ```html
 <iframe
-  src="https://display.hubstairs.com/v1/{displayId}"
+  src="https://display.nfinite.com/v1/{displayId}"
   width="640"
   height="360"
   frameborder="0"
@@ -28,7 +28,7 @@ Already have a Display on the page? Pass the iframe to the Display constructor a
 
 ## Automatically with HTML attributes
 
-When the library loads, it will scan your page for elements with Hubstairs attributes. Each element must have at least a `data-hubstairs-displayid` or `data-hubstairs-url` attribute to create the Display automatically. You can also add attributes for any of the [Display constructor options](API.md#constructor) prefixed with `data-hubstairs`.
+When the library loads, it will scan your page for elements with nfinite attributes. Each element must have at least a `data-hubstairs-displayid` or `data-hubstairs-url` attribute to create the Display automatically. You can also add attributes for any of the [Display constructor options](API.md#constructor) prefixed with `data-hubstairs`.
 
 ```html
 <div data-hubstairs-displayid="5e417dbac5d2651adbe509ec" id="display"></div>

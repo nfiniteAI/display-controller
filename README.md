@@ -1,6 +1,6 @@
-# Hubstairs Display Controller
+# nfinite Display Controller
 
-Take control of your Hubstairs Display.
+Take control of your nfinite Display.
 
 - [Foreword](#foreword)
 - [About](#about)
@@ -27,11 +27,11 @@ This documentation evolves along with the development of the [Display Controller
 
 ## About
 
-Hubstairs Display is an interactive visual content delivery solution and its integration on your website can be easied with Hubstairs Display Controller.
+nfinite Display is an interactive visual content delivery solution and its integration on your website can be easied with nfinite Display Controller.
 
 Features:
 
-- Instantiate Hubstairs Display
+- Instantiate nfinite Display
 - Hook on Display events and lifecycle
 - Access to content information
 - Call functions
@@ -40,7 +40,7 @@ Info: If you use `React` on your website, we recommend you to follow the [`React
 
 ## Installation
 
-Hubstairs Display Controller is available on the npm registry. Just run
+nfinite Display Controller is available on the npm registry. Just run
 
 ```bash
 npm i @hubstairs/display-js
@@ -52,7 +52,7 @@ Info: If you do not use `npm` as a package manager, you can follow the [script i
 
 ## Getting started
 
-After having set your Display up on [Hubstairs™](https://app.hubstairs.com) you will received your `display id` and your access `token`. Those information are needed to instantiate your Display. Pass the parent `DOM element` to the [Display constructor](docs/API#constructor).
+After having set your Display up on [nfinite](https://my.nfinite.app) you will received your `display id` and your access `token`. Those information are needed to instantiate your Display. Pass the parent `DOM element` to the [Display constructor](docs/API#constructor).
 
 ```html
 <div id="display">
@@ -65,7 +65,7 @@ import Display from '@hubstairs/display-js'
 
 const domElement = document.querySelector('#display') // select the parent DOM element
 
-// The display id and access token you received from Hubstairs™
+// The display id and access token you received from nfinite
 const options = {
   displayid,
   token,
@@ -94,7 +94,7 @@ To go further there are [few advanced integration](docs/ADVANCED_INTEGRATION.md)
 
 ## Browser Support
 
-Hubstairs Display Controller library is supported in Edge, Chrome, Firefox, Safari, and Opera.
+nfinite Display Controller library is supported in Edge, Chrome, Firefox, Safari, and Opera.
 
 To use this library, you should polyfill by your own:
 
@@ -104,10 +104,10 @@ To use this library, you should polyfill by your own:
 
 ## Troubleshooting
 
-Hubstairs Display is an `<iframe />` where source comes from `display.hubstairs.com` so to make sure that it works properly you need to allow the `https://display.hubstairs.com` in your Content Security Policy.
+nfinite Display is an `<iframe />` where source comes from `display.nfinite.app` so to make sure that it works properly you need to allow the `https://display.nfinite.app` in your Content Security Policy.
 
 ```
-Content-Security-Policy: frame-src https://display.hubstairs.com;
+Content-Security-Policy: frame-src https://display.nfinite.app;
 ```
 
 [draft]: https://img.shields.io/badge/draft-orange

@@ -50,25 +50,25 @@ new Display($('#element'), options)
 
 `options` is an Object which can take the following values:
 
-| option name        | default                                   | description                                                                                                 |
-| ------------------ | ----------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| displayid _or_ url |                                           | **Required.** Either the id or the url of the Hubstairs Display.                                            |
-| token              |                                           | **Required.** Token generated in app.hubstairs.com (in the service user section).                           |
-| productcode        |                                           | Load scenes where the product is visible (identified by its code). Only available for "Product Focus"       |
-| responsive         | `true` (if no width and height set)       | Resize according to its parent element, this parameter is incompatible with `height` and `width` parameters |
-| height             |                                           | The exact height of the Display. Defaults to the height of the largest available version of the Display.    |
-| width              |                                           | The exact width of the Display. Defaults to the width of the largest available version of the Display.      |
-| displayUrl         | `https://display.hubstairs.com`           | Override the generated base url for the Display (useful in development mode).                               |
-| oembedUrl          | `https://api.hubstairs.com/oembed`        | Override the generated base url for oembed api (useful in development mode).                                |
-| language           | default language set in app.hubstairs.com | One of the defined language in app.hubstairs.com (in the platform section).                                 |
-| noCache            | `false`                                   | By default data from the Display is cached, you can bypass that by setting noCache to `true`                |
+| option name        | default                                  | description                                                                                                 |
+| ------------------ | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| displayid _or_ url |                                          | **Required.** Either the id or the url of the nfinite Display.                                              |
+| token              |                                          | **Required.** Token generated in my.nfinite.app (in the service user section).                              |
+| productcode        |                                          | Load scenes where the product is visible (identified by its code). Only available for "Product Focus"       |
+| responsive         | `true` (if no width and height set)      | Resize according to its parent element, this parameter is incompatible with `height` and `width` parameters |
+| height             |                                          | The exact height of the Display. Defaults to the height of the largest available version of the Display.    |
+| width              |                                          | The exact width of the Display. Defaults to the width of the largest available version of the Display.      |
+| displayUrl         | `https://display.nfinite.app`            | Override the generated base url for the Display (useful in development mode).                               |
+| oembedUrl          | `https://display.nfinite.app/api/oembed` | Override the generated base url for oembed api (useful in development mode).                                |
+| language           | default language set in my.nfinite.app   | One of the defined language in my.nfinite.app (in the platform section).                                    |
+| noCache            | `false`                                  | By default data from the Display is cached, you can bypass that by setting noCache to `true`                |
 
 e.g.:
 
 ```js
 const options = {
-  displayid: 'display-id-from-Hubstairs™'
-  token: 'access-token-from-Hubstairs™'
+  displayid: 'display-id-from-nfinite'
+  token: 'access-token-from-nfinite'
 }
 
 new Display('element'), options)
