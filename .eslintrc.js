@@ -13,7 +13,7 @@ module.exports = {
     'plugin:compat/recommended',
   ],
   plugins: ['prettier', 'jest', 'import'],
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
   parserOptions: { sourceType: 'module', ecmaVersion: 2019, ecmaFeatures: { modules: true } },
   rules: {
     'prettier/prettier': ['error'],

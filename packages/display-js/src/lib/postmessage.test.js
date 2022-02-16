@@ -169,11 +169,11 @@ describe('processData', () => {
     expect(getCallbacks(display, 'getColor')).toHaveLength(0)
     await expect(methodPromise).rejects.toThrowError('The color should be 3- or 6-digit hex value.')
 
-    // we need this test because error name are set dynmaically so it cannot be tested by jest correctly
+    // we need this test because error name are set dynamically so it cannot be tested by jest correctly
     try {
       await methodPromise
     } catch (error) {
-      // eslint-disable-next-line jest/no-try-expect, jest/no-conditional-expect
+      // eslint-disable-next-line jest/no-conditional-expect
       expect(error.name).toBe('TypeError')
     }
   })

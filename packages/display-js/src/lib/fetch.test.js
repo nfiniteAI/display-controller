@@ -20,6 +20,7 @@ describe("if it' 500", () => {
   test('status code is 500', async () => {
     expect.assertions(1)
     fetch.mockResponse('', { status: 500 })
+    // eslint-disable-next-line jest/no-conditional-expect
     return fetchURL('https://httpstat.us/500', { headers }).catch(e => expect(e.response.status).toBe(500))
   })
 
@@ -33,6 +34,7 @@ describe("if it' 500", () => {
       { status: 500 },
     )
     return fetchURL('https://httpstat.us/500', { headers }).catch(e =>
+      // eslint-disable-next-line jest/no-conditional-expect
       expect(e.response.data).toMatchObject({
         code: 500,
         description: 'Internal Server Error',
@@ -43,6 +45,7 @@ describe("if it' 500", () => {
   test("error data is response text if it's not json", () => {
     expect.assertions(1)
     fetch.mockResponse('500 Internal Server Error', { status: 500 })
+    // eslint-disable-next-line jest/no-conditional-expect
     return fetchURL('https://httpstat.us/500').catch(e => expect(e.response.data).toBe('500 Internal Server Error'))
   })
 })
