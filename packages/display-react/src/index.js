@@ -55,6 +55,7 @@ function Display(
   const ctrl = controller || controllerRef
   const onErrorStable = useLatest(onError)
   const onChangeSceneStable = useLatest(onChangeScene)
+  const onChangeProductStable = useLatest(onChangeProduct)
   const onProductClickStable = useLatest(onProductClick)
   const onFilterStable = useLatest(onFilter)
   const onReadyStable = useLatest(onReady)
@@ -93,11 +94,13 @@ function Display(
         }
 
         const callbackOnChangeScene = registerEvent(ctrl, EVENTS.CHANGE_SCENE, onChangeSceneStable)
+        const callbackOnChangeProduct = registerEvent(ctrl, EVENTS.CHANGE_PRODUCT, onChangeProductStable)
         const callbackOnError = registerEvent(ctrl, EVENTS.ERROR, onErrorStable)
         const callbackOnProductClick = registerEvent(ctrl, EVENTS.PRODUCT_CLICK, onProductClickStable)
         const callbackOnFilter = registerEvent(ctrl, EVENTS.FILTER, onFilterStable)
         return () => {
           unRegisterEvent(ctrl, EVENTS.CHANGE_SCENE, callbackOnChangeScene)
+          unRegisterEvent(ctrl, EVENTS.CHANGE_PRODUCT, callbackOnChangeProduct)
           unRegisterEvent(ctrl, EVENTS.PRODUCT_CLICK, callbackOnProductClick)
           unRegisterEvent(ctrl, EVENTS.FILTER, callbackOnFilter)
           unRegisterEvent(ctrl, EVENTS.ERROR, callbackOnError)
@@ -121,6 +124,7 @@ function Display(
     onChangeSceneStable,
     controller,
     onProductClickStable,
+    onChangeProductStable,
     onFilterStable,
     onReadyStable,
     noCache,
