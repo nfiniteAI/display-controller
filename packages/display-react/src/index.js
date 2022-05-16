@@ -24,6 +24,7 @@ function unRegisterEvent(controller, name, callbackFromRegister) {
 const EVENTS = {
   PRODUCT_CLICK: 'poductClick',
   CHANGE_SCENE: 'changeScene',
+  CHANGE_PRODUCT: 'changeProduct',
   FILTER: 'filter',
   ERROR: 'error',
 }
@@ -43,6 +44,7 @@ function Display(
     onReady,
     onFilter,
     onChangeScene,
+    onChangeProduct,
     noCache,
     language,
   },

@@ -2,13 +2,18 @@
 
 - [Constructor](#constructor)
 - [Events](#events)
+  - [error](#error)
+  - [filter](#filter-)
+  - [changeScene](#changeScene-)
+  - [changeProduct](#changeProduct-)
+  - [productClick](#productClick-)
 - [Functions](#functions)
   - [ready](#ready-promisevoid-error)
   - [destroy](#destroy-promisevoid-error)
   - [setLanguage](#setlanguagelanguage-string-promisestring-error)
-  - [nextScene](#nextscene-promisevoid-error)![beta]
-  - [setFilter](#setfilterfilter-object-promiseobject-error) ![beta]
-  - [getProducts](#getproducts-promiseobject-error) ![beta]
+  - [nextScene](#nextscene-promisevoid-error-)
+  - [setFilter](#setfilterfilter-object-promiseobject-error-)
+  - [getProducts](#getproducts-promiseobject-error-)
 
 ## Constructor
 
@@ -78,8 +83,6 @@ new Display('element'), options)
 
 To listen to the Display events, use the function `on()`. Then use the `off()` function to stop listening.
 
-### Usage
-
 ```js
 const display = new Display(element, options)
 
@@ -98,16 +101,9 @@ display.off('error', callbackOne) // remove only `callbackOne`
 display.off('error') // remove all
 ```
 
-### Parameters
+### error
 
-`eventName` is String literal and accepts one of these values:
-
-- `error`, when an error has occurred
-- `filter` ![beta], when a filter has been applied
-- `changeScene` ![beta], when a scene has been changed
-- `productClick` ![beta], when a product on the scene has been clicked
-
-`callback` is a Function that accepts arguments depending on the event.
+Triggered when an error has occured
 
 On `error`, the callback receives the `error` as argument, e.g.:
 
@@ -115,19 +111,41 @@ On `error`, the callback receives the `error` as argument, e.g.:
 display.on('error', error => console.log(scene))
 ```
 
-On `filter` ![beta], the callback receives the `new filter` as argument, e.g.:
+### filter ![beta] ![product-focus]
+
+Triggered when a filter has been applied
+
+On `filter`, the callback receives the `new filter` as argument, e.g.:
 
 ```js
 display.on('filter', filter => console.log(filter))
 ```
 
-On `changeScene` ![beta], the callback receives the `new scene` as argument, e.g.:
+### changeScene ![infinite] ![product-focus]
+
+Triggered when a scene has been changed
+
+On `changeScene`, the callback receives the `new scene` as argument, e.g.:
 
 ```js
 display.on('changeScene', scene => console.log(scene))
 ```
 
-On `productClick` ![beta], the callback receives the `clicked product` as argument, e.g.:
+### changeProduct  ![infinite]
+
+Triggered when a product has been changed at a location
+
+On `changeProduct`, the callback receives the `product` as argument, e.g.:
+
+```js
+display.on('changeProduct', scene => console.log(product))
+```
+
+### productClick ![beta] ![infinite] ![product-focus]
+
+Triggered when a product on the scene has been clicked
+
+On `productClick`, the callback receives the `clicked product` as argument, e.g.:
 
 ```js
 display.on('productClick', product => console.log(product))
@@ -213,3 +231,5 @@ display.getProducts().then(products => {
 ```
 
 [beta]: https://img.shields.io/badge/beta-blue
+[infinite]: https://img.shields.io/badge/infinite-d1b2ff
+[product-focus]: https://img.shields.io/badge/product%20focus-19d1ff

@@ -1,4 +1,4 @@
-# React integration ![beta]
+# React integration
 
 > React integration makes heavy use of React hooks, so you'll need to be on React 16.8 or greater
 
@@ -29,20 +29,32 @@ function App() {
 
 `displayProps` can receive the following data:
 
+### Common props
+
 | props name                | default                                  | description                                                                                                 |
 | ------------------------- | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
 | displayid _or_ displayUrl |                                          | **Required.** Either the id or the url of the nfinite Display.                                              |
 | token                     |                                          | **Required.** Token generated in my.nfinite.app (in the service user section).                              |
-| productcode               |                                          | Load scenes where the product is visible (identified by its code). Only available for "Product Focus"       |
 | responsive                | `true` (if no width and height set)      | Resize according to its parent element, this parameter is incompatible with `height` and `width` parameters |
 | displayUrl                | `https://display.nfinite.app`            | Override the generated base url for the Display (useful in development mode).                               |
 | oembedUrl                 | `https://display.nfinite.app/api/oembed` | Override the generated base url for oembed api (useful in development mode).                                |
-| noCache                   | `false`                                  | By default data from the Display is cached, you can bypass that by setting noCache to `true`                |
 | language                  | default language set in my.nfinite.app   | One of the defined language in my.nfinite.app (in the platform section).                                    |
 | onError                   |                                          | Callback on error                                                                                           |
 | onReady                   |                                          | Callback when "ready" event is emitted                                                                      |
-| onFilter                  |                                          | Callback on filter change, it receives the `new filter` as argument                                         |
+
+### Infinite props
+
+| props name                | default                                  | description                                                                                                 |
+| ------------------------- | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
 | onChangeScene             |                                          | Callback on scene change, it receives the `new scene` as argument                                           |
-| onProductClick            |                                          | Callback on product click, it receives the `product` as argument                                            |
+| onProductClick ![beta]           |                                          | Callback on product CTA click, it receives the `product` as argument                                            |
+
+### Produt focus props
+
+| props name                | default                                  | description                                                                                                 |
+| ------------------------- | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| productcode               |                                          | Load scenes where the product is visible (identified by its code)      |
+| onChangeScene ![beta]            |                                          | Callback on scene change, it receives the `new scene` as argument                                           |
+
 
 [beta]: https://img.shields.io/badge/beta-blue
