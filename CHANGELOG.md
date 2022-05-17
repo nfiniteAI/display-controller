@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0](https://github.com/hubstairs/display-controller/compare/v1.4.0...v1.5.0) (2022-05-17)
+
+
+### Features
+
+* **display-js:** prepare resize function for the future ([1fe50bf](https://github.com/hubstairs/display-controller/commit/1fe50bf06915685fee0db8740e1b96629e871806))
+* **display-react:** add onChangeProduct callback ([946cba5](https://github.com/hubstairs/display-controller/commit/946cba5071e3393cceb42e7d55c1249c410296a0))
+
+
+### Bug Fixes
+
+* **display-js:** error when a comment is inside the display container div ([3f5ae72](https://github.com/hubstairs/display-controller/commit/3f5ae72dbbf402f1dd2d8989228ae825afc2c344))
+
+
+
 ## [1.4.0](https://github.com/hubstairs/display-controller/compare/v1.3.1...v1.4.0) (2022-02-01)
 
 
