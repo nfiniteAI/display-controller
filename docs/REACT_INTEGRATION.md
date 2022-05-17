@@ -46,6 +46,7 @@ function App() {
 
 | props name                | default                                  | description                                                                                                 |
 | ------------------------- | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| onChangeProduct             |                                          | Callback on scene change, it receives the an object with the `prevProduct` and the `nextProduct` as argument                                           |
 | onChangeScene             |                                          | Callback on scene change, it receives the `new scene` as argument                                           |
 | onProductClick ![beta]           |                                          | Callback on product CTA click, it receives the `product` as argument                                            |
 

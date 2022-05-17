@@ -17,11 +17,13 @@
     "lint": "NODE_ENV=production eslint src",
     "test": "jest --config ../../jest.config.js --rootDir . --passWithNoTests"
   },
+  "types": "types/index.d.ts",
   "main": "build/index.js",
   "module": "build/index.esm.js",
   "files": [
     "docs",
-    "build"
+    "build",
+    "types"
   ],
   "keywords": [
     "hubstairs",
