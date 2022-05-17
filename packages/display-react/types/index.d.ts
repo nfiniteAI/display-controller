@@ -8,7 +8,7 @@ type onFilter = (filter: Filter) => void;
 type onChangeScene = (scene: { products: Product[] }) => void;
 type onChangeProduct = (productChange: {prevProduct: Product, nextProduct: Product }) => void;
 
-enum Language {
+export enum Language {
   'fr-FR' = 'fr-FR',
   'en-US' ='en-US'
 }
@@ -36,11 +36,11 @@ type DisplayBaseProps = {
   language?: Language,
 }
 
-type DisplayIdProps = {
+export type DisplayIdProps = {
   displayid: String;
 } & DisplayBaseProps
 
-type DisplayUrlProps = {
+export type DisplayUrlProps = {
   displayurl: String;
 } & DisplayBaseProps
 

@@ -27,6 +27,8 @@ function App() {
 
 ## Props
 
+> If needed, you can find more details in the [types declaration](../packages/display-react/types/index.d.ts)
+
 `displayProps` can receive the following data:
 
 ### Common props
