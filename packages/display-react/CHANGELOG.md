@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [1.5.1](https://github.com/hubstairs/display-controller/compare/v1.5.0...v1.5.1) (2022-05-17)
+
+
+### Bug Fixes
+
+* types ([9c09cb1](https://github.com/hubstairs/display-controller/commit/9c09cb1e7ebf93af5ae7e358510f6a6939c107f9))
+
+
+
 ## [1.5.0](https://github.com/hubstairs/display-controller/compare/v1.4.0...v1.5.0) (2022-05-17)
 
 
