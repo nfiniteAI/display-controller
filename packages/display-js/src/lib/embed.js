@@ -167,10 +167,10 @@ export function resizeEmbeds(parent = document) {
         continue
       }
 
-      // Change padding-bottom of the enclosing div to accommodate
+      // Change padding-top of the enclosing div to accommodate
       // card carousel without distorting aspect ratio
       const space = iframes[i].parentElement
-      space.style.paddingBottom = `${event.data.data[0].bottom}px`
+      space.style.paddingTop = event.data.data[0].bottom
 
       break
     }
