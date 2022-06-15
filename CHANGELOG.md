@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.0](https://github.com/hubstairs/display-controller/compare/v1.5.1...v1.6.0) (2022-06-15)
+
+
+### Features
+
+* add callback onLoadScene and onChangeSelectedProductLocation ([a1164bb](https://github.com/hubstairs/display-controller/commit/a1164bb41cbff1eb6945a0e44128308996d12978))
+
+
+
 ### [1.5.1](https://github.com/hubstairs/display-controller/compare/v1.5.0...v1.5.1) (2022-05-17)
 
 
