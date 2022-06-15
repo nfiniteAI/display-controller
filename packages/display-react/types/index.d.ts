@@ -1,12 +1,14 @@
 // TODO
-type onError = () => any;
+type onError = () => void;
 // TODO
-type onReady = () => any;
+type onReady = () => void;
 type onProductClick = (product: Product) => void;
 // TODO
 type onFilter = (filter: Filter) => void;
-type onChangeScene = (scene: { products: Product[] }) => void;
+type onChangeScene = (newScene: { products: Product[] }) => void;
+type onLoadScene = (initialScene: { products: Product[] }) => void;
 type onChangeProduct = (productChange: { prevProduct: Product; nextProduct: Product }) => void;
+type onChangeSelectedProductLocation = (location?: { currentProduct: Product }) => void;
 
 export enum Language {
   FR_FR = 'fr-FR',
@@ -32,7 +34,9 @@ type DisplayBaseProps = {
   onReady?: onReady;
   onFilter?: onFilter;
   onChangeScene?: onChangeScene;
+  onLoadScene?: onLoadScene;
   onChangeProduct?: onChangeProduct;
+  onChangeSelectedProductLocation?: onChangeSelectedProductLocation;
   language?: Language;
 };
 

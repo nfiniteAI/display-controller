@@ -4,9 +4,11 @@
 - [Events](#events)
   - [error](#error)
   - [filter](#filter-)
-  - [changeScene](#changeScene-)
-  - [changeProduct](#changeProduct-)
-  - [productClick](#productClick-)
+  - [loadScene](#loadscene-)
+  - [changeScene](#changescene-)
+  - [changeProduct](#changeproduct-)
+  - [changeSelectedProductLocation](#changeselectedproductlocation-)
+  - [productClick](#productclick-)
 - [Functions](#functions)
   - [ready](#ready-promisevoid-error)
   - [destroy](#destroy-promisevoid-error)
@@ -131,7 +133,17 @@ On `changeScene`, the callback receives the `new scene` as argument, e.g.:
 display.on('changeScene', scene => console.log(scene))
 ```
 
-### changeProduct  ![infinite]
+### loadScene ![infinite]
+
+Triggered when a scene is loaded
+
+On `loadScene`, the callback receives the `initial scene` as argument, e.g.:
+
+```js
+display.on('loadScene', scene => console.log(scene))
+```
+
+### changeProduct ![infinite]
 
 Triggered when a product has been changed at a location
 
@@ -139,6 +151,16 @@ On `changeProduct`, the callback receives the `product` as argument, e.g.:
 
 ```js
 display.on('changeProduct', scene => console.log(product))
+```
+
+### changeSelectedProductLocation ![infinite]
+
+Triggered when alternatives products are displayed (marker clicked) or hidden
+
+On `changeSelectedProductLocation`, the callback receives the `{ currentProduct }` as argument (or nothing when it's hidden), e.g.:
+
+```js
+display.on('changeSelectedProductLocation', scene => console.log(product))
 ```
 
 ### productClick ![beta] ![infinite] ![product-focus]

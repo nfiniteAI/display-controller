@@ -24,6 +24,8 @@ function unRegisterEvent(controller, name, callbackFromRegister) {
 const EVENTS = {
   PRODUCT_CLICK: 'poductClick',
   CHANGE_SCENE: 'changeScene',
+  CHANGE_PRODUCT_LOCATION: 'changeSelectedProductLocation',
+  LOAD_SCENE: 'loadScene',
   CHANGE_PRODUCT: 'changeProduct',
   FILTER: 'filter',
   ERROR: 'error',
@@ -43,7 +45,9 @@ function Display(
     onProductClick,
     onReady,
     onFilter,
+    onLoadScene,
     onChangeScene,
+    onChangeProductLocation,
     onChangeProduct,
     noCache,
     language,
@@ -55,6 +59,8 @@ function Display(
   const ctrl = controller || controllerRef
   const onErrorStable = useLatest(onError)
   const onChangeSceneStable = useLatest(onChangeScene)
+  const onChangeProductLocationStable = useLatest(onChangeProductLocation)
+  const onLoadSceneStable = useLatest(onLoadScene)
   const onChangeProductStable = useLatest(onChangeProduct)
   const onProductClickStable = useLatest(onProductClick)
   const onFilterStable = useLatest(onFilter)
@@ -93,14 +99,22 @@ function Display(
             })
         }
 
+        const callbackOnLoadScene = registerEvent(ctrl, EVENTS.LOAD_SCENE, onLoadSceneStable)
         const callbackOnChangeScene = registerEvent(ctrl, EVENTS.CHANGE_SCENE, onChangeSceneStable)
         const callbackOnChangeProduct = registerEvent(ctrl, EVENTS.CHANGE_PRODUCT, onChangeProductStable)
+        const callbackOnChangeProductLocationStable = registerEvent(
+          ctrl,
+          EVENTS.CHANGE_PRODUCT_LOCATION,
+          onChangeProductLocationStable,
+        )
         const callbackOnError = registerEvent(ctrl, EVENTS.ERROR, onErrorStable)
         const callbackOnProductClick = registerEvent(ctrl, EVENTS.PRODUCT_CLICK, onProductClickStable)
         const callbackOnFilter = registerEvent(ctrl, EVENTS.FILTER, onFilterStable)
         return () => {
+          unRegisterEvent(ctrl, EVENTS.LOAD_SCENE, callbackOnLoadScene)
           unRegisterEvent(ctrl, EVENTS.CHANGE_SCENE, callbackOnChangeScene)
           unRegisterEvent(ctrl, EVENTS.CHANGE_PRODUCT, callbackOnChangeProduct)
+          unRegisterEvent(ctrl, EVENTS.CHANGE_PRODUCT_LOCATION, callbackOnChangeProductLocationStable)
           unRegisterEvent(ctrl, EVENTS.PRODUCT_CLICK, callbackOnProductClick)
           unRegisterEvent(ctrl, EVENTS.FILTER, callbackOnFilter)
           unRegisterEvent(ctrl, EVENTS.ERROR, callbackOnError)
@@ -121,7 +135,9 @@ function Display(
     oembedUrl,
     displayUrl,
     onErrorStable,
+    onLoadSceneStable,
     onChangeSceneStable,
+    onChangeProductLocationStable,
     controller,
     onProductClickStable,
     onChangeProductStable,
