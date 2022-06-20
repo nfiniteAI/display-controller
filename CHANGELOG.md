@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [1.6.1](https://github.com/hubstairs/display-controller/compare/v1.6.0...v1.6.1) (2022-06-20)
+
+
+### Bug Fixes
+
+* **display-react:** wrong `onChangeSelectedProductLocation` props name ([d6cfad4](https://github.com/hubstairs/display-controller/commit/d6cfad459583c7ace7faa91b52bd43efa7b0c7d7))
+
+
+
 ## [1.6.0](https://github.com/hubstairs/display-controller/compare/v1.5.1...v1.6.0) (2022-06-15)
 
 
