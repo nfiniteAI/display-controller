@@ -68,7 +68,6 @@ new Display($('#element'), options)
 | displayUrl         | `https://display.nfinite.app`            | Override the generated base url for the Display (useful in development mode).                               |
 | oembedUrl          | `https://display.nfinite.app/api/oembed` | Override the generated base url for oembed api (useful in development mode).                                |
 | language           | default language set in my.nfinite.app   | One of the defined language in my.nfinite.app (in the platform section).                                    |
-| noCache            | `false`                                  | By default data from the Display is cached, you can bypass that by setting noCache to `true`                |
 
 e.g.:
 

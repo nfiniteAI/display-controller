@@ -49,7 +49,6 @@ function Display(
     onChangeScene,
     onChangeSelectedProductLocation,
     onChangeProduct,
-    noCache,
     language,
   },
   controller,
@@ -82,7 +81,6 @@ function Display(
           responsive,
           oembedUrl,
           displayUrl,
-          noCache,
           language,
         })
 
@@ -143,7 +141,6 @@ function Display(
     onChangeProductStable,
     onFilterStable,
     onReadyStable,
-    noCache,
     language,
   ])
 
