@@ -15,6 +15,11 @@ export enum Language {
   EN_US = 'en-US',
 }
 
+export enum initialProductsMode {
+  RANDOM = 'random',
+  DEFAULT = 'default',
+}
+
 type Product = {
   id: string;
   code: string;
@@ -38,6 +43,8 @@ type DisplayBaseProps = {
   onChangeProduct?: onChangeProduct;
   onChangeSelectedProductLocation?: onChangeSelectedProductLocation;
   language?: Language;
+  initialProductsMode: initialProductsMode;
+  initialProducts: string[]
 };
 
 export type DisplayIdProps = {

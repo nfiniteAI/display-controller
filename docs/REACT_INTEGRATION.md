@@ -46,13 +46,15 @@ function App() {
 
 ### Infinite props
 
-| props name                      | default | description                                                                                                                          |
-| ------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| onChangeProduct                 |         | Callback on scene change, it receives the an object with the `prevProduct` and the `nextProduct` as argument                         |
-| onChangeScene                   |         | Callback on scene change, it receives the `new scene` as argument (it will also be triggered at the load of the scene)               |
-| onLoadScene                     |         | Callback on scene load, it receives the `initial scene` as argument                                                                  |
-| onProductClick ![beta]          |         | Callback on product CTA click, it receives the `product` as argument                                                                 |
-| onChangeSelectedProductLocation |         | Callback when a location is opened (marker clicked) or closed, it receives the `currentProduct` as argument (or nothing when closed) |
+| props name                      | default   | description                                                                                                                          |
+| ------------------------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| initialProducts ![beta]         |           | Permit to set some product codes as default in the Display                                                                           |
+| initialProductsMode ![beta]     | `default` | Permit to choose the mode to display products not set in `initialProducts`                                                           |
+| onChangeProduct                 |           | Callback on scene change, it receives the an object with the `prevProduct` and the `nextProduct` as argument                         |
+| onChangeScene                   |           | Callback on scene change, it receives the `new scene` as argument (it will also be triggered at the load of the scene)               |
+| onLoadScene                     |           | Callback on scene load, it receives the `initial scene` as argument                                                                  |
+| onProductClick ![beta]          |           | Callback on product CTA click, it receives the `product` as argument                                                                 |
+| onChangeSelectedProductLocation |           | Callback when a location is opened (marker clicked) or closed, it receives the `currentProduct` as argument (or nothing when closed) |
 
 ### Produt focus props
 

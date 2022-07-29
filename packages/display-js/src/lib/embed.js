@@ -15,7 +15,8 @@ const oEmbedParameters = [
   'oembed-url',
   'language',
   'token',
-  'no-cache',
+  'initialProductsMode',
+  'initialProducts',
 ]
 
 /**

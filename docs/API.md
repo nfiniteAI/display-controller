@@ -57,17 +57,19 @@ new Display($('#element'), options)
 
 `options` is an Object which can take the following values:
 
-| option name        | default                                  | description                                                                                                 |
-| ------------------ | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| displayid _or_ url |                                          | **Required.** Either the id or the url of the nfinite Display.                                              |
-| token              |                                          | **Required.** Token generated in my.nfinite.app (in the service user section).                              |
-| productcode        |                                          | Load scenes where the product is visible (identified by its code). Only available for "Product Focus"       |
-| responsive         | `true` (if no width and height set)      | Resize according to its parent element, this parameter is incompatible with `height` and `width` parameters |
-| height             |                                          | The exact height of the Display. Defaults to the height of the largest available version of the Display.    |
-| width              |                                          | The exact width of the Display. Defaults to the width of the largest available version of the Display.      |
-| displayUrl         | `https://display.nfinite.app`            | Override the generated base url for the Display (useful in development mode).                               |
-| oembedUrl          | `https://display.nfinite.app/api/oembed` | Override the generated base url for oembed api (useful in development mode).                                |
-| language           | default language set in my.nfinite.app   | One of the defined language in my.nfinite.app (in the platform section).                                    |
+| option name                             | default                                  | description                                                                                                 |
+| --------------------------------------- | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| displayid _or_ url                      |                                          | **Required.** Either the id or the url of the nfinite Display.                                              |
+| token                                   |                                          | **Required.** Token generated in my.nfinite.app (in the service user section).                              |
+| productcode                             |                                          | Load scenes where the product is visible (identified by its code). Only available for "Product Focus"       |
+| responsive                              | `true` (if no width and height set)      | Resize according to its parent element, this parameter is incompatible with `height` and `width` parameters |
+| height                                  |                                          | The exact height of the Display. Defaults to the height of the largest available version of the Display.    |
+| width                                   |                                          | The exact width of the Display. Defaults to the width of the largest available version of the Display.      |
+| displayUrl                              | `https://display.nfinite.app`            | Override the generated base url for the Display (useful in development mode).                               |
+| oembedUrl                               | `https://display.nfinite.app/api/oembed` | Override the generated base url for oembed api (useful in development mode).                                |
+| language                                | default language set in my.nfinite.app   | One of the defined language in my.nfinite.app (in the platform section).                                    |
+| initialProducts ![infinite] ![beta]     |                                          | Permit to set some product codes as default in the Display                                                  |
+| initialProductsMode ![infinite] ![beta] | `default`                                | Permit to choose the mode to display products not set in `initialProducts`                                  |
 
 e.g.:
 

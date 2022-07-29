@@ -50,6 +50,8 @@ function Display(
     onChangeSelectedProductLocation,
     onChangeProduct,
     language,
+    initialProductsMode,
+    initialProducts,
   },
   controller,
 ) {
