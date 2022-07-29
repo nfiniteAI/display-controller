@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.0](https://github.com/hubstairs/display-controller/compare/v1.6.1...v1.7.0) (2022-07-29)
+
+
+### Features
+
+* add initialProducts and initialProductsMode options ([c809865](https://github.com/hubstairs/display-controller/commit/c809865a8f32f3a51d0217fbae4219b96c3cfe83))
+
+
+
 ### [1.6.1](https://github.com/hubstairs/display-controller/compare/v1.6.0...v1.6.1) (2022-06-20)
 
 
