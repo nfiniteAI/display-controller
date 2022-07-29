@@ -84,6 +84,8 @@ function Display(
           oembedUrl,
           displayUrl,
           language,
+          initialProductsMode,
+          initialProducts,
         })
 
         if (onReadyStable.current || onErrorStable.current) {
@@ -144,6 +146,8 @@ function Display(
     onFilterStable,
     onReadyStable,
     language,
+    initialProductsMode,
+    initialProducts,
   ])
 
   return <div ref={displayRef} />
