@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [1.7.1](https://github.com/hubstairs/display-controller/compare/v1.7.0...v1.7.1) (2022-07-29)
+
+
+### Bug Fixes
+
+* **display-react:** enable `initialProducts` and `initialProductsMode` on display-react ([0ce806d](https://github.com/hubstairs/display-controller/commit/0ce806d0adce3a494ea7d8f3a60b0c84570da151))
+
+
+
 ## [1.7.0](https://github.com/hubstairs/display-controller/compare/v1.6.1...v1.7.0) (2022-07-29)
 
 
