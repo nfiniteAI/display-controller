@@ -1,24 +1,6 @@
 /*global html*/
 
-import {
-  getMethodName,
-  isDomElement,
-  isObjectId,
-  isHubstairsUrl,
-  getHubstairsUrl,
-  kebabToCamel,
-  HubstairsError,
-} from './functions'
-
-describe('kebabToCamel', () => {
-  test('formats properly the kebab string to camel case', () => {
-    expect(kebabToCamel('my-string-yes')).toBe('myStringYes')
-  })
-
-  test("does noting if it's not kebab case", () => {
-    expect(kebabToCamel('string')).toBe('string')
-  })
-})
+import { getMethodName, isDomElement, isObjectId, isHubstairsUrl, getHubstairsUrl, HubstairsError } from './functions'
 
 describe('getMethodName', () => {
   test('formats properly the method name', () => {

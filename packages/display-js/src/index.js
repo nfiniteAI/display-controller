@@ -1,8 +1,8 @@
 import './lib/compatibility-check'
 
 import { storeCallback, getCallbacks, removeCallback, swapCallbacks } from './lib/callbacks'
-import { getMethodName, isDomElement, isHubstairsUrl, isNode, HubstairsError } from './lib/functions'
-import { getOEmbedParameters, getOEmbedData, createEmbed, initializeEmbeds, resizeEmbeds } from './lib/embed'
+import { getMethodName, isDomElement, isHubstairsUrl, HubstairsError } from './lib/functions'
+import { getOEmbedData, createEmbed } from './lib/embed'
 import { parseMessageData, postMessage, processData } from './lib/postmessage'
 import { logger } from './lib/logger'
 
@@ -97,9 +97,8 @@ class Display {
       this._window.addEventListener('message', this._onMessage)
 
       if (this.element.nodeName !== 'IFRAME') {
-        const params = getOEmbedParameters(element, options)
 
-        getOEmbedData(params)
+        getOEmbedData(options)
           .then(data => {
             const iframe = createEmbed(data, element)
             // Overwrite element with the new iframe,
@@ -402,12 +401,6 @@ class Display {
   setConfig(config) {
     return this.set('config', config)
   }
-}
-
-// Setup embed only if this is not a node environment
-if (!isNode) {
-  initializeEmbeds()
-  resizeEmbeds()
 }
 
 export default Display

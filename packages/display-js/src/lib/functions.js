@@ -19,16 +19,6 @@ export class HubstairsError extends Error {
 }
 
 /**
- * Convert kebab case to camel case
- *
- * @param {string} the snake case string.
- * @return {string}
- */
-export function kebabToCamel(s) {
-  return s.replace(/(-\w)/g, m => m[1].toUpperCase())
-}
-
-/**
  * Get the name of the method for a given getter or setter.
  *
  * @param {string} prop The name of the property.
@@ -75,7 +65,6 @@ export function isHubstairsUrl(url) {
 
 /**
  * Get the Hubstairs URL from an element.
- * The element must have either a data-hubstairs-displayid or data-hubstairs-url attribute.
  *
  * @param {object} oEmbedParameters The oEmbed parameters.
  * @return {string}
@@ -84,9 +73,7 @@ export function getHubstairsUrl({ url, displayid, displayUrl } = {}) {
   const idOrUrl = displayid || url
 
   if (!idOrUrl) {
-    throw new HubstairsError(
-      'An id or url must be passed, either in an options object or as a data-hubstairs-displayid attribute.',
-    )
+    throw new HubstairsError('An id or url must be passed, either in an options object')
   }
 
   if (isObjectId(idOrUrl)) {

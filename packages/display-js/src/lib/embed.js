@@ -2,41 +2,8 @@
  * @module lib/embed
  */
 
-import { isHubstairsUrl, getHubstairsUrl, kebabToCamel, HubstairsError } from './functions'
-import { logger } from './logger'
+import { getHubstairsUrl, HubstairsError } from './functions'
 import { fetchURL, HTTPError } from './fetch'
-
-const oEmbedParameters = [
-  'displayid',
-  'url',
-  'productcode',
-  'responsive',
-  'display-url',
-  'oembed-url',
-  'language',
-  'token',
-  'initialProductsMode',
-  'initialProducts',
-]
-
-/**
- * Get the 'data-hubstairs'-prefixed attributes from an element as an object.
- *
- * @param {HTMLElement} element The element.
- * @param {Object} [defaults={}] The default values to use.
- * @return {Object<string, string>}
- */
-export function getOEmbedParameters(element, defaults = {}) {
-  const params = { ...defaults }
-  for (const param of oEmbedParameters) {
-    const value = element.getAttribute(`data-hubstairs-${param}`)
-    const camelParam = kebabToCamel(param)
-    if (value || value === '') {
-      params[camelParam] = value === '' ? 1 : value
-    }
-  }
-  return params
-}
 
 /**
  * Create an embed from oEmbed data inside an element.
@@ -103,79 +70,4 @@ export function getOEmbedData({ url, displayid, displayUrl, oembedUrl, ...params
   } catch (e) {
     return Promise.reject(e)
   }
-}
-
-/**
- * Initialize all embeds within a specific element
- *
- * @param {HTMLElement} [parent=document] The parent element.
- * @return {void}
- */
-export function initializeEmbeds(parent = document) {
-  const elements = [].slice.call(parent.querySelectorAll('[data-hubstairs-displayid], [data-hubstairs-url]'))
-
-  const handleError = error => {
-    logger.error(`There was an error creating an embed`, error)
-  }
-
-  elements.forEach(element => {
-    try {
-      // Skip any that have data-hubstairs-defer
-      if (element.getAttribute('data-hubstairs-defer') !== null) {
-        return
-      }
-
-      const params = getOEmbedParameters(element)
-
-      getOEmbedData(params)
-        .then(data => {
-          return createEmbed(data, element)
-        })
-        .catch(handleError)
-    } catch (error) {
-      handleError(error)
-    }
-  })
-}
-
-/**
- * Resize embeds when messaged by the display.
- *
- * @param {HTMLElement} [parent=document] The parent element.
- * @return {void}
- */
-export function resizeEmbeds(parent = document) {
-  // Prevent execution if users include the display script multiple times.
-  if (window.HubstairsDisplayResizeEmbeds_) {
-    return
-  }
-  window.HubstairsDisplayResizeEmbeds_ = true
-
-  const onMessage = event => {
-    if (!isHubstairsUrl(event.origin)) {
-      return
-    }
-
-    // 'spacechange' is fired only on embeds with cards
-    if (!event.data || event.data.event !== 'spacechange') {
-      return
-    }
-
-    const iframes = parent.querySelectorAll('iframe')
-
-    for (let i = 0; i < iframes.length; i++) {
-      if (iframes[i].contentWindow !== event.source) {
-        continue
-      }
-
-      // Change padding-top of the enclosing div to accommodate
-      // card carousel without distorting aspect ratio
-      const space = iframes[i].parentElement
-      space.style.paddingTop = event.data.data[0].bottom
-
-      break
-    }
-  }
-
-  window.addEventListener('message', onMessage)
 }
