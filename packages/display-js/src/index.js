@@ -38,20 +38,6 @@ class Display {
       throw new HubstairsError('You must pass either a valid element or a valid id.', 'TypeError')
     }
 
-    // Already initialized an embed in this div, so grab the iframe
-    if (element.nodeName !== 'IFRAME') {
-      const iframe = element.querySelector('iframe')
-
-      if (iframe) {
-        element = iframe
-      }
-    }
-
-    // iframe url is not a hubstairs url
-    if (element.nodeName === 'IFRAME' && !isHubstairsUrl(element.getAttribute('src') || '')) {
-      throw new HubstairsError('The display element passed isn’t a Hubstairs embed.')
-    }
-
     // If there is already a display object in the map, return that
     if (displayMap.has(element)) {
       return displayMap.get(element)
@@ -82,9 +68,8 @@ class Display {
         }
 
         const isReadyEvent = data && data.event === 'ready'
-        const isPingResponse = data && data.method === 'ping'
 
-        if (isReadyEvent || isPingResponse) {
+        if (isReadyEvent) {
           this.element.setAttribute('data-ready', 'true')
           if (this._originalElement) {
             element.firstElementChild.style.display = 'block'
@@ -98,34 +83,25 @@ class Display {
 
       this._window.addEventListener('message', this._onMessage)
 
-      if (this.element.nodeName !== 'IFRAME') {
+      getOEmbedData(options)
+        .then(data => {
+          const iframe = createEmbed(data, element)
+          // Overwrite element with the new iframe,
+          // but store reference to the original element
+          this.element = iframe
+          this._originalElement = element
 
-        getOEmbedData(options)
-          .then(data => {
-            const iframe = createEmbed(data, element)
-            // Overwrite element with the new iframe,
-            // but store reference to the original element
-            this.element = iframe
-            this._originalElement = element
+          swapCallbacks(element, iframe)
+          displayMap.set(this.element, this)
 
-            swapCallbacks(element, iframe)
-            displayMap.set(this.element, this)
-
-            return data
-          })
-          .catch(reject)
-      }
+          return data
+        })
+        .catch(reject)
     })
 
     // Store a copy of this Display in the map
     readyMap.set(this, readyPromise)
     displayMap.set(this.element, this)
-
-    // Send a ping to the iframe so the ready promise will be resolved if
-    // the display is already ready.
-    if (this.element.nodeName === 'IFRAME') {
-      postMessage(this, 'ping')
-    }
 
     return this
   }

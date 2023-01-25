@@ -3,8 +3,8 @@ import jquery from 'jquery'
 
 const html = `<body>
 	<div class="multiple">
-		<iframe class="two" src="https://display.nfinite.app/v1/5e417dbac5d2651adbe509ec"></iframe>
-		<iframe class="one" src="https://display.nfinite.app/v1/5e417dbac5d2651adbe509ed"></iframe>
+		<div class="two"></div>
+		<div class="one"></div>
 	</div>
 </body>`
 
