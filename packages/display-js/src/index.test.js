@@ -4,34 +4,16 @@ import Display from './index'
 import { HubstairsError } from './lib/functions'
 
 describe('constructor', () => {
-  test('accepts only Hubstairs embeds', () => {
-    expect(() => {
-      void new Display(html` <div data-hubstairs-initialized><iframe></iframe></div> `)
-    }).toThrow()
-
-    expect(() => {
-      void new Display('string')
-    }).toThrow()
-
-    expect(() => {
-      void new Display(html` <iframe></iframe> `)
-    }).toThrow()
-
-    expect(() => {
-      void new Display(html` <iframe src="https://www.youtube.com/embed/Uj3_KqkI9Zo"></iframe> `)
-    }).toThrow()
-  })
-
   test('does not throw if jquery is not present', () => {
     /* eslint-env jquery */
     /* eslint-disable no-global-assign */
-    const frames = jQuery('iframe')[0]
+    const frames = jQuery('div')[0]
     const oldJQuery = jQuery
 
     window.jQuery = jQuery = undefined
 
     expect(() => {
-      void new Display(frames)
+      void new Display(frames, { displayid: '5e9c1b9b9b9b9b9b9b9b9b9b' })
     }).not.toThrow()
 
     jQuery = window.jQuery = oldJQuery
@@ -42,11 +24,11 @@ describe('constructor', () => {
     /* eslint-env jquery */
     const consoleWarnSpy = jest.spyOn(console, 'warn')
 
-    const iframes = jQuery('iframe')
-    const display = new Display(iframes)
+    const divs = jQuery('div')
+    const display = new Display(divs, { displayid: '5e9c1b9b9b9b9b9b9b9b9b9b' })
 
     expect(consoleWarnSpy).toHaveBeenCalled()
-    expect(display.element).toBe(iframes[0])
+    expect(display.element).toBe(divs[0])
   })
 
   test('does not warn if only one jQuery object', () => {
@@ -54,7 +36,7 @@ describe('constructor', () => {
     const consoleWarnSpy = jest.spyOn(console, 'warn')
 
     const div = jQuery('.one')
-    const display = new Display(div)
+    const display = new Display(div, { displayid: '5e9c1b9b9b9b9b9b9b9b9b9b' })
 
     expect(consoleWarnSpy).toHaveBeenCalled()
     expect(display.element).toBe(div[0])
@@ -69,7 +51,9 @@ describe('constructor', () => {
   })
 
   test('throws if displayId is bad', async () => {
-    const display1 = new Display(html` <div data-hubstairs-displayid="guihash"></div> `)
+    const display1 = new Display(html` <div data-hubstairs-displayid="guihash"></div> `, {
+      displayid: 'badbadbad',
+    })
     await expect(display1.ready()).rejects.toThrow()
   })
 })
@@ -78,7 +62,9 @@ describe('methods', () => {
   test('future calls to destroyed display should not not work', async () => {
     expect.assertions(4)
 
-    const display1 = new Display(html` <iframe id="to-destroy" src="https://display.nfinite.app/v1/1234"></iframe> `)
+    const display1 = new Display(html` <div id="to-destroy"></div> `, {
+      displayid: '5e9c1b9b9b9b9b9b9b9b9b9b',
+    })
 
     await expect(display1.destroy()).resolves.toBeUndefined()
     expect(document.querySelector('#to-destroy')).toBeFalsy()
