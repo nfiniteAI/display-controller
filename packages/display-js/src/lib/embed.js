@@ -6,13 +6,13 @@ import { getHubstairsUrl, HubstairsError } from './functions'
 import { fetchURL, HTTPError } from './fetch'
 
 /**
- * Create an embed from oEmbed data inside an element.
+ * Create an embed of the iframe from oEmbed data inside an element.
  *
  * @param {object} data The oEmbed data.
  * @param {HTMLElement} element The element to put the iframe in.
  * @return {HTMLIFrameElement} The iframe embed.
  */
-export function createEmbed({ html }, element) {
+export function createEmbedIframe({ html }, element) {
   if (!element) {
     throw new HubstairsError('An element must be provided', 'TypeError')
   }
@@ -29,6 +29,57 @@ export function createEmbed({ html }, element) {
   element.setAttribute('data-hubstairs-initialized', 'true')
 
   return element.querySelector('iframe')
+}
+
+/**
+ * Create an embed of the js script from oEmbed data inside an element.
+ *
+ * @param {object} data The oEmbed data.
+ * @param {HTMLElement} element The element to put the iframe in.
+ * @return {HTMLIFrameElement} The iframe embed.
+ */
+export function createEmbedJS({ html }, element) {
+  if (!element) {
+    throw new HubstairsError('An element must be provided', 'TypeError')
+  }
+
+  if (element.getAttribute('data-hubstairs-initialized') !== null) {
+    return element.querySelector('dynamic-display-island')
+  }
+
+  const div = document.createElement('div')
+  div.innerHTML = html
+
+  // We want to execute the loaded script so we have to replace the script tags by a new created one
+  Array.from(div.querySelectorAll('script')).forEach(oldScriptEl => {
+    // We remove from the integration the script
+    oldScriptEl.remove()
+
+    // We check if the script is already loaded
+    const existingScript = document.querySelector(`script[data-hubstairs-script]`)
+
+    if (existingScript) {
+      return
+    }
+
+    // We recreate the script to inject it in the head
+    const newScriptEl = document.createElement('script')
+    Array.from(oldScriptEl.attributes).forEach(attr => {
+      newScriptEl.setAttribute(attr.name, attr.value)
+    })
+
+    newScriptEl.setAttribute('data-hubstairs-script', '')
+
+    const scriptText = document.createTextNode(oldScriptEl.innerHTML)
+    newScriptEl.appendChild(scriptText)
+    document.querySelector('head').append(newScriptEl)
+  })
+
+  div.firstChild.style.display = 'none' // show it only when ready
+  element.appendChild(div.firstChild)
+  element.setAttribute('data-hubstairs-initialized', 'true')
+
+  return element.querySelector('dynamic-display-island')
 }
 
 /**
@@ -65,7 +116,7 @@ export function getOEmbedData({ url, displayid, displayUrl, oembedUrl, ...params
             throw new HubstairsError(`“${fullDisplayUrl}” is not embeddable.`)
           }
         }
-        throw new HubstairsError(`There was an error fetching the embed code from Hubstairs ${status}.`)
+        throw new HubstairsError(`There was an error fetching the embed code from Hubstairs ${err.response.status}.`)
       })
   } catch (e) {
     return Promise.reject(e)
