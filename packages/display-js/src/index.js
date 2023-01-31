@@ -2,7 +2,7 @@ import './lib/compatibility-check'
 
 import { storeCallback, getCallbacks, removeCallback, swapCallbacks } from './lib/callbacks'
 import { getMethodName, isDomElement, isHubstairsUrl, HubstairsError } from './lib/functions'
-import { getOEmbedData, createEmbed } from './lib/embed'
+import { getOEmbedData, createEmbedIframe, createEmbedJS } from './lib/embed'
 import { parseMessageData, postMessage, processData } from './lib/postmessage'
 import { logger } from './lib/logger'
 
@@ -19,6 +19,8 @@ class Display {
    * @return {Display}
    */
   constructor(element, options = {}) {
+    this.embedMode = options.embedMode || 'js'
+
     /* global jQuery */
     if (window.jQuery && element instanceof jQuery) {
       if (element.length > 1) {
@@ -48,16 +50,8 @@ class Display {
     this.origin = '*'
 
     const readyPromise = new Promise((resolve, reject) => {
-      this._onMessage = event => {
-        if (!isHubstairsUrl(event.origin) || this.element.contentWindow !== event.source) {
-          return
-        }
-
-        if (this.origin === '*') {
-          this.origin = event.origin
-        }
-
-        const data = parseMessageData(event.data)
+      const onMessageJS = event => {
+        const data = parseMessageData(event.detail)
         const isError = data && data.event === 'error'
         const isReadyError = isError && data.data && data.data.method === 'ready'
 
@@ -70,7 +64,6 @@ class Display {
         const isReadyEvent = data && data.event === 'ready'
 
         if (isReadyEvent) {
-          this.element.setAttribute('data-ready', 'true')
           element.firstElementChild.style.display = 'block'
           resolve()
           return
@@ -79,17 +72,40 @@ class Display {
         processData(this, data)
       }
 
-      this._window.addEventListener('message', this._onMessage)
+      const onMessage = event => {
+        if (!isHubstairsUrl(event.origin) || this.element.contentWindow !== event.source) {
+          return
+        }
 
-      getOEmbedData(options)
+        if (this.origin === '*') {
+          this.origin = event.origin
+        }
+
+        onMessageJS({ ...event, detail: event.data })
+      }
+
+      getOEmbedData({ ...options, embedMode: this.embedMode })
         .then(data => {
-          const iframe = createEmbed(data, element)
+          let innerElement
+          if (this.embedMode === 'iframe') {
+            innerElement = createEmbedIframe(data, element)
+            this._onMessage = onMessage
+          } else {
+            innerElement = createEmbedJS(data, element)
+            this._onMessage = onMessageJS
+          }
           // Overwrite element with the new iframe,
           // but store reference to the original element
-          this.element = iframe
+          this.element = innerElement
           this._originalElement = element
 
-          swapCallbacks(element, iframe)
+          if (this.embedMode === 'iframe') {
+            this._window.addEventListener('message', this._onMessage)
+          } else {
+            this.element.addEventListener('message', this._onMessage)
+          }
+
+          swapCallbacks(element, innerElement)
           displayMap.set(this.element, this)
 
           return data
@@ -290,7 +306,12 @@ class Display {
       if (this.element && this.element.nodeName === 'IFRAME' && this.element.parentNode) {
         this.element.parentNode.removeChild(this.element)
       }
-      this._window.removeEventListener('message', this._onMessage)
+
+      if (this.embedMode === 'iframe') {
+        this._window.removeEventListener('message', this._onMessage)
+      } else {
+        this.element.removeEventListener('message', this._onMessage)
+      }
 
       resolve()
     })
