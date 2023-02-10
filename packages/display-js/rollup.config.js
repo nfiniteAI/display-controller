@@ -12,8 +12,8 @@ const globalName = 'Hubstairs.Controller'
 const input = './src/index.js'
 
 const name = `${pkg.name} v${pkg.version}`
-const copyright = `(c) ${new Date().getFullYear()} Hubstairs`
-const url = 'https://www.hubstairs.com'
+const copyright = `(c) ${new Date().getFullYear()} Nfinite`
+const url = 'https://nfinite.app'
 const banner = `/*! ${name} | ${copyright} | ${pkg.license} License | ${url} */`
 
 export default [
