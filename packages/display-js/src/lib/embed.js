@@ -31,6 +31,15 @@ export function createEmbedIframe({ html }, element) {
   return element.querySelector('iframe')
 }
 
+function generateSelectorFromElement(webComponentElement) {
+  // it's a little ugly but we are trying to generate a selector from the element
+  // the best way to do that seems to generate a selector from the data attributes
+  return `${webComponentElement.tagName}${webComponentElement
+    .getAttributeNames()
+    .map(name => `[${name}="${webComponentElement.getAttribute(name)}"]`)
+    .join('')}`
+}
+
 /**
  * Create an embed of the js script from oEmbed data inside an element.
  *
@@ -79,7 +88,15 @@ export function createEmbedJS({ html }, element) {
   element.appendChild(div.firstChild)
   element.setAttribute('data-hubstairs-initialized', 'true')
 
-  return element.querySelector('dynamic-display-island')
+  const webComponentElement = element.querySelector('dynamic-display-island')
+
+  if (window.__NfiniteDisplay && typeof window.__NfiniteDisplay.render === 'function') {
+    window.__NfiniteDisplay.render({
+      selector: generateSelectorFromElement(webComponentElement),
+    })
+  }
+
+  return webComponentElement
 }
 
 /**
