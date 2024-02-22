@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+### [1.7.2](https://github.com/hubstairs/display-controller/compare/v1.7.1...v1.7.2) (2024-02-22)
+
+
+### Bug Fixes
+
+* integration mode with existing iframe ([9ae67aa](https://github.com/hubstairs/display-controller/commit/9ae67aa02a53db7c88ce0723cfabaaf9ae4eb37e))
+
+
+
 ### [1.7.1](https://github.com/hubstairs/display-controller/compare/v1.7.0...v1.7.1) (2022-07-29)
 
 
