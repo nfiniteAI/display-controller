@@ -86,7 +86,9 @@ class Display {
 
         if (isReadyEvent || isPingResponse) {
           this.element.setAttribute('data-ready', 'true')
-          element.firstElementChild.style.display = 'block'
+          if (this._originalElement) {
+            element.firstElementChild.style.display = 'block'
+          }
           resolve()
           return
         }
