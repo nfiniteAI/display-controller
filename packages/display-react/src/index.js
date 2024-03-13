@@ -110,6 +110,7 @@ function Display(
           onChangeSelectedProductLocationStable,
         )
         const callbackOnError = registerEvent(ctrl, EVENTS.ERROR, onErrorStable)
+        console.log('%%%% DISPLAY-CONTROLLER - onProductClickStable', onProductClickStable)
         const callbackOnProductClick = onProductClickStable ? registerEvent(ctrl, EVENTS.PRODUCT_CLICK, onProductClickStable) : undefined
         const callbackOnFilter = registerEvent(ctrl, EVENTS.FILTER, onFilterStable)
         return () => {
