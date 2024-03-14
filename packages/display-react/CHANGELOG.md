@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.0](https://github.com/hubstairs/display-controller/compare/v1.7.2...v1.8.0) (2024-03-14)
+
+
+### Features
+
+* dont register productClick event if no onProductClick received ([2faa831](https://github.com/hubstairs/display-controller/commit/2faa831d3f2dcd6bd0a310d9f8447fadd4da7531))
+
+
+
 ### [1.7.2](https://github.com/hubstairs/display-controller/compare/v1.7.1...v1.7.2) (2024-02-22)
 
 **Note:** Version bump only for package @hubstairs/display-react
