@@ -22,7 +22,7 @@ function unRegisterEvent(controller, name, callbackFromRegister) {
 }
 
 const EVENTS = {
-  PRODUCT_CLICK: 'poductClick',
+  PRODUCT_CLICK: 'productClick',
   CHANGE_SCENE: 'changeScene',
   FILTER: 'filter',
   ERROR: 'error',
@@ -92,11 +92,13 @@ function Display(
 
         const callbackOnChangeScene = registerEvent(ctrl, EVENTS.CHANGE_SCENE, onChangeSceneStable)
         const callbackOnError = registerEvent(ctrl, EVENTS.ERROR, onErrorStable)
-        const callbackOnProductClick = registerEvent(ctrl, EVENTS.PRODUCT_CLICK, onProductClickStable)
+        const callbackOnProductClick = onProductClickStable.current ? registerEvent(ctrl, EVENTS.PRODUCT_CLICK, onProductClickStable) : undefined
         const callbackOnFilter = registerEvent(ctrl, EVENTS.FILTER, onFilterStable)
         return () => {
           unRegisterEvent(ctrl, EVENTS.CHANGE_SCENE, callbackOnChangeScene)
-          unRegisterEvent(ctrl, EVENTS.PRODUCT_CLICK, callbackOnProductClick)
+          if (callbackOnProductClick) {
+            unRegisterEvent(ctrl, EVENTS.PRODUCT_CLICK, callbackOnProductClick)
+          }
           unRegisterEvent(ctrl, EVENTS.FILTER, callbackOnFilter)
           unRegisterEvent(ctrl, EVENTS.ERROR, callbackOnError)
           ctrl.current.destroy()
