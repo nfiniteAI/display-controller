@@ -27,7 +27,12 @@ const oEmbedParameters = [
  * @return {Object<string, string>}
  */
 export function getOEmbedParameters(element, defaults = {}) {
-  const params = { ...defaults }
+  // filter out undefined values from defaults
+  const params = Object.entries(defaults).reduce((acc, [key, value]) => {
+    if (value !== undefined) acc[key] = value
+    return acc
+  }, {})
+
   for (const param of oEmbedParameters) {
     const value = element.getAttribute(`data-hubstairs-${param}`)
     const camelParam = kebabToCamel(param)
