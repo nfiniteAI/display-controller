@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.0](https://github.com/hubstairs/display-controller/compare/v1.8.0...v1.9.0) (2024-03-25)
+
+
+### Features
+
+* props labelProductClick sent to controller ([996da03](https://github.com/hubstairs/display-controller/commit/996da032a0970c027392929621b0b4820ffd6f13))
+
+
+
 ## [1.8.0](https://github.com/hubstairs/display-controller/compare/v1.7.2...v1.8.0) (2024-03-14)
 
 
