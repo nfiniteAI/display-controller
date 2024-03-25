@@ -54,6 +54,7 @@ function App() {
 | onChangeScene                   |           | Callback on scene change, it receives the `new scene` as argument (it will also be triggered at the load of the scene)               |
 | onLoadScene                     |           | Callback on scene load, it receives the `initial scene` as argument                                                                  |
 | onProductClick ![beta]          |           | Callback on product CTA click, it receives the `product` as argument                                                                 |
+| labelProductClick ![beta]       |           | Label of product CTA (required, together with onProductClick, for the CTA to appear on the card)                                     |
 | onChangeSelectedProductLocation |           | Callback when a location is opened (marker clicked) or closed, it receives the `currentProduct` as argument (or nothing when closed) |
 
 ### Produt focus props

@@ -28,6 +28,7 @@ const oEmbedParameters = [
  */
 export function getOEmbedParameters(element, defaults = {}) {
   const params = { ...defaults }
+
   for (const param of oEmbedParameters) {
     const value = element.getAttribute(`data-hubstairs-${param}`)
     const camelParam = kebabToCamel(param)

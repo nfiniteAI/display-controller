@@ -52,6 +52,7 @@ function Display(
     language,
     initialProductsMode,
     initialProducts,
+    labelProductClick,
   },
   controller,
 ) {
@@ -86,6 +87,7 @@ function Display(
           language,
           initialProductsMode,
           initialProducts,
+          labelProductClick,
         })
 
         if (onReadyStable.current || onErrorStable.current) {
@@ -150,6 +152,7 @@ function Display(
     language,
     initialProductsMode,
     initialProducts,
+    labelProductClick,
   ])
 
   return <div ref={displayRef} />
