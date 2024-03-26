@@ -58,7 +58,7 @@ new Display($('#element'), options)
 `options` is an Object which can take the following values:
 
 | option name                             | default                                  | description                                                                                                 |
-| --------------------------------------- | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+|-----------------------------------------|------------------------------------------|-------------------------------------------------------------------------------------------------------------|
 | displayid _or_ url                      |                                          | **Required.** Either the id or the url of the nfinite Display.                                              |
 | token                                   |                                          | **Required.** Token generated in my.nfinite.app (in the service user section).                              |
 | productcode                             |                                          | Load scenes where the product is visible (identified by its code). Only available for "Product Focus"       |
@@ -70,6 +70,7 @@ new Display($('#element'), options)
 | language                                | default language set in my.nfinite.app   | One of the defined language in my.nfinite.app (in the platform section).                                    |
 | initialProducts ![infinite] ![beta]     |                                          | Permit to set some product codes as default in the Display                                                  |
 | initialProductsMode ![infinite] ![beta] | `default`                                | Permit to choose the mode to display products not set in `initialProducts`                                  |
+| labelProductClick ![infinite] ![beta]   |                                          | Label of product CTA (required for the CTA to appear on the product card)                                   |
 
 e.g.:
 
@@ -164,9 +165,11 @@ On `changeSelectedProductLocation`, the callback receives the `{ currentProduct 
 display.on('changeSelectedProductLocation', scene => console.log(product))
 ```
 
-### productClick ![beta] ![infinite] ![product-focus]
+### productClick ![beta] ![infinite]
 
-Triggered when a product on the scene has been clicked
+Triggered when the CTA on a product on the scene has been clicked
+
+⚠️ `labelProductClick` needs to be specified for the CTA to appear
 
 On `productClick`, the callback receives the `clicked product` as argument, e.g.:
 
