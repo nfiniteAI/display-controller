@@ -116,7 +116,8 @@ export function getOEmbedData({ url, displayid, displayUrl, oembedUrl, ...params
 
     for (const param in params) {
       if (Object.prototype.hasOwnProperty.call(params, param)) {
-        fullOembedUrl += `&${param}=${encodeURIComponent(params[param])}`
+        const value = params[param]
+        fullOembedUrl += `&${param}=${encodeURIComponent(typeof value === 'object' ? JSON.stringify(value) : value)}`
       }
     }
     if (!params.height && !params.width && !params.responsive) {
