@@ -93,6 +93,7 @@ export function createEmbedJS({ customElementName, html }, element, initialProps
   if (window.__NfiniteDisplay && typeof window.__NfiniteDisplay.render === 'function') {
     window.__NfiniteDisplay.render({
       selector: generateSelectorFromElement(webComponentElement),
+      initialProps,
     })
   }
 

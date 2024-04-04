@@ -86,14 +86,16 @@ class Display {
         onMessageJS({ ...event, detail: event.data })
       }
 
-      getOEmbedData({ ...options, embedMode: this.embedMode })
+      const { styles, labels, ...oembedOptions } = options
+
+      getOEmbedData({ ...oembedOptions, embedMode: this.embedMode })
         .then(data => {
           let innerElement
           if (this.embedMode === 'iframe') {
             innerElement = createEmbedIframe(data, element)
             this._onMessage = onMessage
           } else {
-            innerElement = createEmbedJS(data, element)
+            innerElement = createEmbedJS(data, element, { styles, labels })
             this._onMessage = onMessageJS
           }
           // Overwrite element with the new iframe,
