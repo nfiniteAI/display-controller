@@ -93,6 +93,7 @@ export function createEmbedJS({ customElementName, html }, element, initialProps
   if (window.__NfiniteDisplay && typeof window.__NfiniteDisplay.render === 'function') {
     window.__NfiniteDisplay.render({
       selector: generateSelectorFromElement(webComponentElement),
+      initialProps,
     })
   }
 
@@ -116,8 +117,7 @@ export function getOEmbedData({ url, displayid, displayUrl, oembedUrl, ...params
 
     for (const param in params) {
       if (Object.prototype.hasOwnProperty.call(params, param)) {
-        const value = params[param]
-        fullOembedUrl += `&${param}=${encodeURIComponent(typeof value === 'object' ? JSON.stringify(value) : value)}`
+        fullOembedUrl += `&${param}=${encodeURIComponent(params[param])}`
       }
     }
     if (!params.height && !params.width && !params.responsive) {
