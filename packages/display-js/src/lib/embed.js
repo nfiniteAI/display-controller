@@ -47,13 +47,13 @@ function generateSelectorFromElement(webComponentElement) {
  * @param {HTMLElement} element The element to put the iframe in.
  * @return {HTMLIFrameElement} The iframe embed.
  */
-export function createEmbedJS({ html }, element) {
+export function createEmbedJS({ customElementName, html }, element, initialProps) {
   if (!element) {
     throw new HubstairsError('An element must be provided', 'TypeError')
   }
 
   if (element.getAttribute('data-hubstairs-initialized') !== null) {
-    return element.querySelector('dynamic-display-island')
+    return element.querySelector(customElementName)
   }
 
   const div = document.createElement('div')
@@ -88,7 +88,7 @@ export function createEmbedJS({ html }, element) {
   element.appendChild(div.firstChild)
   element.setAttribute('data-hubstairs-initialized', 'true')
 
-  const webComponentElement = element.querySelector('dynamic-display-island')
+  const webComponentElement = element.querySelector(customElementName)
 
   if (window.__NfiniteDisplay && typeof window.__NfiniteDisplay.render === 'function') {
     window.__NfiniteDisplay.render({
