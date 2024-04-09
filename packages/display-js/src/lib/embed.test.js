@@ -99,7 +99,7 @@ describe('createEmbedIframe', () => {
 describe('createEmbedJS', () => {
   test('throws if there’s no element', () => {
     expect(() => {
-      createEmbedJS({ html: 'html' })
+      createEmbedJS({ customElementName: 'dynamic-display-island', html: 'html' })
     }).toThrowError(HubstairsError)
   })
 
@@ -107,14 +107,14 @@ describe('createEmbedJS', () => {
     const container = html`<div data-hubstairs-initialized></div> `
     const webC = html`<dynamic-display-island />`
     container.appendChild(webC)
-    expect(createEmbedJS({ html: 'html' }, container)).toEqual(webC)
+    expect(createEmbedJS({ customElementName: 'dynamic-display-island', html: 'html' }, container)).toEqual(webC)
   })
 
   test('creates a web-component from the oembed data', () => {
     const container = html`<div></div> `
     const markup = '<dynamic-display-island data-displayid="5e417dbac5d2651adbe509ec"/>'
 
-    const embed = createEmbedJS({ html: markup }, container)
+    const embed = createEmbedJS({ customElementName: 'dynamic-display-island', html: markup }, container)
     expect(container.getAttribute('data-hubstairs-initialized')).toBe('true')
     expect(embed.outerHTML).toEqual(
       html`<dynamic-display-island data-displayid="5e417dbac5d2651adbe509ec" style="display: none;" />`.outerHTML,
@@ -126,7 +126,7 @@ describe('createEmbedJS', () => {
     const markup =
       '<div style="position:relative;padding-bottom:42.5%;height:0"><dynamic-display-island data-displayid="5e417dbac5d2651adbe509ec" style="position:absolute;top:0;left:0;width:100%;height:100%"/></div>'
 
-    const embed = createEmbedJS({ html: markup }, container)
+    const embed = createEmbedJS({ customElementName: 'dynamic-display-island', html: markup }, container)
     expect(container.getAttribute('data-hubstairs-initialized')).toBe('true')
     expect(embed.outerHTML).toEqual(
       html`
@@ -143,7 +143,7 @@ describe('createEmbedJS', () => {
     const markup =
       '<div style="position:relative;padding-bottom:42.5%;height:0"><dynamic-display-island data-displayid="5e417dbac5d2651adbe509ec" style="position:absolute;top:0;left:0;width:100%;height:100%"/><script src="http://my-script/"></script></div>'
 
-    createEmbedJS({ html: markup }, container)
+    createEmbedJS({ customElementName: 'dynamic-display-island', html: markup }, container)
 
     const script = document.querySelector('head script')
 
@@ -157,7 +157,7 @@ describe('createEmbedJS', () => {
     const markup =
       '<div style="position:relative;padding-bottom:42.5%;height:0"><dynamic-display-island data-displayid="5e417dbac5d2651adbe509ec" style="position:absolute;top:0;left:0;width:100%;height:100%"/><script src="http://my-script/"></script></div>'
 
-    createEmbedJS({ html: markup }, container)
+    createEmbedJS({ customElementName: 'dynamic-display-island', html: markup }, container)
 
     const script = document.querySelector('script[data-hubstairs-script]')
 
@@ -170,8 +170,8 @@ describe('createEmbedJS', () => {
     const markup =
       '<div style="position:relative;padding-bottom:42.5%;height:0"><dynamic-display-island data-displayid="5e417dbac5d2651adbe509ec" style="position:absolute;top:0;left:0;width:100%;height:100%"/><script src="http://my-script/"></script></div>'
 
-    createEmbedJS({ html: markup }, container)
-    createEmbedJS({ html: markup }, container2)
+    createEmbedJS({ customElementName: 'dynamic-display-island', html: markup }, container)
+    createEmbedJS({ customElementName: 'dynamic-display-island', html: markup }, container2)
 
     const script = document.querySelectorAll('head script')
 
