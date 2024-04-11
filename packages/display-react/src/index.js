@@ -69,6 +69,8 @@ function Display(
   const onProductClickStable = useLatest(onProductClick)
   const onFilterStable = useLatest(onFilter)
   const onReadyStable = useLatest(onReady)
+  const stylesStable = useLatest(styles)
+  const labelsStable = useLatest(labels)
 
   useEffect(() => {
     if (ctrl.current && config) {
@@ -90,8 +92,8 @@ function Display(
           initialProductsMode,
           initialProducts,
           labelProductClick,
-          styles,
-          labels,
+          styles: stylesStable,
+          labels: labelsStable,
         })
 
         if (onReadyStable.current || onErrorStable.current) {
@@ -157,8 +159,8 @@ function Display(
     initialProductsMode,
     initialProducts,
     labelProductClick,
-    styles,
-    labels,
+    stylesStable,
+    labelsStable,
   ])
 
   return <div ref={displayRef} />
