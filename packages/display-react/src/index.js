@@ -53,6 +53,8 @@ function Display(
     initialProductsMode,
     initialProducts,
     labelProductClick,
+    styles,
+    labels,
   },
   controller,
 ) {
@@ -88,6 +90,8 @@ function Display(
           initialProductsMode,
           initialProducts,
           labelProductClick,
+          styles,
+          labels,
         })
 
         if (onReadyStable.current || onErrorStable.current) {
@@ -153,6 +157,8 @@ function Display(
     initialProductsMode,
     initialProducts,
     labelProductClick,
+    styles,
+    labels,
   ])
 
   return <div ref={displayRef} />
