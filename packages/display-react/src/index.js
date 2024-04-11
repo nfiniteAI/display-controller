@@ -92,8 +92,8 @@ function Display(
           initialProductsMode,
           initialProducts,
           labelProductClick,
-          styles: stylesStable,
-          labels: labelsStable,
+          styles: stylesStable.current,
+          labels: labelsStable.current,
         })
 
         if (onReadyStable.current || onErrorStable.current) {
