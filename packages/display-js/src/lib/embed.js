@@ -60,17 +60,7 @@ function renderWebComponent({ initialProps, element, customElementName }) {
  * @param {HTMLElement} element The element to put the iframe in.
  * @return {HTMLIFrameElement} The iframe embed.
  */
-export function createEmbedJS({ customElementName, html: initialHtml }, element, initialProps) {
-  const html = initialHtml
-    .replace(
-      'https://display-test.nfinite.app/dynamic-display-model.island.umd.js',
-      'http://localhost:5173/integration/dynamic-display-model.island.umd.js',
-    )
-    .replace(
-      'https://display-test.nfinite.app/dynamic-display.island.umd.js',
-      'http://localhost:5173/integration/dynamic-display.island.umd.js',
-    )
-
+export function createEmbedJS({ customElementName, html }, element, initialProps) {
   if (!element) {
     throw new HubstairsError('An element must be provided', 'TypeError')
   }
