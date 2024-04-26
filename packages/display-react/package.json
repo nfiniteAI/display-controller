@@ -61,6 +61,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.17.2",
-    "@hubstairs/display-js": "1.9.1-feat-embed-js-display-model.15"
+    "@hubstairs/display-js": "1.9.1-feat-embed-js-display-model.17"
   }
 }
