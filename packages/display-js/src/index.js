@@ -94,9 +94,12 @@ class Display {
           if (this.embedMode === 'iframe') {
             innerElement = createEmbedIframe(data, element)
             this._onMessage = onMessage
-          } else {
+          } else if (data.html) {
             innerElement = createEmbedJS(data, element, { styles, labels })
             this._onMessage = onMessageJS
+          } else {
+            const error = new HubstairsError('This product does not have an AR model enabled', 'ARDisabledError')
+            reject(error)
           }
           // Overwrite element with the new iframe,
           // but store reference to the original element
@@ -313,7 +316,7 @@ class Display {
 
       if (this.embedMode === 'iframe') {
         this._window.removeEventListener('message', this._onMessage)
-      } else {
+      } else if (this.element) {
         this.element.removeEventListener('message', this._onMessage)
       }
 
