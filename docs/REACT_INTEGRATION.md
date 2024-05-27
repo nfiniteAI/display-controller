@@ -57,11 +57,18 @@ function App() {
 | labelProductClick ![beta]       |           | Label of product CTA (required, together with onProductClick, for the CTA to appear on the card)                                     |
 | onChangeSelectedProductLocation |           | Callback when a location is opened (marker clicked) or closed, it receives the `currentProduct` as argument (or nothing when closed) |
 
-### Produt focus props
+### Product focus props
 
 | props name            | default | description                                                       |
 | --------------------- | ------- | ----------------------------------------------------------------- |
 | productcode           |         | Load scenes where the product is visible (identified by its code) |
 | onChangeScene ![beta] |         | Callback on scene change, it receives the `new scene` as argument |
+
+### Model props
+
+| props name              | default | description                             |
+|-------------------------| ------- |-----------------------------------------|
+| styles ![beta]          |         | Override style of customizable elements |
+| labels ![beta]          |         | Customize labels (use also for i18n)    |
 
 [beta]: https://img.shields.io/badge/beta-blue

@@ -16,6 +16,9 @@
   - [nextScene](#nextscene-promisevoid-error-)
   - [setFilter](#setfilterfilter-object-promiseobject-error-)
   - [getProducts](#getproducts-promiseobject-error-)
+- [Customization](#customization-)
+  - [Styles](#customize-style)
+  - [Labels](#customize-labels)
 
 ## Constructor
 
@@ -46,7 +49,7 @@ new Display(document.querySelector('#element'), options)
 - html `id` attribute value, e.g.:
 
 ```js
-new Display('element'), options)
+new Display('element', options)
 ```
 
 - a [jQuery selector](https://jquery.com/), e.g.:
@@ -58,7 +61,7 @@ new Display($('#element'), options)
 `options` is an Object which can take the following values:
 
 | option name                             | default                                  | description                                                                                                 |
-| --------------------------------------- | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+|-----------------------------------------|------------------------------------------|-------------------------------------------------------------------------------------------------------------|
 | displayid _or_ url                      |                                          | **Required.** Either the id or the url of the nfinite Display.                                              |
 | token                                   |                                          | **Required.** Token generated in my.nfinite.app (in the service user section).                              |
 | productcode                             |                                          | Load scenes where the product is visible (identified by its code). Only available for "Product Focus"       |
@@ -70,6 +73,8 @@ new Display($('#element'), options)
 | language                                | default language set in my.nfinite.app   | One of the defined language in my.nfinite.app (in the platform section).                                    |
 | initialProducts ![infinite] ![beta]     |                                          | Permit to set some product codes as default in the Display                                                  |
 | initialProductsMode ![infinite] ![beta] | `default`                                | Permit to choose the mode to display products not set in `initialProducts`                                  |
+| styles ![model] ![beta]                 |                                          | Override style of customizable elements ([See list](#customize-style))                                      |
+| labels ![model] ![beta]                 |                                          | Customize labels (use also for i18n) ([See list](#customize-labels))                                        |
 
 e.g.:
 
@@ -253,6 +258,58 @@ display.getProducts().then(products => {
 })
 ```
 
+## Customization ![model]
+
+#### Customize style
+
+- Use camel-case for css properties
+
+| property name | allowed pseudo-elements | description          |
+|---------------|-------------------------|----------------------|
+| button        | :hover :focus :outline  | Main button          |
+| dimmer        | -                       | Overlay behind modal |
+| modal         | -                       | Modal content        |
+
+```js
+  const styles = {
+    button: {
+      padding: '8px',
+      border: '1px solid #373944',
+      color: '#373944',
+      backgroundColor: '#FFFFFF',
+    },
+    'button:hover': {
+      color: '#FFFFFF',
+      backgroundColor: '#373944',
+    }
+  }
+  
+  new Display('element', { styles })
+```
+
+#### Customize labels
+
+| property name      | default                                       | description                             |
+|--------------------|-----------------------------------------------|-----------------------------------------|
+| button             | See in 3D                                     | Main button                             |
+| QRCodeTitle        | See in your room                              | [Desktop] QR code title                 |
+| QRCodeDescription  | Scan with your phone to launch the experience | [Desktop] QR code description           |
+| buttonAR           | See in my room                                | [Mobile] Button to open AR              |
+| buttonARDisabled   | AR is not supported on this device            | [Mobile] Message if AR is not available |
+
+Eg
+```js
+  const language = navigator.language
+  const labels = {
+    button: getI18nLabel({ language, label: 'button' }),
+    buttonAR: getI18nLabel({ language, label: 'buttonAR' }),
+  }
+  
+  new Display('element', { labels })
+```
+
+
 [beta]: https://img.shields.io/badge/beta-blue
 [infinite]: https://img.shields.io/badge/infinite-d1b2ff
 [product-focus]: https://img.shields.io/badge/product%20focus-19d1ff
+[model]:https://img.shields.io/badge/model-a13a14
