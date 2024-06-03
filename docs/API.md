@@ -297,7 +297,6 @@ display.getProducts().then(products => {
 | buttonAR           | See in my room                                | [Mobile] Button to open AR              |
 | buttonARDisabled   | AR is not supported on this device            | [Mobile] Message if AR is not available |
 
-Eg
 ```js
   const language = navigator.language
   const labels = {
