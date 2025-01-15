@@ -1397,11 +1397,6 @@
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.2.tgz#30aa825f11d438671d585bd44e7fd564535fc210"
   integrity sha512-82cpyJyKRoQoRi+14ibCeGPu0CwypgtBAdBhq1WfvagpCZNKqwXbKwXllYSMG91DhmG4jt9gN8eP6lGOtozuaw==
 
-"@hubstairs/display-js@1.9.1-feat-embed-js-display-model.17":
-  version "1.9.1-feat-embed-js-display-model.17"
-  resolved "https://registry.yarnpkg.com/@hubstairs/display-js/-/display-js-1.9.1-feat-embed-js-display-model.17.tgz#d0fd7b55f88274139f85bb9082f17ce5589d489f"
-  integrity sha512-kxTxpeRTZZiSAIV7E/igps+rctq76I8o2NlBom+lR3kW0ZEuYc79O73hJVXhwyVlZlVu4ztqJ47YpKMfwVC4PQ==
-
 "@humanwhocodes/config-array@^0.9.2":
   version "0.9.3"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.9.3.tgz#f2564c744b387775b436418491f15fce6601f63e"
