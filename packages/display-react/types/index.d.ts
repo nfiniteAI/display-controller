@@ -44,7 +44,9 @@ type DisplayBaseProps = {
   onChangeSelectedProductLocation?: onChangeSelectedProductLocation;
   language?: Language;
   initialProductsMode: initialProductsMode;
-  initialProducts: string[]
+  initialProducts: string[];
+  labels?: any;
+  styles?: any
 };
 
 export type DisplayIdProps = {

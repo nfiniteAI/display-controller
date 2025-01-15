@@ -53,6 +53,8 @@ function Display(
     initialProductsMode,
     initialProducts,
     labelProductClick,
+    styles,
+    labels,
   },
   controller,
 ) {
@@ -67,6 +69,8 @@ function Display(
   const onProductClickStable = useLatest(onProductClick)
   const onFilterStable = useLatest(onFilter)
   const onReadyStable = useLatest(onReady)
+  const stylesStable = useLatest(styles)
+  const labelsStable = useLatest(labels)
 
   useEffect(() => {
     if (ctrl.current && config) {
@@ -88,6 +92,8 @@ function Display(
           initialProductsMode,
           initialProducts,
           labelProductClick,
+          styles: stylesStable.current,
+          labels: labelsStable.current,
         })
 
         if (onReadyStable.current || onErrorStable.current) {
@@ -153,6 +159,8 @@ function Display(
     initialProductsMode,
     initialProducts,
     labelProductClick,
+    stylesStable,
+    labelsStable,
   ])
 
   return <div ref={displayRef} />

@@ -40,6 +40,19 @@ function generateSelectorFromElement(webComponentElement) {
     .join('')}`
 }
 
+function isDisplayLoaded() {
+  return window.__NfiniteDisplay && typeof window.__NfiniteDisplay.render === 'function'
+}
+
+function renderWebComponent({ initialProps, element, customElementName }) {
+  const webComponentElement = element.querySelector(customElementName)
+
+  window.__NfiniteDisplay.render({
+    selector: generateSelectorFromElement(webComponentElement),
+    initialProps,
+  })
+}
+
 /**
  * Create an embed of the js script from oEmbed data inside an element.
  *
@@ -47,13 +60,13 @@ function generateSelectorFromElement(webComponentElement) {
  * @param {HTMLElement} element The element to put the iframe in.
  * @return {HTMLIFrameElement} The iframe embed.
  */
-export function createEmbedJS({ html }, element) {
+export function createEmbedJS({ customElementName, html }, element, initialProps) {
   if (!element) {
     throw new HubstairsError('An element must be provided', 'TypeError')
   }
 
   if (element.getAttribute('data-hubstairs-initialized') !== null) {
-    return element.querySelector('dynamic-display-island')
+    return element.querySelector(customElementName)
   }
 
   const div = document.createElement('div')
@@ -68,11 +81,22 @@ export function createEmbedJS({ html }, element) {
     const existingScript = document.querySelector(`script[data-hubstairs-script]`)
 
     if (existingScript) {
+      if (!isDisplayLoaded()) {
+        existingScript.addEventListener('load', () => {
+          renderWebComponent({ initialProps, element, customElementName })
+        })
+      }
       return
     }
 
     // We recreate the script to inject it in the head
     const newScriptEl = document.createElement('script')
+
+    // Render when the script is loaded
+    newScriptEl.addEventListener('load', () => {
+      renderWebComponent({ initialProps, element, customElementName })
+    })
+
     Array.from(oldScriptEl.attributes).forEach(attr => {
       newScriptEl.setAttribute(attr.name, attr.value)
     })
@@ -88,14 +112,11 @@ export function createEmbedJS({ html }, element) {
   element.appendChild(div.firstChild)
   element.setAttribute('data-hubstairs-initialized', 'true')
 
-  const webComponentElement = element.querySelector('dynamic-display-island')
-
-  if (window.__NfiniteDisplay && typeof window.__NfiniteDisplay.render === 'function') {
-    window.__NfiniteDisplay.render({
-      selector: generateSelectorFromElement(webComponentElement),
-    })
+  if (isDisplayLoaded()) {
+    renderWebComponent({ initialProps, element, customElementName })
   }
 
+  const webComponentElement = element.querySelector(customElementName)
   return webComponentElement
 }
 
