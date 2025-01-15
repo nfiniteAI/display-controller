@@ -1,6 +1,6 @@
 {
   "name": "@hubstairs/display-react",
-  "version": "1.9.0",
+  "version": "2.0.0",
   "homepage": "https:/www.hubstairs.com",
   "repository": {
     "type": "git",
@@ -61,6 +61,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.17.2",
-    "@hubstairs/display-js": "^1.9.0"
+    "@hubstairs/display-js": "^2.0.0"
   }
 }

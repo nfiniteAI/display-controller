@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.0](https://github.com/hubstairs/display-controller/compare/v1.9.0...v2.0.0) (2025-01-15)
+
+
+### ⚠ BREAKING CHANGES
+
+* The content inside your container is now a web-component but not an iframe
+You can still fallback to the old mode by passing `embedMode: iframe` in the options
+* You cannot use an existing iframe anymore
+* You cannot use anymore data-hubstairs attributes as options parameters on your container
+
+### Features
+
+* app embedMode JS ([cb98a47](https://github.com/hubstairs/display-controller/commit/cb98a47289f827a39338061dfd484a452f3c1126))
+* embed js display model (!142) ([6a60ab7](https://github.com/hubstairs/display-controller/commit/6a60ab7b31dfefc5079f81bbc2c236039fe4530d))
+* remove insertion with a preexisting iframe ([5947c05](https://github.com/hubstairs/display-controller/commit/5947c05bb2ef5cc09be42afeebbf0f517d1e01f5))
+* remove insertion with html attributes ([538e83c](https://github.com/hubstairs/display-controller/commit/538e83cacb7f39f15836065c09132a9de01f4da4))
+
+
+### Bug Fixes
+
+* **display-js:** render webcomponent on insert ([8262654](https://github.com/hubstairs/display-controller/commit/826265402aebdecd4e9ebff2be2ef2fcb47c8ee1))
+
+
+
 ## [1.9.0](https://github.com/hubstairs/display-controller/compare/v1.8.0...v1.9.0) (2024-03-25)
 
 

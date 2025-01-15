@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.0](https://github.com/hubstairs/display-controller/compare/v1.9.0...v2.0.0) (2025-01-15)
+
+
+### Features
+
+* embed js display model (!142) ([6a60ab7](https://github.com/hubstairs/display-controller/commit/6a60ab7b31dfefc5079f81bbc2c236039fe4530d))
+
+
+
 ## [1.9.0](https://github.com/hubstairs/display-controller/compare/v1.8.0...v1.9.0) (2024-03-25)
 
 
